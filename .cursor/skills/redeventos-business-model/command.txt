@@ -1,0 +1,20 @@
+$skills = @(
+  "supabase/agent-skills@supabase-postgres-best-practices",
+  "supabase/agent-skills@supabase",
+  "cloudflare/skills@cloudflare",
+  "cloudflare/skills@wrangler",
+  "cloudflare/skills@workers-best-practices",
+  "onmax/nuxt-skills@nuxt",
+  "onmax/nuxt-skills@vue",
+  "onmax/nuxt-skills@nuxt-ui",
+  "onmax/nuxt-skills@nuxt-seo",
+  "onmax/nuxt-skills@vitest",
+  "currents-dev/playwright-best-practices-skill@playwright-best-practices",
+  "antfu/skills@vitest",
+  "vuejs-ai/skills@vue-testing-best-practices",
+  "wshobson/agents@github-actions-templates",
+  "giuseppe-trisciuoglio/developer-kit@tailwind-css-patterns",
+  "pproenca/dot-skills@zod",
+  "resend/resend-skills@resend"
+)
+foreach ($s in $skills) { npx skills add $s -g -y }
