@@ -1,0 +1,61 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "E2E: Playwright (suite completa)",
+      "type": "shell",
+      "command": "bun run test:e2e",
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "focus": false
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "E2E: Playwright (archivo actual)",
+      "type": "shell",
+      "command": "bunx playwright test ${relativeFile}",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "E2E: instalar Chromium",
+      "type": "shell",
+      "command": "bunx playwright install --with-deps chromium",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "E2E: abrir reporte HTML",
+      "type": "shell",
+      "command": "bunx playwright show-report",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Unit: Vitest",
+      "type": "shell",
+      "command": "bun run test",
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    }
+  ]
+}

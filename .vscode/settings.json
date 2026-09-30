@@ -1,0 +1,115 @@
+{
+  // Paleta Redeventos (docs/diagrams): carbón #2b2b2b, bosque #1a3d2e, acento #40916c
+  "workbench.colorTheme": "Default Dark Modern",
+  "workbench.colorCustomizations": {
+    "[Default Dark Modern]": {
+      "activityBar.background": "#1a1a1a",
+      "activityBar.foreground": "#e8e8e8",
+      "activityBar.activeBorder": "#40916c",
+      "activityBarBadge.background": "#2d6a4f",
+      "activityBarBadge.foreground": "#ffffff",
+      "titleBar.activeBackground": "#1a3d2e",
+      "titleBar.activeForeground": "#ffffff",
+      "titleBar.inactiveBackground": "#1f2f27",
+      "titleBar.inactiveForeground": "#b7c4bc",
+      "statusBar.background": "#1a3d2e",
+      "statusBar.foreground": "#ffffff",
+      "statusBar.debuggingBackground": "#2b2b2b",
+      "statusBar.noFolderBackground": "#2b2b2b",
+      "sideBar.background": "#252525",
+      "sideBar.foreground": "#d4d4d4",
+      "sideBarSectionHeader.background": "#2b2b2b",
+      "sideBarSectionHeader.foreground": "#95d5b2",
+      "editorGroupHeader.tabsBackground": "#2b2b2b",
+      "editorGroupHeader.noTabsBackground": "#252525",
+      "tab.activeBackground": "#1a3d2e",
+      "tab.activeForeground": "#ffffff",
+      "tab.inactiveBackground": "#252525",
+      "tab.inactiveForeground": "#9ca3af",
+      "tab.activeBorderTop": "#40916c",
+      "tab.hoverBackground": "#2d4a3e",
+      "editor.background": "#1e1e1e",
+      "editor.foreground": "#e8e8e8",
+      "editor.selectionBackground": "#2d6a4f66",
+      "editor.lineHighlightBackground": "#2b2b2b55",
+      "editorCursor.foreground": "#95d5b2",
+      "editorWidget.background": "#2b2b2b",
+      "editorWidget.border": "#3d3d3d",
+      "panel.background": "#252525",
+      "panel.border": "#3d3d3d",
+      "panelTitle.activeBorder": "#40916c",
+      "panelTitle.activeForeground": "#ffffff",
+      "terminal.background": "#1e1e1e",
+      "terminal.foreground": "#e8e8e8",
+      "terminal.ansiGreen": "#40916c",
+      "terminal.ansiBrightGreen": "#95d5b2",
+      "breadcrumb.background": "#252525",
+      "breadcrumb.foreground": "#9ca3af",
+      "breadcrumb.activeSelectionForeground": "#95d5b2",
+      "list.activeSelectionBackground": "#2d6a4f",
+      "list.activeSelectionForeground": "#ffffff",
+      "list.hoverBackground": "#2b2b2b",
+      "list.highlightForeground": "#95d5b2",
+      "focusBorder": "#40916c",
+      "button.background": "#2d6a4f",
+      "button.foreground": "#ffffff",
+      "button.hoverBackground": "#40916c",
+      "input.background": "#2b2b2b",
+      "input.border": "#3d3d3d",
+      "scrollbarSlider.background": "#40916c44",
+      "scrollbarSlider.hoverBackground": "#40916c66",
+      "gitDecoration.modifiedResourceForeground": "#95d5b2",
+      "gitDecoration.addedResourceForeground": "#40916c"
+    },
+    "[Default Dark+]": {
+      "activityBar.background": "#1a1a1a",
+      "activityBar.activeBorder": "#40916c",
+      "titleBar.activeBackground": "#1a3d2e",
+      "titleBar.activeForeground": "#ffffff",
+      "statusBar.background": "#1a3d2e",
+      "statusBar.foreground": "#ffffff",
+      "sideBar.background": "#252525",
+      "tab.activeBackground": "#1a3d2e",
+      "tab.activeBorderTop": "#40916c",
+      "editor.selectionBackground": "#2d6a4f66",
+      "focusBorder": "#40916c",
+      "button.background": "#2d6a4f",
+      "button.hoverBackground": "#40916c"
+    }
+  },
+  "editor.tokenColorCustomizations": {
+    "[Default Dark Modern]": {
+      "comments": "#6b9080",
+      "strings": "#95d5b2",
+      "keywords": "#74c69d",
+      "functions": "#b7e4c7",
+      "types": "#52b788"
+    },
+    "[Default Dark+]": {
+      "comments": "#6b9080",
+      "strings": "#95d5b2"
+    }
+  },
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "biomejs.biome",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.biome": "explicit",
+    "source.organizeImports.biome": "explicit"
+  },
+  "files.associations": {
+    "*.drawio": "xml",
+    "wrangler.jsonc": "jsonc"
+  },
+  "search.exclude": {
+    "**/.nuxt": true,
+    "**/node_modules": true
+  },
+  "files.watcherExclude": {
+    "**/.nuxt/**": true
+  },
+  "playwright.reuseBrowser": true,
+  "playwright.showTrace": true,
+  "playwright.pickLocator": true,
+  "vitest.enable": true,
+  "vitest.commandLine": "bun run test"
+}

@@ -1,0 +1,65 @@
+{
+  "name": "Redeventos",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "moby": true
+    },
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "remoteUser": "node",
+  "containerEnv": {
+    "TZ": "America/Bogota"
+  },
+  "mounts": [
+    "source=redeventos-node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume",
+    "source=redeventos-bun-cache,target=/home/node/.bun/install/cache,type=volume",
+    "source=redeventos-docker,target=/var/lib/docker,type=volume"
+  ],
+  "forwardPorts": [3000, 8787, 54321, 54322, 54323, 54324],
+  "portsAttributes": {
+    "3000": { "label": "Nuxt dev", "onAutoForward": "notify" },
+    "8787": { "label": "Wrangler dev", "onAutoForward": "notify" },
+    "8976": { "label": "Wrangler login", "onAutoForward": "silent" },
+    "54321": { "label": "Supabase API", "onAutoForward": "silent" },
+    "54322": { "label": "Supabase Postgres", "onAutoForward": "silent" },
+    "54323": { "label": "Supabase Studio", "onAutoForward": "notify" },
+    "54324": { "label": "Supabase correo (Mailpit)", "onAutoForward": "silent" }
+  },
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "biomejs.biome",
+        "Vue.volar",
+        "bradlc.vscode-tailwindcss",
+        "supabase.supabase-vscode",
+        "vitest.explorer",
+        "ms-playwright.playwright",
+        "GitHub.vscode-pull-request-github",
+        "github.vscode-github-actions",
+        "ms-azuretools.vscode-docker",
+        "hediet.vscode-drawio",
+        "pomdtr.excalidraw-editor"
+      ],
+      "settings": {
+        "editor.defaultFormatter": "biomejs.biome",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+          "source.organizeImports.biome": "explicit",
+          "quickfix.biome": "explicit"
+        },
+        "[vue]": { "editor.defaultFormatter": "biomejs.biome" },
+        "files.eol": "\n",
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "playwright.reuseBrowser": true,
+        "playwright.showTrace": true,
+        "playwright.pickLocator": true,
+        "vitest.enable": true,
+        "vitest.commandLine": "bun run test"
+      }
+    }
+  }
+}
