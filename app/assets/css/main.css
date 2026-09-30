@@ -1,2 +1,86 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
+
+@theme static {
+  --font-sans: "Ubuntu Sans", ui-sans-serif, system-ui, sans-serif;
+
+  --color-agua-50: #e8faf8;
+  --color-agua-100: #c5f0eb;
+  --color-agua-200: #8ee1d8;
+  --color-agua-300: #4dd3c8;
+  --color-agua-400: #02c3bd;
+  --color-agua-500: #00b9ae;
+  --color-agua-600: #009f93;
+  --color-agua-700: #037171;
+  --color-agua-800: #02524e;
+  --color-agua-900: #03312e;
+  --color-agua-950: #021a18;
+}
+
+html {
+  color-scheme: dark;
+}
+
+html,
+body {
+  font-family: var(--font-sans);
+}
+
+@keyframes lava-a {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  45% {
+    transform: translate3d(14%, -10%, 0) scale(1.12);
+  }
+  100% {
+    transform: translate3d(-8%, 12%, 0) scale(0.94);
+  }
+}
+
+@keyframes lava-b {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1.05);
+  }
+  50% {
+    transform: translate3d(-16%, 8%, 0) scale(0.9);
+  }
+  100% {
+    transform: translate3d(10%, -12%, 0) scale(1.08);
+  }
+}
+
+@keyframes lava-c {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.96);
+  }
+  40% {
+    transform: translate3d(8%, 14%, 0) scale(1.1);
+  }
+  100% {
+    transform: translate3d(-12%, -6%, 0) scale(1);
+  }
+}
+
+.lava-blob {
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+.lava-blob-a {
+  animation-name: lava-a;
+}
+
+.lava-blob-b {
+  animation-name: lava-b;
+}
+
+.lava-blob-c {
+  animation-name: lava-c;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lava-blob {
+    animation: none;
+  }
+}

@@ -2,6 +2,13 @@
 
 Índice de la carpeta `docs/`. Fuente de verdad del piloto: **producto** → **arquitectura** → **negocio** (post-piloto).
 
+## Marca
+
+| Archivo | Contenido |
+| --- | --- |
+| [brand/rules.md](./brand/rules.md) | Tipografía, paleta elegida, fondo lámpara de lava |
+| [brand/coolors.md](./brand/coolors.md) | Paletas Coolors evaluadas |
+
 ## Producto
 
 | Archivo | Contenido |

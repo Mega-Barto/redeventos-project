@@ -19,6 +19,8 @@ cp .env.example .env
 bun run dev           # Nuxt en http://localhost:3000
 ```
 
+**Git:** el repo montado incluye `.git`; haz commits en la terminal del contenedor como en el host (`git add`, `git commit`). Mensajes: [Conventional Commits](https://www.conventionalcommits.org/) — ver skill `.cursor/skills/redeventos-conventional-git/`. Configura `user.name` y `user.email` si aún no lo hiciste.
+
 | Comando | Qué hace |
 | --- | --- |
 | `bun run dev` | Nuxt en modo desarrollo |

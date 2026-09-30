@@ -1,13 +1,17 @@
 <script setup lang="ts">
-const description =
-  'Redeventos ayuda a comunidades de Pereira y Dosquebradas a realizar eventos gratuitos o de bajo costo. Publicas el evento, dices qué necesitas y los espacios y aliados te proponen cómo cubrirlo.'
+import { homeHeroContent } from '~~/shared/content/home'
 
 useSeoMeta({
-  title: 'La red hace posible el evento',
-  description,
+  title: homeHeroContent.title,
+  description: homeHeroContent.description,
 })
 </script>
 
 <template>
-  <UPageHero title="La red hace posible el evento" :description="description" />
+  <HomeHero />
+  <HomeProblem />
+  <HomeHowItWorks />
+  <HomeProfiles />
+  <HomeTrust />
+  <HomeCta />
 </template>

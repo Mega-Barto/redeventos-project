@@ -189,12 +189,16 @@ Utilizar:
 -   composables.
 -   componentes pequeños.
 -   TypeScript.
+-   fragmentación de UI y copy (páginas orquestadoras; textos en
+    `shared/content/` o módulos `*.content.ts`; detalle para agentes en
+    `.agents/skills/nuxt/references/best-practices-component-fragmentation.md`).
 
 Evitar:
 
 -   lógica de negocio compleja dentro de componentes.
 -   acceso directo a múltiples servicios desde componentes.
 -   componentes gigantes.
+-   bloques largos de copy en templates de páginas.
 
 ------------------------------------------------------------------------
 

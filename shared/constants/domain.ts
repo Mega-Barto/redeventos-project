@@ -1,7 +1,23 @@
 export const TIMEZONE = 'America/Bogota'
+export const LOCALE = 'es-CO'
+export const PRIVACY_VERSION = '2026-09'
+export const COMMITMENT_VERSION = '2026-09'
 
 export const CITIES = ['pereira', 'dosquebradas'] as const
 export type City = (typeof CITIES)[number]
+
+export const EVENT_CATEGORIES = [
+  'tecnologia',
+  'literatura',
+  'cine',
+  'musica',
+  'educacion',
+  'emprendimiento',
+  'cultura',
+  'comunidades',
+  'networking',
+] as const
+export type EventCategory = (typeof EVENT_CATEGORIES)[number]
 
 export const ROLES = ['organizer', 'venue_sponsor', 'local_sponsor', 'moderator'] as const
 export type Role = (typeof ROLES)[number]
