@@ -1,0 +1,765 @@
+<mxfile host="app.diagrams.net" agent="Cursor" version="22.1.0">
+  <diagram id="flujo-piloto" name="Flujo del piloto">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="980" pageHeight="1780" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="p1title" value="&lt;b&gt;REDEVENTOS — FLUJO DEL PILOTO&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#1a1a1a;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="640" height="32" as="geometry"/>
+        </mxCell>
+        <mxCell id="p1sub" value="La plataforma registra la necesidad, la propuesta y el compromiso. Las personas cierran el match solas." style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=12;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="40" y="52" width="700" height="24" as="geometry"/>
+        </mxCell>
+        <mxCell id="p1leg" value="&lt;b&gt;Leyenda&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#6c8ebf&quot;&gt;■&lt;/font&gt; Paso del organizador&lt;br&gt;&lt;font color=&quot;#9673a6&quot;&gt;■&lt;/font&gt; Sponsor o plataforma&lt;br&gt;&lt;font color=&quot;#d79b00&quot;&gt;■&lt;/font&gt; Asistente&lt;br&gt;&lt;font color=&quot;#d6b656&quot;&gt;■&lt;/font&gt; Decisión&lt;br&gt;&lt;font color=&quot;#b85450&quot;&gt;■&lt;/font&gt; Esa vía termina&lt;br&gt;&lt;font color=&quot;#82b366&quot;&gt;■&lt;/font&gt; Evento facilitado" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=10;spacingTop=6;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=11;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="700" y="96" width="230" height="150" as="geometry"/>
+        </mxCell>
+        <mxCell id="p1s" value="Inicio" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;fontColor=#1a1a1a;" vertex="1" parent="1">
+          <mxGeometry x="150" y="100" width="140" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="p1a" value="Registro&lt;br&gt;Aviso de privacidad y&lt;br&gt;compromiso de registro" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontColor=#1a1a1a;" vertex="1" parent="1">
+          <mxGeometry x="80" y="180" width="280" height="72" as="geometry"/>
+        </mxCell>
+        <mxCell id="p1b" value="&lt;b&gt;Organizador&lt;/b&gt;&lt;br&gt;Publica el evento y sus necesidades&lt;br&gt;Estado: published" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontColor=#1a1a1a;" vertex="1" parent="1">
+          <mxGeometry x="80" y="290" width="280" height="72" as="geometry"/>
+        </mxCell>
+        <mxCell id="p1c" value="&lt;b&gt;Venue o aliado local&lt;/b&gt;&lt;br&gt;Ve la oportunidad y filtra&lt;br&gt;con reglas fijas, sin IA" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontColor=#1a1a1a;" vertex="1" parent="1">
+          <mxGeometry x="80" y="400" width="280" height="72" as="geometry"/>
+        </mxCell>
+        <mxCell id="p1d" value="&lt;b&gt;Propuesta&lt;/b&gt;&lt;br&gt;La inicia cualquiera de los dos lados&lt;br&gt;Necesidad + cantidad + fecha" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontColor=#1a1a1a;" vertex="1" parent="1">
+          <mxGeometry x="80" y="510" width="280" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="p1dec1" value="¿La otra parte acepta?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontColor=#1a1a1a;" vertex="1" parent="1">
+          <mxGeometry x="100" y="630" width="240" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="p1rej" value="&lt;b&gt;Propuesta rechazada&lt;/b&gt;&lt;br&gt;La necesidad sigue abierta" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontColor=#1a1a1a;" vertex="1" parent="1">
+          <mxGeometry x="460" y="649" width="210" height="72" as="geometry"/>
+        </mxCell>
+        <mxCell id="p1e" value="&lt;b&gt;Compromiso de match&lt;/b&gt;&lt;br&gt;Qué, cuánto y cuándo&lt;br&gt;Se revelan WhatsApp y teléfono" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontColor=#1a1a1a;" vertex="1" parent="1">
+          <mxGeometry x="80" y="780" width="280" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="p1dec2" value="¿Hay fecha concreta y lugar?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontColor=#1a1a1a;" vertex="1" parent="1">
+          <mxGeometry x="100" y="900" width="240" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="p1stay" value="&lt;b&gt;Sigue published&lt;/b&gt;&lt;br&gt;Solo lo ven los sponsors&lt;br&gt;Hasta cerrar fecha y lugar" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontColor=#1a1a1a;" vertex="1" parent="1">
+          <mxGeometry x="460" y="919" width="210" height="72" as="geometry"/>
+        </mxCell>
+        <mxCell id="p1f" value="&lt;b&gt;Ficha pública&lt;/b&gt;&lt;br&gt;Estado: public&lt;br&gt;/eventos/[slug]" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontColor=#1a1a1a;" vertex="1" parent="1">
+          <mxGeometry x="80" y="1050" width="280" height="72" as="geometry"/>
+        </mxCell>
+        <mxCell id="p1g" value="&lt;b&gt;Asistente, sin cuenta&lt;/b&gt;&lt;br&gt;Se inscribe en el enlace externo&lt;br&gt;Redeventos no guarda la lista" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;fontColor=#1a1a1a;" vertex="1" parent="1">
+          <mxGeometry x="80" y="1160" width="280" height="72" as="geometry"/>
+        </mxCell>
+        <mxCell id="p1h" value="&lt;b&gt;Organizador&lt;/b&gt;&lt;br&gt;Marca el evento realizado&lt;br&gt;y adjunta la evidencia" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontColor=#1a1a1a;" vertex="1" parent="1">
+          <mxGeometry x="80" y="1270" width="280" height="72" as="geometry"/>
+        </mxCell>
+        <mxCell id="p1dec3" value="¿El moderador aprueba la evidencia?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontColor=#1a1a1a;" vertex="1" parent="1">
+          <mxGeometry x="90" y="1380" width="260" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="p1rej2" value="&lt;b&gt;Evidencia rechazada&lt;/b&gt;&lt;br&gt;Puede enviarse de nuevo" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontColor=#1a1a1a;" vertex="1" parent="1">
+          <mxGeometry x="460" y="1404" width="210" height="72" as="geometry"/>
+        </mxCell>
+        <mxCell id="p1ok" value="&lt;b&gt;Evento completed&lt;/b&gt;&lt;br&gt;Caso de éxito&lt;br&gt;Métrica: evento facilitado" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontColor=#1a1a1a;" vertex="1" parent="1">
+          <mxGeometry x="80" y="1540" width="280" height="72" as="geometry"/>
+        </mxCell>
+        <mxCell id="p1end" value="Fin" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;fontColor=#1a1a1a;" vertex="1" parent="1">
+          <mxGeometry x="150" y="1650" width="140" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="p1note" value="Fuera de este flujo: pagos, chat, RSVP propio, sello descargable. El moderador no aprueba publicaciones ni matches." style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=8;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=11;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="460" y="1650" width="470" height="52" as="geometry"/>
+        </mxCell>
+        <mxCell id="p1e1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#666666;" edge="1" parent="1" source="p1s" target="p1a">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p1e2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#666666;" edge="1" parent="1" source="p1a" target="p1b">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p1e3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#666666;" edge="1" parent="1" source="p1b" target="p1c">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p1e4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#666666;" edge="1" parent="1" source="p1c" target="p1d">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p1e5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#666666;" edge="1" parent="1" source="p1d" target="p1dec1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p1e6" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#b85450;fontSize=11;fontColor=#b85450;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p1dec1" target="p1rej">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p1e7" value="Sí" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#82b366;fontSize=11;fontColor=#82b366;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="p1dec1" target="p1e">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p1e8" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#666666;" edge="1" parent="1" source="p1e" target="p1dec2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p1e9" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#d6b656;fontSize=11;fontColor=#996600;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p1dec2" target="p1stay">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p1e10" value="Sí" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#82b366;fontSize=11;fontColor=#82b366;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="p1dec2" target="p1f">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p1e11" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#666666;" edge="1" parent="1" source="p1f" target="p1g">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p1e12" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#666666;" edge="1" parent="1" source="p1g" target="p1h">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p1e13" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#666666;" edge="1" parent="1" source="p1h" target="p1dec3">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p1e14" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#b85450;fontSize=11;fontColor=#b85450;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p1dec3" target="p1rej2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p1e15" value="Sí" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#82b366;fontSize=11;fontColor=#82b366;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="p1dec3" target="p1ok">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p1e16" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#666666;" edge="1" parent="1" source="p1ok" target="p1end">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="flujo-registro" name="Registro">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="980" pageHeight="1280" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="p2title" value="&lt;b&gt;REGISTRO Y CUENTA&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#1a1a1a;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="600" height="32" as="geometry"/>
+        </mxCell>
+        <mxCell id="p2sub" value="Una persona, uno o varios roles. El asistente no tiene cuenta." style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=12;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="40" y="52" width="640" height="22" as="geometry"/>
+        </mxCell>
+        <mxCell id="p2s" value="Persona" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="170" y="96" width="140" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="p2a" value="Landing" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="100" y="176" width="280" height="56" as="geometry"/>
+        </mxCell>
+        <mxCell id="p2b" value="Formulario de registro&lt;br&gt;Nombre, correo y datos de contacto" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="100" y="268" width="280" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="p2c" value="Aviso de privacidad&lt;br&gt;Responsable: persona natural" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="100" y="368" width="280" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="p2dec" value="¿Acepta el compromiso de registro?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="110" y="468" width="260" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="p2no" value="&lt;b&gt;No puede publicar&lt;/b&gt;&lt;br&gt;Ni evento, ni espacio, ni aporte" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="480" y="492" width="220" height="72" as="geometry"/>
+        </mxCell>
+        <mxCell id="p2d" value="&lt;b&gt;Perfil creado&lt;/b&gt;&lt;br&gt;Contacto público: correo, Instagram y web&lt;br&gt;WhatsApp y teléfono quedan ocultos" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="100" y="628" width="280" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="p2e" value="&lt;b&gt;Elige uno o varios roles&lt;/b&gt;&lt;br&gt;Organizador&lt;br&gt;Venue sponsor&lt;br&gt;Local sponsor" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="100" y="748" width="280" height="96" as="geometry"/>
+        </mxCell>
+        <mxCell id="p2f" value="Cada rol tiene su vista.&lt;br&gt;Sponsor y aliado local son el mismo tipo de usuario: cambia el aporte." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="100" y="880" width="280" height="72" as="geometry"/>
+        </mxCell>
+        <mxCell id="p2end" value="Puede publicar" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="150" y="992" width="180" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="p2note" value="El rol moderador no se otorga en el registro público. Se asigna aparte." style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=8;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="480" y="760" width="240" height="72" as="geometry"/>
+        </mxCell>
+        <mxCell id="p2e1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#666666;" edge="1" parent="1" source="p2s" target="p2a">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p2e2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#666666;" edge="1" parent="1" source="p2a" target="p2b">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p2e3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#666666;" edge="1" parent="1" source="p2b" target="p2c">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p2e4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#666666;" edge="1" parent="1" source="p2c" target="p2dec">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p2e5" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#b85450;fontSize=11;fontColor=#b85450;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p2dec" target="p2no">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p2e6" value="Sí" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#82b366;fontSize=11;fontColor=#82b366;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="p2dec" target="p2d">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p2e7" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#666666;" edge="1" parent="1" source="p2d" target="p2e">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p2e8" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#666666;" edge="1" parent="1" source="p2e" target="p2f">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p2e9" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#666666;" edge="1" parent="1" source="p2f" target="p2end">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="flujo-evento" name="Evento">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="980" pageHeight="1480" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="p3title" value="&lt;b&gt;CICLO DEL EVENTO&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#1a1a1a;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="600" height="32" as="geometry"/>
+        </mxCell>
+        <mxCell id="p3sub" value="El organizador publica solo. La ficha pública exige fecha concreta y lugar." style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=12;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="40" y="52" width="700" height="22" as="geometry"/>
+        </mxCell>
+        <mxCell id="p3s" value="Organizador" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="170" y="92" width="160" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="p3a" value="&lt;b&gt;Crear evento (draft)&lt;/b&gt;&lt;br&gt;Nombre, categoría, ciudad&lt;br&gt;Fecha o rango, asistentes esperados&lt;br&gt;Descripción y audiencia&lt;br&gt;Qué recibe el sponsor a cambio&lt;br&gt;Enlace de inscripción obligatorio&lt;br&gt;Una o varias necesidades" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="80" y="172" width="340" height="140" as="geometry"/>
+        </mxCell>
+        <mxCell id="p3dec" value="¿Publica?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="140" y="348" width="220" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="p3draft" value="Permanece en draft&lt;br&gt;Solo lo ve el organizador" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="520" y="362" width="210" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="p3b" value="&lt;b&gt;published&lt;/b&gt;&lt;br&gt;Visible para sponsors autenticados&lt;br&gt;Todavía no hay ficha pública&lt;br&gt;La fecha puede seguir siendo un rango" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="90" y="488" width="320" height="88" as="geometry"/>
+        </mxCell>
+        <mxCell id="p3c" value="Necesidades abiertas&lt;br&gt;Espacio, productos, alimentación,&lt;br&gt;equipos, servicios o difusión" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="90" y="612" width="320" height="76" as="geometry"/>
+        </mxCell>
+        <mxCell id="p3d" value="Cierra fecha concreta y lugar&lt;br&gt;cuando el espacio queda acordado" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="90" y="724" width="320" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="p3dec2" value="¿Fecha concreta y lugar?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="120" y="824" width="260" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="p3stay" value="Sigue published&lt;br&gt;Sin página pública ni SEO" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="520" y="842" width="210" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="p3e" value="&lt;b&gt;public&lt;/b&gt;&lt;br&gt;Ficha que puede ver cualquiera&lt;br&gt;/eventos/[slug]" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="90" y="972" width="320" height="76" as="geometry"/>
+        </mxCell>
+        <mxCell id="p3f" value="Listo para evidencia&lt;br&gt;El paso a completed lo decide el moderador" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="90" y="1084" width="320" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="p3end" value="Ver moderación" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="160" y="1184" width="180" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="p3cancel" value="&lt;b&gt;cancelled&lt;/b&gt;&lt;br&gt;Puede salir de published&lt;br&gt;o de public. No de draft." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="520" y="520" width="220" height="76" as="geometry"/>
+        </mxCell>
+        <mxCell id="p3e1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#666666;" edge="1" parent="1" source="p3s" target="p3a">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p3e2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#666666;" edge="1" parent="1" source="p3a" target="p3dec">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p3e3" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#666666;fontSize=11;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p3dec" target="p3draft">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p3e4" value="Sí" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#82b366;fontSize=11;fontColor=#82b366;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="p3dec" target="p3b">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p3e5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#666666;" edge="1" parent="1" source="p3b" target="p3c">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p3e6" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#666666;" edge="1" parent="1" source="p3c" target="p3d">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p3e7" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#666666;" edge="1" parent="1" source="p3d" target="p3dec2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p3e8" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#d6b656;fontSize=11;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p3dec2" target="p3stay">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p3e9" value="Sí" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#82b366;fontSize=11;fontColor=#82b366;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="p3dec2" target="p3e">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p3e10" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#666666;" edge="1" parent="1" source="p3e" target="p3f">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p3e11" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#666666;" edge="1" parent="1" source="p3f" target="p3end">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p3e12" value="Cancelar" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#b85450;fontSize=11;fontColor=#b85450;dashed=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p3b" target="p3cancel">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p3e13" value="Cancelar" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#b85450;fontSize=11;fontColor=#b85450;dashed=1;exitX=1;exitY=0.5;entryX=0;entryY=1;" edge="1" parent="1" source="p3e" target="p3cancel">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="flujo-match" name="Match">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="980" pageHeight="1320" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="p4title" value="&lt;b&gt;PROPUESTA Y MATCH&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#1a1a1a;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="600" height="32" as="geometry"/>
+        </mxCell>
+        <mxCell id="p4sub" value="Bidireccional. No hay operador ni chat. Cada necesidad tiene su propio match." style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=12;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="40" y="52" width="760" height="22" as="geometry"/>
+        </mxCell>
+        <mxCell id="p4s1" value="Organizador" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="70" y="96" width="160" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="p4s2" value="Venue o local sponsor" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="620" y="96" width="200" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="p4a" value="Elige un sponsor&lt;br&gt;y una necesidad propia" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="180" width="220" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="p4b" value="Elige una necesidad&lt;br&gt;ya publicada" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="610" y="180" width="220" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="p4c" value="&lt;b&gt;Propuesta pendiente&lt;/b&gt;&lt;br&gt;Necesidad + cantidad o descripción + fecha&lt;br&gt;Sin montos en pesos" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="250" y="300" width="360" height="76" as="geometry"/>
+        </mxCell>
+        <mxCell id="p4dec" value="¿La otra parte acepta?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="310" y="416" width="240" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="p4no" value="&lt;b&gt;Rechazada&lt;/b&gt;&lt;br&gt;No hay compromiso&lt;br&gt;No se revelan contactos directos" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="640" y="430" width="230" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="p4d" value="&lt;b&gt;Aceptada&lt;/b&gt;&lt;br&gt;Nace el match y el compromiso:&lt;br&gt;qué, cuánto y cuándo" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="280" y="566" width="300" height="76" as="geometry"/>
+        </mxCell>
+        <mxCell id="p4e" value="&lt;b&gt;Contactos directos&lt;/b&gt;&lt;br&gt;WhatsApp y teléfono de las dos partes&lt;br&gt;Correo, Instagram y web ya eran públicos" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="260" y="680" width="340" height="76" as="geometry"/>
+        </mxCell>
+        <mxCell id="p4f" value="Coordinan fuera de Redeventos&lt;br&gt;No hay chat en el producto" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="280" y="792" width="300" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="p4dec2" value="¿Queda resto por cubrir?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="300" y="888" width="260" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="p4part" value="&lt;b&gt;Necesidad partial&lt;/b&gt;&lt;br&gt;Sigue abierta por el resto&lt;br&gt;Puede recibir otra propuesta" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1028" width="240" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="p4cov" value="&lt;b&gt;Necesidad covered&lt;/b&gt;&lt;br&gt;Esa necesidad queda cubierta&lt;br&gt;El evento sigue si hay otras abiertas" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="560" y="1028" width="280" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="p4note" value="Ejemplo: 100 refrigerios pedidos y 40 aceptados dejan la necesidad en partial. Un aporte como «el auditorio» se anota como descripción. El evento no se cierra solo porque una necesidad quede cubierta." style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=10;spacingTop=6;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1148" width="800" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="p4e1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#666666;" edge="1" parent="1" source="p4s1" target="p4a">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p4e2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#666666;" edge="1" parent="1" source="p4s2" target="p4b">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p4e3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#6c8ebf;exitX=0.5;exitY=1;entryX=0.15;entryY=0;" edge="1" parent="1" source="p4a" target="p4c">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p4e4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#9673a6;exitX=0.5;exitY=1;entryX=0.85;entryY=0;" edge="1" parent="1" source="p4b" target="p4c">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p4e5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#666666;" edge="1" parent="1" source="p4c" target="p4dec">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p4e6" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#b85450;fontSize=11;fontColor=#b85450;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p4dec" target="p4no">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p4e7" value="Sí" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#82b366;fontSize=11;fontColor=#82b366;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="p4dec" target="p4d">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p4e8" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#666666;" edge="1" parent="1" source="p4d" target="p4e">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p4e9" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#666666;" edge="1" parent="1" source="p4e" target="p4f">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p4e10" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#666666;" edge="1" parent="1" source="p4f" target="p4dec2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p4e11" value="Sí" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#d6b656;fontSize=11;exitX=0;exitY=0.5;entryX=0.5;entryY=0;" edge="1" parent="1" source="p4dec2" target="p4part">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p4e12" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#82b366;fontSize=11;fontColor=#82b366;exitX=1;exitY=0.5;entryX=0.5;entryY=0;" edge="1" parent="1" source="p4dec2" target="p4cov">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="flujo-sponsors" name="Sponsors">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="980" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="p5title" value="&lt;b&gt;VENUE Y ALIADO LOCAL&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#1a1a1a;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="640" height="32" as="geometry"/>
+        </mxCell>
+        <mxCell id="p5sub" value="Dos fichas distintas. Las dos terminan en la misma propuesta." style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=12;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="40" y="52" width="640" height="22" as="geometry"/>
+        </mxCell>
+        <mxCell id="p5lane1" value="Venue sponsor" style="swimlane;startSize=36;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=1;fontSize=13;html=1;horizontal=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="96" width="500" height="700" as="geometry"/>
+        </mxCell>
+        <mxCell id="p5v1" value="Publica el espacio" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=12;" vertex="1" parent="p5lane1">
+          <mxGeometry x="50" y="52" width="400" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="p5v2" value="Ficha estática&lt;br&gt;Nombre, zona, capacidad, equipamiento" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=12;" vertex="1" parent="p5lane1">
+          <mxGeometry x="50" y="124" width="400" height="56" as="geometry"/>
+        </mxCell>
+        <mxCell id="p5v3" value="Modo de apoyo&lt;br&gt;Apoya gratis, depende del evento, o solo alquila&lt;br&gt;Sin precio en el piloto" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=12;" vertex="1" parent="p5lane1">
+          <mxGeometry x="50" y="204" width="400" height="68" as="geometry"/>
+        </mxCell>
+        <mxCell id="p5v4" value="Ve necesidades de espacio&lt;br&gt;La capacidad tiene que alcanzar a los asistentes esperados" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=12;" vertex="1" parent="p5lane1">
+          <mxGeometry x="50" y="296" width="400" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="p5v5" value="El modo de apoyo se muestra.&lt;br&gt;No descarta el espacio por sí solo." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="p5lane1">
+          <mxGeometry x="50" y="380" width="400" height="56" as="geometry"/>
+        </mxCell>
+        <mxCell id="p5v6" value="Calendario derivado&lt;br&gt;Solo días en negociación o ya comprometidos.&lt;br&gt;El resto se entiende libre. No hay grilla editable." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=12;" vertex="1" parent="p5lane1">
+          <mxGeometry x="50" y="460" width="400" height="72" as="geometry"/>
+        </mxCell>
+        <mxCell id="p5v7" value="Envía o recibe una propuesta&lt;br&gt;Sigue en la página Match" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;" vertex="1" parent="p5lane1">
+          <mxGeometry x="50" y="556" width="400" height="56" as="geometry"/>
+        </mxCell>
+        <mxCell id="p5lane2" value="Local sponsor" style="swimlane;startSize=36;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=13;html=1;horizontal=1;" vertex="1" parent="1">
+          <mxGeometry x="560" y="96" width="500" height="700" as="geometry"/>
+        </mxCell>
+        <mxCell id="p5l1" value="Declara qué puede aportar" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="p5lane2">
+          <mxGeometry x="50" y="52" width="400" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="p5l2" value="Tipos del piloto&lt;br&gt;Productos, alimentación, equipos,&lt;br&gt;servicios o difusión" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="p5lane2">
+          <mxGeometry x="50" y="124" width="400" height="68" as="geometry"/>
+        </mxCell>
+        <mxCell id="p5l3" value="Cantidad o descripción&lt;br&gt;«100 refrigerios», «una publicación»&lt;br&gt;Nunca un monto en pesos" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="p5lane2">
+          <mxGeometry x="50" y="216" width="400" height="68" as="geometry"/>
+        </mxCell>
+        <mxCell id="p5l4" value="Filtra oportunidades&lt;br&gt;Categoría, tipo de necesidad,&lt;br&gt;asistentes, ciudad, fecha o rango" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="p5lane2">
+          <mxGeometry x="50" y="308" width="400" height="72" as="geometry"/>
+        </mxCell>
+        <mxCell id="p5l5" value="Las sugerencias ordenan y filtran.&lt;br&gt;No aceptan nada por su cuenta. Sin IA." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="p5lane2">
+          <mxGeometry x="50" y="404" width="400" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="p5l6" value="Ve la oportunidad sin WhatsApp&lt;br&gt;ni teléfono del organizador" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="p5lane2">
+          <mxGeometry x="50" y="488" width="400" height="56" as="geometry"/>
+        </mxCell>
+        <mxCell id="p5l7" value="Envía o recibe una propuesta&lt;br&gt;Sigue en la página Match" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;" vertex="1" parent="p5lane2">
+          <mxGeometry x="50" y="568" width="400" height="56" as="geometry"/>
+        </mxCell>
+        <mxCell id="p5note" value="El sello de la red (badge y QR descargable) no bloquea este flujo. Entra cuando ya haya venues y locales publicados. En la red: perfil completo. Aliado activo: al menos un evento completed vinculado." style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=10;spacingTop=8;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="820" width="1020" height="56" as="geometry"/>
+        </mxCell>
+        <mxCell id="p5ev1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#9673a6;" edge="1" parent="p5lane1" source="p5v1" target="p5v2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p5ev2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#9673a6;" edge="1" parent="p5lane1" source="p5v2" target="p5v3">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p5ev3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#9673a6;" edge="1" parent="p5lane1" source="p5v3" target="p5v4">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p5ev4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#9673a6;" edge="1" parent="p5lane1" source="p5v4" target="p5v5">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p5ev5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#9673a6;" edge="1" parent="p5lane1" source="p5v5" target="p5v6">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p5ev6" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#9673a6;" edge="1" parent="p5lane1" source="p5v6" target="p5v7">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p5el1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#6c8ebf;" edge="1" parent="p5lane2" source="p5l1" target="p5l2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p5el2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#6c8ebf;" edge="1" parent="p5lane2" source="p5l2" target="p5l3">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p5el3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#6c8ebf;" edge="1" parent="p5lane2" source="p5l3" target="p5l4">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p5el4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#6c8ebf;" edge="1" parent="p5lane2" source="p5l4" target="p5l5">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p5el5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#6c8ebf;" edge="1" parent="p5lane2" source="p5l5" target="p5l6">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p5el6" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#6c8ebf;" edge="1" parent="p5lane2" source="p5l6" target="p5l7">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="flujo-ficha" name="Ficha pública">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="980" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="p6title" value="&lt;b&gt;FICHA PÚBLICA Y ASISTENTE&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#1a1a1a;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="640" height="32" as="geometry"/>
+        </mxCell>
+        <mxCell id="p6sub" value="El asistente llega cuando el evento ya puede realizarse. La inscripción vive fuera." style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=12;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="40" y="52" width="760" height="22" as="geometry"/>
+        </mxCell>
+        <mxCell id="p6a" value="Evento published&lt;br&gt;Visible solo dentro de la plataforma" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="250" y="96" width="300" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="p6dec1" value="¿Fecha concreta?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="280" y="200" width="240" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="p6no1" value="Sin ficha pública&lt;br&gt;Sin caché ni SEO" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="620" y="214" width="200" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="p6dec2" value="¿Lugar cerrado?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="280" y="340" width="240" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="p6b" value="&lt;b&gt;public&lt;/b&gt;&lt;br&gt;/eventos/[slug]&lt;br&gt;Fecha, lugar y enlace de inscripción" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="250" y="480" width="300" height="76" as="geometry"/>
+        </mxCell>
+        <mxCell id="p6c" value="&lt;b&gt;Asistente sin cuenta&lt;/b&gt;&lt;br&gt;No deja nombre ni WhatsApp en Redeventos" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="250" y="596" width="300" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="p6d" value="Abre el enlace externo&lt;br&gt;Luma, formulario u otra página" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="250" y="700" width="300" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="p6end" value="La lista de asistentes vive fuera" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="250" y="804" width="300" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="p6caso" value="&lt;b&gt;Después, si la evidencia se aprueba&lt;/b&gt;&lt;br&gt;Caso de éxito en /casos/[slug]&lt;br&gt;Qué ocurrió, qué espacio, qué aportes y cuánta asistencia" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="180" y="900" width="440" height="76" as="geometry"/>
+        </mxCell>
+        <mxCell id="p6e1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#666666;" edge="1" parent="1" source="p6a" target="p6dec1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p6e2" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#b85450;fontSize=11;fontColor=#b85450;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p6dec1" target="p6no1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p6e3" value="Sí" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#82b366;fontSize=11;fontColor=#82b366;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="p6dec1" target="p6dec2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p6e4" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#b85450;fontSize=11;fontColor=#b85450;exitX=1;exitY=0.5;entryX=0.5;entryY=1;" edge="1" parent="1" source="p6dec2" target="p6no1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p6e5" value="Sí" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#82b366;fontSize=11;fontColor=#82b366;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="p6dec2" target="p6b">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p6e6" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#666666;" edge="1" parent="1" source="p6b" target="p6c">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p6e7" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#666666;" edge="1" parent="1" source="p6c" target="p6d">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p6e8" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#666666;" edge="1" parent="1" source="p6d" target="p6end">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p6e9" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#9673a6;dashed=1;" edge="1" parent="1" source="p6end" target="p6caso">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="flujo-moderacion" name="Moderación">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="980" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="p7title" value="&lt;b&gt;EVIDENCIA Y MODERACIÓN&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#1a1a1a;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="700" height="32" as="geometry"/>
+        </mxCell>
+        <mxCell id="p7sub" value="El moderador no arma matches ni aprueba eventos antes de publicarlos." style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=12;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="40" y="52" width="760" height="22" as="geometry"/>
+        </mxCell>
+        <mxCell id="p7s" value="Organizador" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="180" y="96" width="160" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="p7a" value="Marca el evento como realizado" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="100" y="176" width="320" height="52" as="geometry"/>
+        </mxCell>
+        <mxCell id="p7b" value="Adjunta evidencia&lt;br&gt;Asistencia, venue y aportes cumplidos" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="100" y="260" width="320" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="p7c" value="&lt;b&gt;submitted&lt;/b&gt;&lt;br&gt;Entra a la cola del moderador" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="100" y="352" width="320" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="p7dec" value="¿Aprueba la evidencia?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="130" y="448" width="260" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="p7no" value="&lt;b&gt;rejected&lt;/b&gt;&lt;br&gt;El evento no pasa a completed&lt;br&gt;Se puede volver a enviar" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="500" y="462" width="240" height="76" as="geometry"/>
+        </mxCell>
+        <mxCell id="p7yes" value="&lt;b&gt;approved&lt;/b&gt;&lt;br&gt;El evento pasa a completed" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="140" y="600" width="240" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="p7caso" value="Se publica el caso de éxito&lt;br&gt;/casos/[slug]&lt;br&gt;Cuenta para la métrica del piloto" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="120" y="700" width="280" height="72" as="geometry"/>
+        </mxCell>
+        <mxCell id="p7side" value="Otras facultades del moderador" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontStyle=1;fontSize=13;fontColor=#1a1a1a;" vertex="1" parent="1">
+          <mxGeometry x="620" y="600" width="280" height="24" as="geometry"/>
+        </mxCell>
+        <mxCell id="p7rep" value="&lt;b&gt;Contenido reportado&lt;/b&gt;&lt;br&gt;Puede ocultar un evento o un perfil" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="620" y="640" width="280" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="p7des" value="&lt;b&gt;Incumplimiento&lt;/b&gt;&lt;br&gt;Desafilia a quien rompe el compromiso&lt;br&gt;de registro o el de match&lt;br&gt;Quien queda desafiliado pierde el sello" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="620" y="740" width="280" height="88" as="geometry"/>
+        </mxCell>
+        <mxCell id="p7no2" value="No hace esto&lt;br&gt;No aprueba la publicación del evento&lt;br&gt;No aprueba ni rechaza el match" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="620" y="176" width="280" height="76" as="geometry"/>
+        </mxCell>
+        <mxCell id="p7e1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#666666;" edge="1" parent="1" source="p7s" target="p7a">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p7e2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#666666;" edge="1" parent="1" source="p7a" target="p7b">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p7e3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#666666;" edge="1" parent="1" source="p7b" target="p7c">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p7e4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#666666;" edge="1" parent="1" source="p7c" target="p7dec">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p7e5" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#b85450;fontSize=11;fontColor=#b85450;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="p7dec" target="p7no">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p7e6" value="Sí" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#82b366;fontSize=11;fontColor=#82b366;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="p7dec" target="p7yes">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p7e7" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#666666;" edge="1" parent="1" source="p7yes" target="p7caso">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="flujo-estados" name="Estados">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="1180" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="p8title" value="&lt;b&gt;ESTADOS DEL SISTEMA&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#1a1a1a;" vertex="1" parent="1">
+          <mxGeometry x="40" y="16" width="600" height="32" as="geometry"/>
+        </mxCell>
+        <mxCell id="p8sub" value="Transiciones de idea.md y stack.md. Una flecha punteada es un estado previsto cuyo disparador de producto aún no está cerrado." style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=12;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="40" y="48" width="980" height="22" as="geometry"/>
+        </mxCell>
+        <mxCell id="p8h1" value="Evento" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontStyle=1;fontSize=14;fontColor=#1a1a1a;" vertex="1" parent="1">
+          <mxGeometry x="40" y="84" width="200" height="24" as="geometry"/>
+        </mxCell>
+        <mxCell id="ev_d" value="draft" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="120" width="140" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="ev_p" value="published" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="120" width="150" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="ev_u" value="public" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="540" y="120" width="140" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="ev_c" value="completed" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="800" y="120" width="150" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="ev_x" value="cancelled" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="410" y="230" width="150" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="p8h2" value="Necesidad" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontStyle=1;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="40" y="310" width="200" height="24" as="geometry"/>
+        </mxCell>
+        <mxCell id="nd_o" value="open" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="348" width="140" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="nd_p" value="partial" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="300" y="348" width="140" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="nd_c" value="covered" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="560" y="348" width="140" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="nd_x" value="cancelled" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="300" y="460" width="140" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="p8h3" value="Propuesta" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontStyle=1;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="40" y="540" width="200" height="24" as="geometry"/>
+        </mxCell>
+        <mxCell id="of_p" value="pending" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="578" width="140" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="of_a" value="accepted" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="300" y="578" width="150" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="of_r" value="rejected" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="560" y="578" width="150" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="of_x" value="cancelled" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=13;fontStyle=1;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="820" y="578" width="150" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="p8h4" value="Match" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontStyle=1;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="40" y="700" width="400" height="24" as="geometry"/>
+        </mxCell>
+        <mxCell id="mt_a" value="accepted" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="768" width="150" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="mt_c" value="completed" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=13;fontStyle=1;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="340" y="736" width="150" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="mt_b" value="breached" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=13;fontStyle=1;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="340" y="808" width="150" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="mt_x" value="cancelled" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=13;fontStyle=1;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="600" y="768" width="150" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="p8h5" value="Evidencia" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontStyle=1;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="40" y="900" width="200" height="24" as="geometry"/>
+        </mxCell>
+        <mxCell id="evd_s" value="submitted" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="940" width="150" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="evd_a" value="approved" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="340" y="900" width="150" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="evd_r" value="rejected" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="340" y="980" width="150" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="p8note" value="Aceptar la propuesta es la transición que crea el match, guarda el compromiso y habilita WhatsApp y teléfono. completed del evento solo ocurre si la evidencia queda approved." style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=10;spacingTop=6;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="560" y="900" width="560" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_ed" value="Organizador publica" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#666666;fontSize=11;" edge="1" parent="1" source="ev_d" target="ev_p">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_ep" value="Fecha y lugar" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#666666;fontSize=11;" edge="1" parent="1" source="ev_p" target="ev_u">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_eu" value="Evidencia aprobada" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#82b366;fontSize=11;" edge="1" parent="1" source="ev_u" target="ev_c">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_ex1" value="Cancelar" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#b85450;fontSize=11;exitX=0.5;exitY=1;entryX=0;entryY=0.5;" edge="1" parent="1" source="ev_p" target="ev_x">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_ex2" value="Cancelar" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#b85450;fontSize=11;exitX=0.5;exitY=1;entryX=1;entryY=0.5;" edge="1" parent="1" source="ev_u" target="ev_x">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_no" value="Acepta una parte" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#d6b656;fontSize=11;" edge="1" parent="1" source="nd_o" target="nd_p">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_np" value="Se completa el resto" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#82b366;fontSize=11;" edge="1" parent="1" source="nd_p" target="nd_c">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_nc" value="Acepta el total" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#82b366;fontSize=11;dashed=1;exitX=0.5;exitY=0;entryX=0.5;entryY=0;" edge="1" parent="1" source="nd_o" target="nd_c">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_nx1" value="Cancelar" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#b85450;fontSize=11;exitX=0.5;exitY=1;entryX=0;entryY=0.5;" edge="1" parent="1" source="nd_o" target="nd_x">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_nx2" value="Cancelar" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#b85450;fontSize=11;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="nd_p" target="nd_x">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_oa" value="La otra parte acepta" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#82b366;fontSize=11;" edge="1" parent="1" source="of_p" target="of_a">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_or" value="Rechaza" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#b85450;fontSize=11;exitX=0.5;exitY=0;entryX=0.5;entryY=0;" edge="1" parent="1" source="of_p" target="of_r">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_ox" value="stack.md" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#999999;fontSize=11;dashed=1;" edge="1" parent="1" source="of_p" target="of_x">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_mc" value="stack.md" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#999999;fontSize=11;dashed=1;exitX=1;exitY=0.25;entryX=0;entryY=0.5;" edge="1" parent="1" source="mt_a" target="mt_c">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_mb" value="stack.md" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#999999;fontSize=11;dashed=1;exitX=1;exitY=0.75;entryX=0;entryY=0.5;" edge="1" parent="1" source="mt_a" target="mt_b">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_mx" value="stack.md" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#999999;fontSize=11;dashed=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="mt_a" target="mt_x">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_es" value="Aprueba" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#82b366;fontSize=11;exitX=1;exitY=0.25;entryX=0;entryY=0.5;" edge="1" parent="1" source="evd_s" target="evd_a">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_er" value="Rechaza" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=classic;strokeColor=#b85450;fontSize=11;exitX=1;exitY=0.75;entryX=0;entryY=0.5;" edge="1" parent="1" source="evd_s" target="evd_r">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

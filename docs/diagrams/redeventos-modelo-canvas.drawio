@@ -1,0 +1,40 @@
+<mxfile host="app.diagrams.net" modified="2026-09-27T00:00:00.000Z" agent="Cursor" version="22.1.0">
+  <diagram id="bmc-redeventos" name="Modelo Canvas">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="0" arrows="0" fold="1" page="1" pageScale="1" pageWidth="1300" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title" value="&lt;b&gt;REDEVENTOS — MODELO CANVAS (PILOTO)&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 12px;&quot;&gt;Diseñando la propuesta de valor · Pereira y Dosquebradas&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontColor=#1a1a1a;fontSize=18;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="1160" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="partners" value="&lt;b&gt;Socios clave&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;¿Quién te puede ayudar?&lt;/font&gt;&lt;br&gt;&lt;br&gt;• Organizadores y comunidades locales&lt;br&gt;• Venues y espacios culturales&lt;br&gt;• Negocios locales (sponsors)&lt;br&gt;• Referentes del ecosistema (ej. Plan C)&lt;br&gt;• Supabase · Cloudflare (infra)&lt;br&gt;• Moderador de la comunidad" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#2b2b2b;strokeColor=#ffffff;fontColor=#ffffff;align=left;verticalAlign=top;spacingLeft=14;spacingTop=10;" vertex="1" parent="1">
+          <mxGeometry x="40" y="90" width="220" height="360" as="geometry"/>
+        </mxCell>
+        <mxCell id="activities" value="&lt;b&gt;Actividades clave&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;¿Qué harás para cumplir la propuesta de valor?&lt;/font&gt;&lt;br&gt;&lt;br&gt;• Publicar eventos, necesidades y aportes&lt;br&gt;• Propuestas bidireccionales y matches&lt;br&gt;• Fichas públicas y casos de éxito&lt;br&gt;• Descubrimiento (filtros + reglas)&lt;br&gt;• Moderar evidencias y reportes" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#2b2b2b;strokeColor=#ffffff;fontColor=#ffffff;align=left;verticalAlign=top;spacingLeft=14;spacingTop=10;" vertex="1" parent="1">
+          <mxGeometry x="270" y="90" width="220" height="175" as="geometry"/>
+        </mxCell>
+        <mxCell id="resources" value="&lt;b&gt;Recursos clave&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;¿Qué recursos necesitas para la propuesta de valor?&lt;/font&gt;&lt;br&gt;&lt;br&gt;• Plataforma web (Nuxt + Workers)&lt;br&gt;• PostgreSQL, Auth, Storage (Supabase)&lt;br&gt;• Marca Redeventos y confianza local&lt;br&gt;• Tiempo del operador / fundador&lt;br&gt;• Reglas de comunidad y moderación" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#2b2b2b;strokeColor=#ffffff;fontColor=#ffffff;align=left;verticalAlign=top;spacingLeft=14;spacingTop=10;" vertex="1" parent="1">
+          <mxGeometry x="270" y="275" width="220" height="175" as="geometry"/>
+        </mxCell>
+        <mxCell id="value" value="&lt;b&gt;Propuesta de valor&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;¿Qué haces diferente de la competencia?&lt;/font&gt;&lt;br&gt;&lt;br&gt;• Marketplace de 3 lados sin operador&lt;br&gt;• Conecta evento ↔ espacio ↔ aporte&lt;br&gt;• Registra necesidad, propuesta y compromiso&lt;br&gt;• No es agenda: es &amp;quot;cómo producir el evento&amp;quot;&lt;br&gt;• Enfoque territorial (Pereira + Dosquebradas)&lt;br&gt;• Matches que revelan contacto directo" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#2b2b2b;strokeColor=#ffffff;fontColor=#ffffff;align=left;verticalAlign=top;spacingLeft=14;spacingTop=10;" vertex="1" parent="1">
+          <mxGeometry x="500" y="90" width="240" height="360" as="geometry"/>
+        </mxCell>
+        <mxCell id="relationships" value="&lt;b&gt;Relación con clientes&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;¿Cómo interactúas con los clientes?&lt;/font&gt;&lt;br&gt;&lt;br&gt;• Self-service en la plataforma&lt;br&gt;• Compromiso de registro y de match&lt;br&gt;• Contacto público vs. directo post-match&lt;br&gt;• Coordinación fuera del producto (sin chat)&lt;br&gt;• Moderación de evidencias y desafiliación" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#2b2b2b;strokeColor=#ffffff;fontColor=#ffffff;align=left;verticalAlign=top;spacingLeft=14;spacingTop=10;" vertex="1" parent="1">
+          <mxGeometry x="750" y="90" width="220" height="175" as="geometry"/>
+        </mxCell>
+        <mxCell id="channels" value="&lt;b&gt;Canales&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;¿Cómo llegas a los clientes?&lt;/font&gt;&lt;br&gt;&lt;br&gt;• Web app (SSR, SEO)&lt;br&gt;• Oportunidades visibles para sponsors&lt;br&gt;• Ficha pública del evento&lt;br&gt;• Enlace externo de inscripción&lt;br&gt;• Ecosistema local y referidos" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#2b2b2b;strokeColor=#ffffff;fontColor=#ffffff;align=left;verticalAlign=top;spacingLeft=14;spacingTop=10;" vertex="1" parent="1">
+          <mxGeometry x="750" y="275" width="220" height="175" as="geometry"/>
+        </mxCell>
+        <mxCell id="segments" value="&lt;b&gt;Segmento de clientes&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;¿A quién ayudarás?&lt;/font&gt;&lt;br&gt;&lt;br&gt;• Organizadores (eventos gratuitos / bajo costo)&lt;br&gt;• Venue sponsors (espacios)&lt;br&gt;• Local sponsors (aportes en especie)&lt;br&gt;• Asistentes (descubren ficha pública)&lt;br&gt;&lt;br&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;Moderador: rol interno, no cliente&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#2b2b2b;strokeColor=#ffffff;fontColor=#ffffff;align=left;verticalAlign=top;spacingLeft=14;spacingTop=10;" vertex="1" parent="1">
+          <mxGeometry x="980" y="90" width="220" height="360" as="geometry"/>
+        </mxCell>
+        <mxCell id="costs" value="&lt;b&gt;Estructura de costos&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;¿Cuánto te costará?&lt;/font&gt;&lt;br&gt;&lt;br&gt;• Cloudflare Workers + DNS (tier bajo / free)&lt;br&gt;• Supabase (DB, auth, storage)&lt;br&gt;• Resend, PostHog, dominio&lt;br&gt;• Desarrollo y operación del piloto&lt;br&gt;• Sin costos de transacción (no hay pagos en piloto)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#2b2b2b;strokeColor=#ffffff;fontColor=#ffffff;align=left;verticalAlign=top;spacingLeft=14;spacingTop=10;" vertex="1" parent="1">
+          <mxGeometry x="40" y="460" width="580" height="200" as="geometry"/>
+        </mxCell>
+        <mxCell id="revenue" value="&lt;b&gt;Fuente de ingresos&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;¿Cuántos ingresos tendrás?&lt;/font&gt;&lt;br&gt;&lt;br&gt;• &lt;b&gt;Piloto: $0 — sin monetización&lt;/b&gt;&lt;br&gt;• Pagos, comisión y aportes en dinero: fuera del alcance&lt;br&gt;• Objetivo: validar eventos facilitados (evidencia aprobada)&lt;br&gt;• Modelo de ingresos: definir después del piloto" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#2b2b2b;strokeColor=#ffffff;fontColor=#ffffff;align=left;verticalAlign=top;spacingLeft=14;spacingTop=10;" vertex="1" parent="1">
+          <mxGeometry x="630" y="460" width="570" height="200" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
