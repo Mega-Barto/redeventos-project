@@ -13,7 +13,7 @@ Mitigación activa desde septiembre 2026. Catálogo completo: [README.md](./READ
 | --- | --- |
 | Migraciones, tablas, **RLS**, índices, triggers, SQL complejo | **`supabase-postgres-best-practices`** (antes que `supabase` general) |
 | Cliente Supabase, Auth, Storage | `supabase` |
-| Páginas Nuxt, Nitro, routing, SSR | `nuxt` |
+| Páginas Nuxt, Nitro, routing, SSR | `nuxt` — leer también **`nuxt/AGENTS.md`** y [component fragmentation](nuxt/references/best-practices-component-fragmentation.md) |
 | Componentes Vue, composables | `vue`, `vue-best-practices` |
 | Formularios, modales, tablas **Nuxt UI** | `nuxt-ui` |
 | Metadata, fichas públicas, SEO | `nuxt-seo` |
@@ -21,9 +21,11 @@ Mitigación activa desde septiembre 2026. Catálogo completo: [README.md](./READ
 | Estilos Tailwind | `tailwind-css-patterns` |
 | Deploy, `wrangler.toml`, dev local Workers | `wrangler`, `workers-best-practices`, `cloudflare` |
 | Emails transaccionales (propuesta, match, evidencia) | `resend`, `email-best-practices` |
-| Tests unitarios Nuxt/Vitest | `vitest`, `vue-testing-best-practices` |
+| Tests unitarios Nuxt/Vitest | `vitest`, `vue-testing-best-practices`; política Redeventos en `.cursor/skills/redeventos-unit-testing/` |
 | Tests E2E flujos de negocio | `playwright-best-practices` |
 | GitHub Actions CI/CD | `github-actions-templates` |
+| Commits, ramas y PRs en este repo | `.cursor/skills/redeventos-conventional-git/` (Conventional Commits) |
+| Rendimiento, Lighthouse, agent-ready, robots/sitemap | `.cursor/skills/redeventos-performance/` |
 
 ## MCP (operaciones reales)
 

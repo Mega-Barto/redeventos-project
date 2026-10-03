@@ -12,9 +12,5 @@
     "hediet.vscode-drawio",
     "pomdtr.excalidraw-editor"
   ],
-  "unwantedRecommendations": [
-    "octref.vetur",
-    "dbaeumer.vscode-eslint",
-    "esbenp.prettier-vscode"
-  ]
+  "unwantedRecommendations": ["octref.vetur", "dbaeumer.vscode-eslint", "esbenp.prettier-vscode"]
 }

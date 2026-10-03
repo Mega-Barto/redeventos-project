@@ -13,6 +13,8 @@ Nuxt is a full-stack Vue framework that provides server-side rendering, file-bas
 
 > **Nuxt 4 note:** the default `srcDir` is `app/` — Vue app code (`app.vue`, `components/`, `composables/`, `pages/`, etc.) lives under `app/`, while `server/`, `shared/`, `public/`, `modules/`, `layers/` and `nuxt.config.ts` stay at the project root. The `~`/`@` aliases now point at `app/`; use `~~`/`@@` for the root.
 
+> **Redeventos (obligatorio):** fragmentar UI y centralizar copy — ver [AGENTS.md](./AGENTS.md) y [best-practices-component-fragmentation](references/best-practices-component-fragmentation.md).
+
 ## Core
 
 | Topic               | Description                                                                | Reference                                                          |
@@ -47,6 +49,7 @@ Nuxt is a full-stack Vue framework that provides server-side rendering, file-bas
 | ---------------------- | ----------------------------------------------------------------- | -------------------------------------------------------------------------- |
 | Data Fetching Patterns | Efficient fetching, caching, parallel requests, error handling    | [best-practices-data-fetching](references/best-practices-data-fetching.md) |
 | SSR & Hydration        | Avoiding context leaks, hydration mismatches, composable patterns | [best-practices-ssr](references/best-practices-ssr.md)                     |
+| Component fragmentation (Redeventos) | Secciones pequeñas, copy en `shared/content/`, páginas orquestadoras | [best-practices-component-fragmentation](references/best-practices-component-fragmentation.md) |
 
 ## Advanced
 

@@ -7,5 +7,6 @@ Al trabajar en este repo:
 
 1. Respeta [`docs/product/idea.md`](../../docs/product/idea.md) y [`docs/architecture/stack.md`](../../docs/architecture/stack.md).
 2. Sigue [`.agents/skills/AGENT-POLICY.md`](../../.agents/skills/AGENT-POLICY.md): antes de cambios en PostgreSQL/RLS, lee la skill **`supabase-postgres-best-practices`**; para UI con Nuxt UI usa **`nuxt-ui`**; para validación **`zod`**; para deploy **`wrangler`**.
-3. Negocio/piloto: skill **`redeventos-business-model`** en `.cursor/skills/`.
-4. MCP del proyecto: `.cursor/mcp.json` — Supabase solo en entorno dev; ver `.cursor/MCP-SETUP.md`.
+3. **UI fragmentada:** al crear páginas/componentes Nuxt, aplica [`.agents/skills/nuxt/references/best-practices-component-fragmentation.md`](../../.agents/skills/nuxt/references/best-practices-component-fragmentation.md) (copy en `shared/content/` o `*.content.ts`, secciones en componentes, páginas solo orquestan).
+4. Negocio/piloto: skill **`redeventos-business-model`** en `.cursor/skills/`.
+5. MCP del proyecto: `.cursor/mcp.json` — Supabase solo en entorno dev; ver `.cursor/MCP-SETUP.md`.
