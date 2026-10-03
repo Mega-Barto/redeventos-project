@@ -6,7 +6,7 @@ test('landing muestra la propuesta y los tres perfiles', async ({ page }) => {
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('La red hace posible el evento')
   await expect(page.getByRole('link', { name: 'Publicar evento' }).first()).toHaveAttribute(
     'href',
-    '/registro?rol=organizer',
+    '/register?role=organizer',
   )
   await expect(page.getByRole('link', { name: 'Ofrecer espacio o apoyo' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'El evento se traba antes de existir' })).toBeVisible()
@@ -30,15 +30,15 @@ test('el menú móvil incluye la navegación pública', async ({ page }) => {
 })
 
 test('el aviso de privacidad y el compromiso son páginas', async ({ page }) => {
-  await page.goto('/privacidad')
+  await page.goto('/privacy')
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Aviso de privacidad')
-  await page.goto('/compromiso')
+  await page.goto('/commitment')
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Compromiso de registro')
 })
 
 test('la app privada pide entrar', async ({ page }) => {
   await page.goto('/app')
-  await expect(page).toHaveURL(/\/entrar/)
+  await expect(page).toHaveURL(/\/login/)
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
 })
 

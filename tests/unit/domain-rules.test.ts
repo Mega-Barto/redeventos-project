@@ -13,6 +13,7 @@ import {
   suggestionRank,
 } from '../../shared/domain/rules'
 import { createEventSchema, onboardingSchema, registerAccountSchema } from '../../shared/schemas/inputs'
+import { hasNeedQuantity } from '../../shared/utils/need-quantity'
 
 describe('cobertura parcial', () => {
   it('deja la necesidad abierta por el resto', () => {
@@ -174,5 +175,51 @@ describe('schemas de entrada', () => {
       needs: [{ type: 'venue', description: 'Un salón para 25 personas', quantity: 1, unit: 'espacio' }],
     })
     expect(parsed.success).toBe(true)
+  })
+
+  it('permite una necesidad sin cantidad ni unidad', () => {
+    const parsed = createEventSchema.safeParse({
+      title: 'Lectura en el parque',
+      category: 'literatura',
+      city: 'pereira',
+      dateMode: 'range',
+      dateRangeLabel: 'segunda semana de octubre',
+      expectedAttendees: 25,
+      description: 'Una lectura abierta para la comunidad del centro.',
+      audience: 'Personas que leen en español',
+      sponsorBenefit: 'Mención en redes y un stand',
+      rsvpUrl: 'https://example.com/rsvp',
+      needs: [{ type: 'diffusion', description: 'Difusión en redes del barrio', quantity: '', unit: '' }],
+    })
+    expect(parsed.success).toBe(true)
+    if (parsed.success) {
+      expect(parsed.data.needs[0]?.quantity).toBeNull()
+      expect(parsed.data.needs[0]?.unit).toBeNull()
+    }
+  })
+
+  it('exige unidad cuando la necesidad sí tiene cantidad', () => {
+    const parsed = createEventSchema.safeParse({
+      title: 'Lectura en el parque',
+      category: 'literatura',
+      city: 'pereira',
+      dateMode: 'range',
+      dateRangeLabel: 'segunda semana de octubre',
+      expectedAttendees: 25,
+      description: 'Una lectura abierta para la comunidad del centro.',
+      audience: 'Personas que leen en español',
+      sponsorBenefit: 'Mención en redes y un stand',
+      rsvpUrl: 'https://example.com/rsvp',
+      needs: [{ type: 'food', description: 'Refrigerio para quienes asistan', quantity: 40, unit: '' }],
+    })
+    expect(parsed.success).toBe(false)
+  })
+
+  it('trata cantidad vacía como ausente para habilitar la unidad', () => {
+    expect(hasNeedQuantity(null)).toBe(false)
+    expect(hasNeedQuantity('')).toBe(false)
+    expect(hasNeedQuantity(0)).toBe(false)
+    expect(hasNeedQuantity(2)).toBe(true)
+    expect(hasNeedQuantity('40')).toBe(true)
   })
 })

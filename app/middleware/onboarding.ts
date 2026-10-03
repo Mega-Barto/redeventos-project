@@ -11,5 +11,6 @@ export default defineNuxtRouteMiddleware(async () => {
   if (commitmentError || rolesError) return
 
   const assignable = (roles ?? []).filter((row) => row.role !== 'moderator')
-  if (!commitment || assignable.length === 0) return navigateTo('/registro')
+  const isModerator = (roles ?? []).some((row) => row.role === 'moderator')
+  if (!commitment || (assignable.length === 0 && !isModerator)) return navigateTo('/register')
 })

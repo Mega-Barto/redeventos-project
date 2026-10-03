@@ -1,25 +1,24 @@
 <script setup lang="ts">
 import type { FormSubmitEvent } from '@nuxt/ui'
+import { mediaContent } from '~~/shared/content/media'
 import { type EvidenceInput, evidenceSchema } from '~~/shared/schemas/inputs'
+import { asFileList } from '~~/shared/utils/public-media'
 
 const emit = defineEmits<{ submit: [EvidenceInput, File[]] }>()
-defineProps<{ pending?: boolean }>()
+defineProps<{
+  pending?: boolean
+  existingUrls?: string[]
+}>()
 
 const state = reactive({
   attendanceCount: 1,
   venueNote: '',
   contributionsNote: '',
 })
-const files = ref<File[]>([])
-
-function onFiles(event: Event) {
-  const input = event.target
-  if (!(input instanceof HTMLInputElement)) return
-  files.value = [...(input.files ?? [])]
-}
+const files = ref<File | File[] | null>(null)
 
 function onSubmit(event: FormSubmitEvent<EvidenceInput>) {
-  emit('submit', event.data, files.value)
+  emit('submit', event.data, asFileList(files.value))
 }
 </script>
 
@@ -34,9 +33,11 @@ function onSubmit(event: FormSubmitEvent<EvidenceInput>) {
     <UFormField name="contributionsNote" label="Aportes cumplidos" required>
       <UTextarea v-model="state.contributionsNote" class="w-full" />
     </UFormField>
-    <UFormField label="Fotos" hint="Opcional. jpeg, png, webp o avif, hasta 5 MB.">
-      <input type="file" accept="image/jpeg,image/png,image/webp,image/avif" multiple @change="onFiles" />
-    </UFormField>
+    <div v-if="existingUrls?.length" class="space-y-2">
+      <p class="text-sm font-medium">{{ mediaContent.pendingPhotos }}</p>
+      <MediaVenueGallery :urls="existingUrls" :name="mediaContent.evidenceAlt" />
+    </div>
+    <AppMediaFileField v-model="files" multiple :label="mediaContent.evidenceLabel" :hint="mediaContent.evidenceHint" />
     <UButton type="submit" label="Enviar evidencia" :loading="pending" />
   </UForm>
 </template>

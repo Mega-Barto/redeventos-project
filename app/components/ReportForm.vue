@@ -13,7 +13,7 @@ const pending = ref(false)
 async function submit() {
   const userId = useUserId().value
   if (!userId) {
-    await navigateTo(`/entrar?redirect=${encodeURIComponent(useRoute().fullPath)}`)
+    await navigateTo(`/login?redirect=${encodeURIComponent(useRoute().fullPath)}`)
     return
   }
   const parsed = reportSchema.safeParse({

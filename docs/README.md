@@ -20,6 +20,7 @@
 | Archivo | Contenido |
 | --- | --- |
 | [stack.md](./architecture/stack.md) | Stack Nuxt + Cloudflare + Supabase |
+| [database.md](./architecture/database.md) | Esquema PostgreSQL, Storage e imágenes |
 | [canvas-model.md](./architecture/canvas-model.md) | Vista técnica: infra, dominio, datos y flujos |
 
 ## Negocio
@@ -36,6 +37,7 @@ Abrir en [draw.io](https://app.diagrams.net/) o Excalidraw según extensión.
 
 | Archivo | Contenido |
 | --- | --- |
+| [redeventos-database-er.drawio](./diagrams/redeventos-database-er.drawio) | ER PostgreSQL + Storage (piloto) |
 | [redeventos-flujos.drawio](./diagrams/redeventos-flujos.drawio) | Flujos del sistema |
 | [redeventos-modelo-canvas.drawio](./diagrams/redeventos-modelo-canvas.drawio) | Canvas de negocio (piloto) |
 | [redeventos-modelo-canvas-futuro.drawio](./diagrams/redeventos-modelo-canvas-futuro.drawio) | Canvas de negocio (futuro) |

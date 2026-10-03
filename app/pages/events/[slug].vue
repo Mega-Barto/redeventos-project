@@ -39,11 +39,11 @@ useSeoMeta({
 <template>
   <UPage>
     <UPageBody>
-      <UContainer class="max-w-3xl space-y-6">
+      <UContainer class="reading-surface max-w-3xl space-y-6 p-6 sm:p-8">
         <div v-if="!event" class="space-y-3">
           <h1 class="text-2xl font-semibold">Este evento no está público</h1>
           <p class="text-muted">La ficha aparece cuando hay fecha concreta y lugar. Si ya se realizó, búscalo en casos.</p>
-          <UButton to="/casos" label="Ver casos" color="neutral" variant="soft" />
+          <UButton to="/cases" label="Ver casos" color="neutral" variant="soft" />
         </div>
         <template v-else>
           <p class="text-sm text-muted">{{ CATEGORY_LABELS[event.category] }} · {{ CITY_LABELS[event.city] }}</p>

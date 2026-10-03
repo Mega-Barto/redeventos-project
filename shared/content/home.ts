@@ -2,8 +2,8 @@ export const homeHeroContent = {
   title: 'La red hace posible el evento',
   description:
     'Redeventos ayuda a comunidades de Pereira y Dosquebradas a realizar eventos gratuitos o de bajo costo. Publicas el evento, dices qué necesitas y los espacios y aliados te proponen cómo cubrirlo.',
-  primaryCta: { label: 'Publicar evento', to: '/registro?rol=organizer' },
-  secondaryCta: { label: 'Ofrecer espacio o apoyo', to: '/registro' },
+  primaryCta: { label: 'Publicar evento', to: '/register?role=organizer' },
+  secondaryCta: { label: 'Ofrecer espacio o apoyo', to: '/register' },
 } as const
 
 export const homeProblemContent = {
@@ -76,7 +76,7 @@ export const homeProfilesContent = {
       description:
         'Estamos creando Redeventos para ayudar a comunidades de Pereira y Dosquebradas a realizar eventos gratuitos o de bajo costo. Publicas el evento, dices qué necesitas y los espacios y aliados te proponen cómo cubrirlo.',
       cta: 'Publicar evento',
-      to: '/registro?rol=organizer',
+      to: '/register?role=organizer',
       icon: 'i-lucide-calendar-plus',
     },
     {
@@ -84,7 +84,7 @@ export const homeProfilesContent = {
       description:
         'Hay organizadores buscando espacio. Publica el tuyo, con su capacidad y sus condiciones, y recibe propuestas de eventos que pueden encajar.',
       cta: 'Publicar espacio',
-      to: '/registro?rol=venue_sponsor',
+      to: '/register?role=venue_sponsor',
       icon: 'i-lucide-building',
     },
     {
@@ -92,7 +92,7 @@ export const homeProfilesContent = {
       description:
         'Puedes apoyar un evento con productos, alimentación, equipos, servicios o difusión. Ves oportunidades concretas y envías una propuesta. A cambio, el evento ofrece visibilidad y activación.',
       cta: 'Ofrecer apoyo',
-      to: '/registro?rol=local_sponsor',
+      to: '/register?role=local_sponsor',
       icon: 'i-lucide-hand-heart',
     },
   ],
@@ -131,6 +131,6 @@ export const homeCtaContent = {
   title: 'Empieza por el evento que ya quieres hacer',
   description:
     'La red inicial se construye con organizadores que tienen una necesidad real. Publica el evento y deja que espacios y aliados te propongan cómo cubrirlo.',
-  primaryCta: { label: 'Crear cuenta y publicar', to: '/registro?rol=organizer' },
-  secondaryCta: { label: 'Ya tengo cuenta', to: '/entrar' },
+  primaryCta: { label: 'Crear cuenta y publicar', to: '/register?role=organizer' },
+  secondaryCta: { label: 'Ya tengo cuenta', to: '/login' },
 } as const

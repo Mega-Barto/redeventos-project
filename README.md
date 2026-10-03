@@ -19,6 +19,17 @@ cp .env.example .env
 bun run dev           # Nuxt en http://localhost:3000
 ```
 
+Cuentas de prueba (tras `bun run db:seed:local`). Contraseña de las cuatro: **`piloto-local`**. Solo existen en la base local; no las uses en remoto.
+
+| Correo | Rol | Para qué |
+| --- | --- | --- |
+| `ana.organizadora@local.redeventos.test` | organizer | Publicar evento, evidencia |
+| `leo.espacio@local.redeventos.test` | venue_sponsor | Ficha de espacio |
+| `luz.aliada@local.redeventos.test` | local_sponsor | Propuestas |
+| `moda.red@local.redeventos.test` | moderator | Evidencias, reportes, desafiliación (`/app/moderation`) |
+
+No hay rol `admin`. Entrar en `/login`.
+
 **Git:** el repo montado incluye `.git`; haz commits en la terminal del contenedor como en el host (`git add`, `git commit`). Mensajes: [Conventional Commits](https://www.conventionalcommits.org/) — ver skill `.cursor/skills/redeventos-conventional-git/`. Configura `user.name` y `user.email` si aún no lo hiciste.
 
 | Comando | Qué hace |
@@ -30,6 +41,7 @@ bun run dev           # Nuxt en http://localhost:3000
 | `bun run test` | Pruebas unitarias con Vitest |
 | `bun run test:e2e` | Pruebas E2E con Playwright contra `bun run preview` (puerto 8787). Primera vez: `bunx playwright install --with-deps chromium` |
 | `bun run db:start` / `db:stop` / `db:reset` | Supabase local |
+| `bun run db:seed:local` | Reset local + seed + fotos de [Picsum](https://picsum.photos/) en Storage (`scripts/seed-local-media.ts`) |
 | `bun run db:types` | Regenera `shared/types/database.types.ts` desde la base local |
 | `bun run cf-typegen` | Regenera `worker-configuration.d.ts` tras cambiar `wrangler.jsonc` |
 

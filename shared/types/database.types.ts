@@ -27,6 +27,7 @@ export type Database = {
         city: 'pereira' | 'dosquebradas' | null
         contribution_types: ('venue' | 'products' | 'food' | 'equipment' | 'services' | 'diffusion')[]
         contribution_description: string | null
+        avatar_storage_path: string | null
         disaffiliated_at: string | null
         hidden_at: string | null
         created_at: string
@@ -84,9 +85,9 @@ export type Database = {
         event_id: string
         type: 'venue' | 'products' | 'food' | 'equipment' | 'services' | 'diffusion'
         description: string
-        quantity_requested: number
+        quantity_requested: number | null
         quantity_covered: number
-        unit: string
+        unit: string | null
         status: 'open' | 'partial' | 'covered' | 'cancelled'
         created_at: string
         updated_at: string
@@ -102,8 +103,16 @@ export type Database = {
         equipment: string
         support_mode: 'free' | 'depends' | 'rental_only'
         description: string
+        cover_storage_path: string | null
         created_at: string
         updated_at: string
+      }>
+      venue_media: Table<{
+        id: string
+        venue_id: string
+        storage_path: string
+        sort_order: number
+        created_at: string
       }>
       offers: Table<{
         id: string
@@ -154,6 +163,8 @@ export type Database = {
         id: string
         event_id: string
         storage_path: string
+        kind: 'evidence' | 'case_highlight'
+        is_public: boolean
         created_at: string
       }>
       reports: Table<{
@@ -185,6 +196,20 @@ export type Database = {
         attendance_count: number
         venue_note: string
         contributions_note: string
+        cover_path: string | null
+      }>
+      public_case_covers: View<{
+        event_id: string
+        event_slug: string
+        storage_path: string
+        created_at: string
+      }>
+      public_case_media: View<{
+        event_id: string
+        event_slug: string
+        storage_path: string
+        created_at: string
+        sort_order: number
       }>
     }
     Functions: {

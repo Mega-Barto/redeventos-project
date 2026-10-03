@@ -19,68 +19,47 @@
 
 html {
   color-scheme: dark;
+  background-color: var(--color-agua-950);
+  scroll-padding-top: calc(var(--ui-header-height) + 1rem);
 }
 
 html,
 body {
   font-family: var(--font-sans);
+  background-color: var(--color-agua-950);
+  color: var(--color-agua-50);
 }
 
-@keyframes lava-a {
-  0% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  45% {
-    transform: translate3d(14%, -10%, 0) scale(1.12);
-  }
-  100% {
-    transform: translate3d(-8%, 12%, 0) scale(0.94);
-  }
+/* Night base so body copy sits on Agua noche, not the slate default. */
+.dark {
+  --ui-bg: var(--color-agua-950);
+  --ui-bg-muted: var(--color-agua-900);
+  --ui-bg-elevated: var(--color-agua-900);
+  --ui-bg-accented: var(--color-agua-800);
+  --ui-text-dimmed: var(--color-agua-300);
+  --ui-text-muted: var(--color-agua-200);
+  --ui-text-toned: var(--color-agua-100);
+  --ui-text: var(--color-agua-50);
+  --ui-text-highlighted: #fff;
+  --ui-border: color-mix(in srgb, var(--color-agua-700) 65%, transparent);
+  --ui-border-muted: color-mix(in srgb, var(--color-agua-400) 32%, transparent);
+  --ui-border-accented: var(--color-agua-600);
 }
 
-@keyframes lava-b {
-  0% {
-    transform: translate3d(0, 0, 0) scale(1.05);
-  }
-  50% {
-    transform: translate3d(-16%, 8%, 0) scale(0.9);
-  }
-  100% {
-    transform: translate3d(10%, -12%, 0) scale(1.08);
-  }
+.reading-surface {
+  border-radius: 1rem;
+  background-color: color-mix(in srgb, var(--color-agua-950) 55%, transparent);
+  backdrop-filter: blur(12px);
 }
 
-@keyframes lava-c {
-  0% {
-    transform: translate3d(0, 0, 0) scale(0.96);
-  }
-  40% {
-    transform: translate3d(8%, 14%, 0) scale(1.1);
-  }
-  100% {
-    transform: translate3d(-12%, -6%, 0) scale(1);
-  }
+.brand-backdrop {
+  background-color: var(--color-agua-950);
 }
 
-.lava-blob {
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
-}
-
-.lava-blob-a {
-  animation-name: lava-a;
-}
-
-.lava-blob-b {
-  animation-name: lava-b;
-}
-
-.lava-blob-c {
-  animation-name: lava-c;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .lava-blob {
-    animation: none;
-  }
+.brand-backdrop-glow {
+  background-image:
+    radial-gradient(ellipse 50% 42% at 12% 8%, rgb(2 195 189 / 0.5), transparent 68%),
+    radial-gradient(ellipse 42% 36% at 88% 18%, rgb(0 185 174 / 0.38), transparent 64%),
+    radial-gradient(ellipse 48% 40% at 30% 78%, rgb(3 113 113 / 0.72), transparent 70%),
+    radial-gradient(ellipse 36% 32% at 72% 68%, rgb(0 159 147 / 0.36), transparent 66%);
 }

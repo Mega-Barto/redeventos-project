@@ -2,9 +2,10 @@ export const publicNav = [
   { label: 'Problema', to: '/#problema' },
   { label: 'Cómo funciona', to: '/#como-funciona' },
   { label: 'Perfiles', to: '/#perfiles' },
-  { label: 'Eventos', to: '/eventos' },
+  { label: 'Eventos', to: '/events' },
   { label: 'Espacios', to: '/venues' },
   { label: 'Aliados', to: '/sponsors' },
+  { label: 'Casos', to: '/cases' },
 ] as const
 
 export const headerActions = {
@@ -14,6 +15,6 @@ export const headerActions = {
 
 export const footerContent = {
   territory: 'Pereira y Dosquebradas',
-  privacy: { label: 'Aviso de privacidad', to: '/privacidad' },
-  commitment: { label: 'Compromiso de registro', to: '/compromiso' },
+  privacy: { label: 'Aviso de privacidad', to: '/privacy' },
+  commitment: { label: 'Compromiso de registro', to: '/commitment' },
 } as const

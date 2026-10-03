@@ -24,7 +24,7 @@ const account = reactive({
   privacyAccepted: false,
 })
 
-const preset = SELF_ASSIGNABLE_ROLES.find((role) => role === route.query.rol)
+const preset = SELF_ASSIGNABLE_ROLES.find((role) => role === (route.query.role ?? route.query.rol))
 const network = reactive({
   commitmentAccepted: false,
   roles: (preset ? [preset] : []) as Array<(typeof SELF_ASSIGNABLE_ROLES)[number]>,
@@ -157,7 +157,7 @@ async function joinNetwork() {
       </UFormField>
       <UCheckbox v-model="account.privacyAccepted" label="Leí el aviso de privacidad" />
       <p class="text-sm">
-        <NuxtLink to="/privacidad" class="text-primary">Abrir aviso de privacidad</NuxtLink>
+        <NuxtLink to="/privacy" class="text-primary">Abrir aviso de privacidad</NuxtLink>
       </p>
       <UButton type="submit" label="Continuar" :loading="pending" block />
     </form>

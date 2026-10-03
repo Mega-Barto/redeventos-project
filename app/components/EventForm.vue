@@ -19,7 +19,7 @@ const state = reactive({
   audience: '',
   sponsorBenefit: '',
   rsvpUrl: '',
-  needs: [{ type: 'venue' as CreateEventInput['needs'][number]['type'], description: '', quantity: 1, unit: 'unidad' }],
+  needs: [{ type: 'venue' as CreateEventInput['needs'][number]['type'], description: '', quantity: null, unit: '' }],
 })
 
 const categoryItems = EVENT_CATEGORIES.map((category) => ({ label: CATEGORY_LABELS[category], value: category }))
@@ -31,7 +31,7 @@ const dateItems = [
 ]
 
 function addNeed() {
-  state.needs.push({ type: 'products', description: '', quantity: 1, unit: 'unidad' })
+  state.needs.push({ type: 'products', description: '', quantity: null, unit: '' })
 }
 
 function onSubmit(event: FormSubmitEvent<CreateEventInput>) {
@@ -82,20 +82,14 @@ function onSubmit(event: FormSubmitEvent<CreateEventInput>) {
         <UButton type="button" label="Agregar" color="neutral" variant="soft" size="sm" @click="addNeed" />
       </div>
       <div v-for="(need, index) in state.needs" :key="index" class="space-y-3 rounded-lg border border-muted p-3">
-        <UFormField :name="`needs.${index}.type`" label="Tipo">
-          <USelect v-model="need.type" :items="needItems" class="w-full" />
-        </UFormField>
-        <UFormField :name="`needs.${index}.description`" label="Qué se pide" required>
-          <UInput v-model="need.description" class="w-full" />
-        </UFormField>
-        <div class="grid gap-3 md:grid-cols-2">
-          <UFormField :name="`needs.${index}.quantity`" label="Cantidad" required>
-            <UInput v-model.number="need.quantity" type="number" min="1" class="w-full" />
-          </UFormField>
-          <UFormField :name="`needs.${index}.unit`" label="Unidad" required>
-            <UInput v-model="need.unit" class="w-full" />
-          </UFormField>
-        </div>
+        <AppEventNeedFields
+          v-model:type="need.type"
+          v-model:description="need.description"
+          v-model:quantity="need.quantity"
+          v-model:unit="need.unit"
+          :index="index"
+          :need-items="needItems"
+        />
       </div>
     </div>
     <UButton type="submit" label="Guardar borrador" :loading="pending" />

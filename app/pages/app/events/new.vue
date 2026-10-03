@@ -20,7 +20,7 @@ async function onSubmit(input: CreateEventInput) {
     errorMessage.value = result.error ?? 'No se pudo crear el evento'
     return
   }
-  await navigateTo(`/app/eventos/${result.id}`)
+  await navigateTo(`/app/events/${result.id}`)
 }
 </script>
 

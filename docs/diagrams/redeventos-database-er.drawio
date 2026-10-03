@@ -1,0 +1,339 @@
+<mxfile host="65bd71144e">
+    <diagram id="er-public" name="Esquema public">
+        <mxGraphModel dx="447" dy="333" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2000" pageHeight="1400" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="title" value="&lt;b&gt;REDEVENTOS — MODELO ENTIDAD-RELACIÓN (PostgreSQL public)&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=18;fontColor=#1a1a1a;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="20" width="720" height="32" as="geometry"/>
+                </mxCell>
+                <mxCell id="sub" value="Migraciones 0001–0006. Detalle de columnas: docs/architecture/database.md" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=12;fontColor=#666666;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="52" width="640" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="leg" value="&lt;b&gt;Leyenda&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#6c8ebf&quot;&gt;■&lt;/font&gt; Tabla actual&lt;br&gt;&lt;font color=&quot;#d6b656&quot;&gt;■&lt;/font&gt; Campo de imagen / Storage&lt;br&gt;&lt;font color=&quot;#9673a6&quot;&gt;■&lt;/font&gt; auth / Supabase&lt;br&gt;&lt;font color=&quot;#82b366&quot;&gt;■&lt;/font&gt; Vista SQL&lt;br&gt;Crow's foot: cardinalidad en FK" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=10;spacingTop=6;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=11;fontColor=#333333;" parent="1" vertex="1">
+                    <mxGeometry x="1680" y="40" width="280" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="auth" value="auth.users" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#1a1a1a;collapsible=0;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="120" width="200" height="52" as="geometry"/>
+                </mxCell>
+                <mxCell id="auth-r1" value="id uuid PK" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=6;fontSize=11;" parent="auth" vertex="1">
+                    <mxGeometry y="26" width="200" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="profiles" value="profiles" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#1a1a1a;collapsible=0;" parent="1" vertex="1">
+                    <mxGeometry x="320" y="280" width="240" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="profiles-r1" value="id uuid PK → auth.users" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=6;fontSize=11;" parent="profiles" vertex="1">
+                    <mxGeometry y="26" width="240" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="profiles-r2" value="display_name, slug (unique), email, city…" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=6;fontSize=10;fontColor=#333333;" parent="profiles" vertex="1">
+                    <mxGeometry y="48" width="240" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="profiles-r3" value="avatar_storage_path text" style="text;strokeColor=none;fillColor=#fff2cc;align=left;spacingLeft=6;fontSize=10;fontColor=#996600;" parent="profiles" vertex="1">
+                    <mxGeometry y="70" width="240" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="profiles-r4" value="disaffiliated_at, hidden_at (moderador)" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=6;fontSize=10;" parent="profiles" vertex="1">
+                    <mxGeometry y="92" width="240" height="38" as="geometry"/>
+                </mxCell>
+                <mxCell id="pdc" value="profile_direct_contacts" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#dae8fc;strokeColor=#6c8ebf;collapsible=0;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="280" width="240" height="78" as="geometry"/>
+                </mxCell>
+                <mxCell id="pdc-r1" value="profile_id uuid PK → profiles" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=6;fontSize=11;" parent="pdc" vertex="1">
+                    <mxGeometry y="26" width="240" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="pdc-r2" value="whatsapp, phone (RLS post-match)" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=6;fontSize=10;" parent="pdc" vertex="1">
+                    <mxGeometry y="52" width="240" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="proles" value="profile_roles" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#dae8fc;strokeColor=#6c8ebf;collapsible=0;" parent="1" vertex="1">
+                    <mxGeometry x="320" y="120" width="240" height="78" as="geometry"/>
+                </mxCell>
+                <mxCell id="proles-r1" value="PK (profile_id, role)" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=6;fontSize=11;" parent="proles" vertex="1">
+                    <mxGeometry y="26" width="240" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="proles-r2" value="role app_role (≠ moderator en registro)" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=6;fontSize=10;" parent="proles" vertex="1">
+                    <mxGeometry y="52" width="240" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="regc" value="registration_commitments" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#dae8fc;strokeColor=#6c8ebf;collapsible=0;" parent="1" vertex="1">
+                    <mxGeometry x="600" y="120" width="260" height="78" as="geometry"/>
+                </mxCell>
+                <mxCell id="regc-r1" value="profile_id uuid PK → profiles" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=6;fontSize=11;" parent="regc" vertex="1">
+                    <mxGeometry y="26" width="260" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="regc-r2" value="privacy_version, commitment_version, accepted_at" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=6;fontSize=10;" parent="regc" vertex="1">
+                    <mxGeometry y="52" width="260" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="events" value="events" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#dae8fc;strokeColor=#6c8ebf;collapsible=0;" parent="1" vertex="1">
+                    <mxGeometry x="920" y="280" width="260" height="104" as="geometry"/>
+                </mxCell>
+                <mxCell id="events-r1" value="id uuid PK" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=6;fontSize=11;" parent="events" vertex="1">
+                    <mxGeometry y="26" width="260" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="events-r2" value="organizer_id → profiles" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=6;fontSize=11;" parent="events" vertex="1">
+                    <mxGeometry y="48" width="260" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="events-r3" value="venue_id nullable → venues" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=6;fontSize=11;" parent="events" vertex="1">
+                    <mxGeometry y="70" width="260" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="events-r4" value="status, slug, category… [cover vía event_media]" style="text;strokeColor=none;fillColor=#fff2cc;align=left;spacingLeft=6;fontSize=10;fontColor=#996600;" parent="events" vertex="1">
+                    <mxGeometry y="92" width="260" height="12" as="geometry"/>
+                </mxCell>
+                <mxCell id="eneeds" value="event_needs" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#dae8fc;strokeColor=#6c8ebf;collapsible=0;" parent="1" vertex="1">
+                    <mxGeometry x="1240" y="280" width="240" height="78" as="geometry"/>
+                </mxCell>
+                <mxCell id="eneeds-r1" value="id uuid PK" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=6;fontSize=11;" parent="eneeds" vertex="1">
+                    <mxGeometry y="26" width="240" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="eneeds-r2" value="event_id → events" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=6;fontSize=11;" parent="eneeds" vertex="1">
+                    <mxGeometry y="48" width="240" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="venues" value="venues" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#dae8fc;strokeColor=#6c8ebf;collapsible=0;" parent="1" vertex="1">
+                    <mxGeometry x="600" y="520" width="260" height="104" as="geometry"/>
+                </mxCell>
+                <mxCell id="venues-r1" value="id uuid PK" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=6;fontSize=11;" parent="venues" vertex="1">
+                    <mxGeometry y="26" width="260" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="venues-r2" value="owner_id → profiles" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=6;fontSize=11;" parent="venues" vertex="1">
+                    <mxGeometry y="48" width="260" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="venues-r3" value="cover_storage_path text" style="text;strokeColor=none;fillColor=#fff2cc;align=left;spacingLeft=6;fontSize=10;fontColor=#996600;" parent="venues" vertex="1">
+                    <mxGeometry y="70" width="260" height="34" as="geometry"/>
+                </mxCell>
+                <mxCell id="vmedia" value="venue_media" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#fff2cc;strokeColor=#d6b656;collapsible=0;" parent="1" vertex="1">
+                    <mxGeometry x="600" y="660" width="260" height="78" as="geometry"/>
+                </mxCell>
+                <mxCell id="vmedia-r1" value="id uuid PK" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=6;fontSize=11;" parent="vmedia" vertex="1">
+                    <mxGeometry y="26" width="260" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="vmedia-r2" value="venue_id → venues, storage_path, sort_order" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=6;fontSize=10;" parent="vmedia" vertex="1">
+                    <mxGeometry y="48" width="260" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="offers" value="offers" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#dae8fc;strokeColor=#6c8ebf;collapsible=0;" parent="1" vertex="1">
+                    <mxGeometry x="1240" y="520" width="260" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="offers-r1" value="id uuid PK" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=6;fontSize=11;" parent="offers" vertex="1">
+                    <mxGeometry y="26" width="260" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="offers-r2" value="event_need_id, event_id" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=6;fontSize=11;" parent="offers" vertex="1">
+                    <mxGeometry y="48" width="260" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="offers-r3" value="proposer_id, recipient_id → profiles" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=6;fontSize=11;" parent="offers" vertex="1">
+                    <mxGeometry y="70" width="260" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="offers-r4" value="venue_id nullable → venues" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=6;fontSize=11;" parent="offers" vertex="1">
+                    <mxGeometry y="92" width="260" height="38" as="geometry"/>
+                </mxCell>
+                <mxCell id="matches" value="matches" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#dae8fc;strokeColor=#6c8ebf;collapsible=0;" parent="1" vertex="1">
+                    <mxGeometry x="1540" y="520" width="260" height="104" as="geometry"/>
+                </mxCell>
+                <mxCell id="matches-r1" value="id uuid PK" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=6;fontSize=11;" parent="matches" vertex="1">
+                    <mxGeometry y="26" width="260" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="matches-r2" value="offer_id unique → offers" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=6;fontSize=11;" parent="matches" vertex="1">
+                    <mxGeometry y="48" width="260" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="matches-r3" value="organizer_id, sponsor_id → profiles" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=6;fontSize=11;" parent="matches" vertex="1">
+                    <mxGeometry y="70" width="260" height="34" as="geometry"/>
+                </mxCell>
+                <mxCell id="mcommit" value="match_commitments" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#dae8fc;strokeColor=#6c8ebf;collapsible=0;" parent="1" vertex="1">
+                    <mxGeometry x="1540" y="680" width="260" height="78" as="geometry"/>
+                </mxCell>
+                <mxCell id="mcommit-r1" value="id uuid PK" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=6;fontSize=11;" parent="mcommit" vertex="1">
+                    <mxGeometry y="26" width="260" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="mcommit-r2" value="match_id unique → matches" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=6;fontSize=11;" parent="mcommit" vertex="1">
+                    <mxGeometry y="48" width="260" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="evidence" value="evidence" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#dae8fc;strokeColor=#6c8ebf;collapsible=0;" parent="1" vertex="1">
+                    <mxGeometry x="920" y="520" width="260" height="104" as="geometry"/>
+                </mxCell>
+                <mxCell id="evidence-r1" value="id uuid PK" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=6;fontSize=11;" parent="evidence" vertex="1">
+                    <mxGeometry y="26" width="260" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="evidence-r2" value="event_id unique → events" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=6;fontSize=11;" parent="evidence" vertex="1">
+                    <mxGeometry y="48" width="260" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="evidence-r3" value="submitted_by, reviewed_by → profiles" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=6;fontSize=11;" parent="evidence" vertex="1">
+                    <mxGeometry y="70" width="260" height="34" as="geometry"/>
+                </mxCell>
+                <mxCell id="emedia" value="event_media" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#dae8fc;strokeColor=#6c8ebf;collapsible=0;" parent="1" vertex="1">
+                    <mxGeometry x="920" y="680" width="260" height="104" as="geometry"/>
+                </mxCell>
+                <mxCell id="emedia-r1" value="id uuid PK" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=6;fontSize=11;" parent="emedia" vertex="1">
+                    <mxGeometry y="26" width="260" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="emedia-r2" value="event_id → events" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=6;fontSize=11;" parent="emedia" vertex="1">
+                    <mxGeometry y="48" width="260" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="emedia-r3" value="storage_path → bucket evidence" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=6;fontSize=10;" parent="emedia" vertex="1">
+                    <mxGeometry y="70" width="260" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="emedia-r4" value="kind, is_public" style="text;strokeColor=none;fillColor=#fff2cc;align=left;spacingLeft=6;fontSize=10;fontColor=#996600;" parent="emedia" vertex="1">
+                    <mxGeometry y="92" width="260" height="12" as="geometry"/>
+                </mxCell>
+                <mxCell id="reports" value="reports" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#dae8fc;strokeColor=#6c8ebf;collapsible=0;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="520" width="240" height="78" as="geometry"/>
+                </mxCell>
+                <mxCell id="reports-r1" value="id uuid PK" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=6;fontSize=11;" parent="reports" vertex="1">
+                    <mxGeometry y="26" width="240" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="reports-r2" value="reporter_id → profiles" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=6;fontSize=11;" parent="reports" vertex="1">
+                    <mxGeometry y="48" width="240" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="pcases" value="public_cases (vista)" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#d5e8d4;strokeColor=#82b366;dashed=1;dashPattern=8 8;collapsible=0;" parent="1" vertex="1">
+                    <mxGeometry x="1240" y="720" width="240" height="64" as="geometry"/>
+                </mxCell>
+                <mxCell id="pcases-r1" value="events completed + evidence approved → /cases" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=6;fontSize=10;" parent="pcases" vertex="1">
+                    <mxGeometry y="26" width="240" height="38" as="geometry"/>
+                </mxCell>
+                <mxCell id="vcal" value="venue_calendar_days (vista)" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#d5e8d4;strokeColor=#82b366;dashed=1;dashPattern=8 8;collapsible=0;" parent="1" vertex="1">
+                    <mxGeometry x="320" y="520" width="240" height="64" as="geometry"/>
+                </mxCell>
+                <mxCell id="vcal-r1" value="venue_id, día — offers + matches" style="text;strokeColor=none;fillColor=none;align=left;spacingLeft=6;fontSize=10;" parent="vcal" vertex="1">
+                    <mxGeometry y="26" width="240" height="38" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-auth-prof" style="endArrow=ERone;startArrow=ERone;html=1;rounded=0;strokeColor=#9673a6;exitX=1;exitY=0.5;entryX=0;entryY=0.25;" parent="1" source="auth" target="profiles" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-prof-pdc" style="endArrow=ERzeroToOne;startArrow=ERone;html=1;rounded=0;strokeColor=#6c8ebf;exitX=0;exitY=0.35;entryX=1;entryY=0.5;" parent="1" source="profiles" target="pdc" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-prof-proles" style="endArrow=ERmany;startArrow=ERone;html=1;rounded=0;strokeColor=#6c8ebf;exitX=0.5;exitY=0;entryX=0.5;entryY=1;" parent="1" source="profiles" target="proles" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-prof-regc" style="endArrow=ERzeroToOne;startArrow=ERone;html=1;rounded=0;strokeColor=#6c8ebf;exitX=1;exitY=0.2;entryX=0;entryY=0.5;" parent="1" source="profiles" target="regc" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-prof-events" value="organizer" style="endArrow=ERmany;startArrow=ERone;html=1;rounded=0;strokeColor=#6c8ebf;exitX=1;exitY=0.45;entryX=0;entryY=0.35;fontSize=10;" parent="1" source="profiles" target="events" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-prof-venues" value="owner" style="endArrow=ERmany;startArrow=ERone;html=1;rounded=0;strokeColor=#6c8ebf;exitX=0.5;exitY=1;entryX=0;entryY=0.35;fontSize=10;" parent="1" source="profiles" target="venues" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-events-eneeds" style="endArrow=ERmany;startArrow=ERone;html=1;rounded=0;strokeColor=#6c8ebf;exitX=1;exitY=0.4;entryX=0;entryY=0.5;" parent="1" source="events" target="eneeds" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-events-venue" value="venue_id" style="endArrow=ERzeroToOne;startArrow=ERzeroToMany;html=1;rounded=0;strokeColor=#6c8ebf;exitX=0.25;exitY=1;entryX=0.75;entryY=0;fontSize=10;" parent="1" source="events" target="venues" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-events-evidence" style="endArrow=ERzeroToOne;startArrow=ERone;html=1;rounded=0;strokeColor=#6c8ebf;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" parent="1" source="events" target="evidence" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-events-emedia" style="endArrow=ERmany;startArrow=ERone;html=1;rounded=0;strokeColor=#6c8ebf;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" parent="1" source="events" target="emedia" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1050" y="650"/>
+                            <mxPoint x="1050" y="650"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e-eneeds-offers" style="endArrow=ERmany;startArrow=ERone;html=1;rounded=0;strokeColor=#6c8ebf;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" parent="1" source="eneeds" target="offers" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1360" y="420"/>
+                            <mxPoint x="1360" y="420"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e-offers-match" style="endArrow=ERzeroToOne;startArrow=ERone;html=1;rounded=0;strokeColor=#6c8ebf;exitX=1;exitY=0.4;entryX=0;entryY=0.4;" parent="1" source="offers" target="matches" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-match-mcommit" style="endArrow=ERzeroToOne;startArrow=ERone;html=1;rounded=0;strokeColor=#6c8ebf;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" parent="1" source="matches" target="mcommit" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-prof-offers-p" value="proposer" style="endArrow=ERmany;startArrow=ERone;html=1;rounded=0;strokeColor=#6c8ebf;exitX=1;exitY=0.75;entryX=0;entryY=0.55;fontSize=10;" parent="1" source="profiles" target="offers" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="880" y="378"/>
+                            <mxPoint x="880" y="592"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e-offers-venue" style="endArrow=ERzeroToOne;startArrow=ERzeroToMany;html=1;rounded=0;strokeColor=#6c8ebf;exitX=0;exitY=0.75;entryX=1;entryY=0.6;" parent="1" source="offers" target="venues" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-prof-evidence" value="submit / review" style="endArrow=ERmany;startArrow=ERone;html=1;rounded=0;strokeColor=#6c8ebf;exitX=1;exitY=0.6;entryX=0;entryY=0.75;fontSize=10;" parent="1" source="profiles" target="evidence" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-prof-reports" style="endArrow=ERmany;startArrow=ERone;html=1;rounded=0;strokeColor=#6c8ebf;exitX=0;exitY=0.7;entryX=1;entryY=0.5;" parent="1" source="profiles" target="reports" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-venues-vmedia" style="endArrow=ERmany;startArrow=ERone;html=1;rounded=0;strokeColor=#d6b656;dashed=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" parent="1" source="venues" target="vmedia" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-view-pcases" value="derivada" style="endArrow=open;startArrow=none;html=1;rounded=0;strokeColor=#82b366;dashed=1;exitX=0.5;exitY=1;entryX=0;entryY=0.5;fontSize=10;" parent="1" source="evidence" target="pcases" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1050" y="752"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e-view-pcases2" style="endArrow=open;startArrow=none;html=1;rounded=0;strokeColor=#82b366;dashed=1;exitX=1;exitY=0.5;entryX=0;entryY=0.3;" parent="1" source="events" target="pcases" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1200" y="332"/>
+                            <mxPoint x="1200" y="739"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e-view-vcal" style="endArrow=open;startArrow=none;html=1;rounded=0;strokeColor=#82b366;dashed=1;exitX=0;exitY=0.6;entryX=1;entryY=0.5;" parent="1" source="venues" target="vcal" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="er-storage" name="Storage">
+        <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="900" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="st-title" value="&lt;b&gt;SUPABASE STORAGE ↔ TABLAS&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=18;fontColor=#1a1a1a;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="24" width="480" height="32" as="geometry"/>
+                </mxCell>
+                <mxCell id="st-sub" value="Hoy: 0005–0007. URLs públicas; list de evidence autenticado." style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=12;fontColor=#666666;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="56" width="560" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="b-evidence" value="Bucket: evidence&lt;br&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;Privado · 5 MB · jpeg/png/webp/avif&lt;br&gt;Ruta: {event_id}/…&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;align=left;spacingLeft=10;fontSize=13;fontStyle=1" vertex="1" parent="1">
+                    <mxGeometry x="80" y="120" width="280" height="88" as="geometry"/>
+                </mxCell>
+                <mxCell id="t-emedia" value="event_media.storage_path" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+                    <mxGeometry x="440" y="136" width="220" height="56" as="geometry"/>
+                </mxCell>
+                <mxCell id="t-events" value="events (ficha completada)&lt;br&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;Visual sin columna: media aprobada&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+                    <mxGeometry x="720" y="120" width="240" height="88" as="geometry"/>
+                </mxCell>
+                <mxCell id="b-profiles" value="Bucket: profiles&lt;br&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;Lectura pública · {profile_id}/avatar.ext&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=10;fontSize=13;fontStyle=1" vertex="1" parent="1">
+                    <mxGeometry x="80" y="280" width="320" height="72" as="geometry"/>
+                </mxCell>
+                <mxCell id="t-prof" value="profiles.avatar_storage_path" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+                    <mxGeometry x="440" y="288" width="240" height="56" as="geometry"/>
+                </mxCell>
+                <mxCell id="b-venues" value="Bucket: venues&lt;br&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;Lectura pública · cover + gallery/&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=10;fontSize=13;fontStyle=1" vertex="1" parent="1">
+                    <mxGeometry x="80" y="400" width="320" height="72" as="geometry"/>
+                </mxCell>
+                <mxCell id="t-venue-cover" value="venues.cover_storage_path" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+                    <mxGeometry x="440" y="392" width="240" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="t-venue-gal" value="venue_media.storage_path" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+                    <mxGeometry x="440" y="440" width="240" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="st-note" value="&lt;b&gt;Visibilidad&lt;/b&gt;&lt;br&gt;· Evidencia en revisión: solo organizador + moderador.&lt;br&gt;· Tras evidence.status = approved: media con is_public en /cases.&lt;br&gt;· Fichas públicas (perfil, venue): buckets de lectura anónima (RLS storage.objects)." style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=12;spacingTop=8;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=11;" vertex="1" parent="1">
+                    <mxGeometry x="80" y="520" width="880" height="88" as="geometry"/>
+                </mxCell>
+                <mxCell id="st-e1" style="endArrow=classic;html=1;strokeColor=#6c8ebf;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="b-evidence" target="t-emedia">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="st-e2" style="endArrow=classic;html=1;strokeColor=#d6b656;dashed=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="t-emedia" target="t-events">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="st-e3" style="endArrow=classic;html=1;strokeColor=#d6b656;dashed=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="b-profiles" target="t-prof">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="st-e4" style="endArrow=classic;html=1;strokeColor=#d6b656;dashed=1;exitX=1;exitY=0.35;entryX=0;entryY=0.5;" edge="1" parent="1" source="b-venues" target="t-venue-cover">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="st-e5" style="endArrow=classic;html=1;strokeColor=#d6b656;dashed=1;exitX=1;exitY=0.65;entryX=0;entryY=0.5;" edge="1" parent="1" source="b-venues" target="t-venue-gal">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

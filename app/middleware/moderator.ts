@@ -1,6 +1,6 @@
 export default defineNuxtRouteMiddleware(async () => {
   const userId = useSupabaseUser().value?.sub
-  if (!userId) return navigateTo('/entrar')
+  if (!userId) return navigateTo('/login')
   const db = useDb()
   const { data } = await db
     .from('profile_roles')

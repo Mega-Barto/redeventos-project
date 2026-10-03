@@ -31,7 +31,7 @@ const isOrganizer = computed(() => data.value?.roles.includes('organizer') ?? fa
     <p v-else-if="!data?.events.length" class="text-muted" role="status">{{ appEventsContent.empty }}</p>
     <div v-else class="space-y-3">
       <UCard v-for="event in data.events" :key="event.id">
-        <NuxtLink :to="`/app/eventos/${event.id}`" class="font-medium">{{ event.title }}</NuxtLink>
+        <NuxtLink :to="`/app/events/${event.id}`" class="font-medium">{{ event.title }}</NuxtLink>
         <p class="text-sm text-muted">{{ EVENT_STATUS_LABELS[event.status] }}</p>
       </UCard>
     </div>

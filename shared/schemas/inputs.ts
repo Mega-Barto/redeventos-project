@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import { CITIES, EVENT_CATEGORIES, NEED_TYPES, SELF_ASSIGNABLE_ROLES, VENUE_SUPPORT_MODES } from '../constants/domain'
+import { emptyToNull } from '../utils/need-quantity'
 import { citySchema, eventStatusSchema, needTypeSchema, venueSupportModeSchema } from './domain'
 
 const optionalText = (max: number) =>
@@ -44,12 +45,38 @@ export type OnboardingInput = z.infer<typeof onboardingSchema>
 export const profileUpdateSchema = onboardingSchema.omit({ commitmentAccepted: true })
 export type ProfileUpdateInput = z.infer<typeof profileUpdateSchema>
 
-export const eventNeedInputSchema = z.object({
-  type: needTypeSchema,
-  description: z.string().trim().min(3, 'Describe qué se pide').max(500),
-  quantity: z.coerce.number().positive('La cantidad debe ser mayor que cero'),
-  unit: z.string().trim().min(1, 'Indica la unidad').max(40),
-})
+const optionalNeedQuantitySchema = z
+  .unknown()
+  .transform(emptyToNull)
+  .pipe(z.union([z.null(), z.coerce.number().positive('La cantidad debe ser mayor que cero')]))
+
+const optionalNeedUnitSchema = z
+  .unknown()
+  .transform((value) => {
+    if (typeof value !== 'string') return value == null ? null : value
+    const trimmed = value.trim()
+    return trimmed.length === 0 ? null : trimmed
+  })
+  .pipe(z.union([z.null(), z.string().max(40)]))
+
+export const eventNeedInputSchema = z
+  .object({
+    type: needTypeSchema,
+    description: z.string().trim().min(3, 'Describe qué se pide').max(500),
+    quantity: optionalNeedQuantitySchema,
+    unit: optionalNeedUnitSchema,
+  })
+  .superRefine((value, ctx) => {
+    if (value.quantity != null && !value.unit) {
+      ctx.addIssue({ code: 'custom', path: ['unit'], message: 'Indica la unidad' })
+    }
+  })
+  .transform((value) => ({
+    ...value,
+    unit: value.quantity == null ? null : value.unit,
+  }))
+
+export type EventNeedInput = z.infer<typeof eventNeedInputSchema>
 
 export const createEventSchema = z
   .object({

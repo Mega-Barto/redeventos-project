@@ -29,7 +29,7 @@ const entries = computed(() => {
     <AppRoleEntries v-if="entries.length" :entries="entries" />
     <div v-else class="space-y-3">
       <p class="text-muted" role="status">{{ appHomeContent.empty }}</p>
-      <UButton to="/app/perfil" :label="appHomeContent.profileCta" />
+      <UButton to="/app/profile" :label="appHomeContent.profileCta" />
     </div>
   </AppPanel>
 </template>

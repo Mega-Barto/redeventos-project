@@ -8,16 +8,17 @@ definePageMeta({ layout: 'app', middleware: ['auth', 'onboarding'] })
 useSeoMeta({ title: appOpportunitiesContent.title, description: appOpportunitiesContent.description })
 
 const userId = useUserId()
-const city = ref('')
-const category = ref('')
-const needType = ref('')
+const nuxtApp = useNuxtApp()
+const city = ref('all')
+const category = ref('all')
+const needType = ref('all')
 
 const { data } = await useAsyncData(
   'opportunities',
   async () => {
     if (!userId.value) return { items: [], roles: [] as string[], error: null as string | null }
     const viewer = await loadViewerMatchProfile(userId.value)
-    const list = await listOpportunities(viewer)
+    const list = await nuxtApp.runWithContext(() => listOpportunities(viewer))
     return { ...list, roles: viewer.roles }
   },
   { watch: [userId] },
@@ -29,19 +30,19 @@ const allowed = computed(
 
 const items = computed(() =>
   (data.value?.items ?? []).filter((item) => {
-    if (city.value && item.city !== city.value) return false
-    if (category.value && item.category !== category.value) return false
-    if (needType.value && item.need.type !== needType.value) return false
+    if (city.value !== 'all' && item.city !== city.value) return false
+    if (category.value !== 'all' && item.category !== category.value) return false
+    if (needType.value !== 'all' && item.need.type !== needType.value) return false
     return true
   }),
 )
 
-const cityItems = [{ label: 'Todas', value: '' }, ...CITIES.map((item) => ({ label: CITY_LABELS[item], value: item }))]
+const cityItems = [{ label: 'Todas', value: 'all' }, ...CITIES.map((item) => ({ label: CITY_LABELS[item], value: item }))]
 const categoryItems = [
-  { label: 'Todas', value: '' },
+  { label: 'Todas', value: 'all' },
   ...EVENT_CATEGORIES.map((item) => ({ label: CATEGORY_LABELS[item], value: item })),
 ]
-const needItems = [{ label: 'Todas', value: '' }, ...NEED_TYPES.map((item) => ({ label: NEED_LABELS[item], value: item }))]
+const needItems = [{ label: 'Todas', value: 'all' }, ...NEED_TYPES.map((item) => ({ label: NEED_LABELS[item], value: item }))]
 </script>
 
 <template>
@@ -63,7 +64,7 @@ const needItems = [{ label: 'Todas', value: '' }, ...NEED_TYPES.map((item) => ({
       <p v-if="!items.length" class="text-muted" role="status">{{ appOpportunitiesContent.empty }}</p>
       <div v-else class="space-y-3">
         <UCard v-for="item in items" :key="item.need.id">
-          <NuxtLink :to="`/app/oportunidades/${item.eventId}`" class="font-medium">{{ item.title }}</NuxtLink>
+          <NuxtLink :to="`/app/opportunities/${item.eventId}`" class="font-medium">{{ item.title }}</NuxtLink>
           <p class="text-sm text-muted">
             {{ CATEGORY_LABELS[item.category] }} · {{ CITY_LABELS[item.city] }} · {{ item.whenLabel }}
           </p>

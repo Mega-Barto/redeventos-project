@@ -5,15 +5,41 @@ definePageMeta({ layout: 'app', middleware: ['auth', 'onboarding', 'moderator'] 
 
 useSeoMeta({ title: appModerationContent.title, description: appModerationContent.description })
 
+const supabaseUrl = useSupabaseUrl()
+const userId = useUserId()
 const pending = ref(false)
 const errorMessage = ref('')
 const notes = reactive<Record<string, string>>({})
-const profileId = ref('')
+const tab = ref('organizers')
 
 const { data, refresh } = await useAsyncData('moderation', async () => {
-  const [evidence, reports] = await Promise.all([listPendingEvidence(), listOpenReports()])
-  return { evidence, reports }
+  const [organizers, sponsors, events, evidence, reports] = await Promise.all([
+    listModerationProfiles('organizer'),
+    listModerationProfiles('local_sponsor'),
+    listModerationEvents(),
+    listPendingEvidence(),
+    listOpenReports(),
+  ])
+  return { organizers, sponsors, events, evidence, reports }
 })
+
+const tabs = computed(() => [
+  { label: appModerationContent.tabs.organizers, value: 'organizers', slot: 'organizers' as const },
+  { label: appModerationContent.tabs.events, value: 'events', slot: 'events' as const },
+  { label: appModerationContent.tabs.sponsors, value: 'sponsors', slot: 'sponsors' as const },
+  { label: appModerationContent.tabs.evidence, value: 'evidence', slot: 'evidence' as const },
+  { label: appModerationContent.tabs.reports, value: 'reports', slot: 'reports' as const },
+])
+
+const listError = computed(
+  () =>
+    data.value?.organizers.error ||
+    data.value?.sponsors.error ||
+    data.value?.events.error ||
+    data.value?.evidence.error ||
+    data.value?.reports.error ||
+    '',
+)
 
 async function run(action: () => Promise<{ error: string | null }>) {
   pending.value = true
@@ -27,53 +53,61 @@ async function run(action: () => Promise<{ error: string | null }>) {
   await refresh()
 }
 
-function decide(evidenceId: string, decision: 'approved' | 'rejected') {
-  return run(() => reviewEvidence({ evidenceId, decision, note: notes[evidenceId] ?? '' }))
+function hideProfile(id: string) {
+  return run(() => hideReportTarget('profile', id))
+}
+
+function hideEvent(id: string) {
+  return run(() => hideReportTarget('event', id))
+}
+
+function decide(id: string, decision: 'approved' | 'rejected') {
+  return run(() => reviewEvidence({ evidenceId: id, decision, note: notes[id] ?? '' }))
 }
 </script>
 
 <template>
   <AppPanel :title="appModerationContent.title" :description="appModerationContent.description">
-    <UAlert v-if="errorMessage || data?.evidence.error || data?.reports.error" color="error" variant="subtle" :title="errorMessage || data?.evidence.error || data?.reports.error || ''" />
-    <section class="space-y-3">
-      <h2 class="font-semibold">{{ appModerationContent.evidenceTitle }}</h2>
-      <p v-if="!data?.evidence.rows.length" class="text-muted" role="status">{{ appModerationContent.evidenceEmpty }}</p>
-      <UCard v-for="row in data?.evidence.rows" :key="row.id" class="space-y-2">
-        <p class="font-medium">{{ row.title }}</p>
-        <p>Asistencia: {{ row.attendance_count }}</p>
-        <p>{{ row.venue_note }}</p>
-        <p>{{ row.contributions_note }}</p>
-        <UFormField label="Nota">
-          <UTextarea v-model="notes[row.id]" class="w-full" />
-        </UFormField>
-        <div class="flex gap-2">
-          <UButton :label="appModerationContent.approve" :loading="pending" @click="decide(row.id, 'approved')" />
-          <UButton :label="appModerationContent.reject" color="neutral" variant="soft" :loading="pending" @click="decide(row.id, 'rejected')" />
-        </div>
-      </UCard>
-    </section>
-    <section class="space-y-3">
-      <h2 class="font-semibold">{{ appModerationContent.reportsTitle }}</h2>
-      <p v-if="!data?.reports.rows.length" class="text-muted" role="status">{{ appModerationContent.reportsEmpty }}</p>
-      <UCard v-for="report in data?.reports.rows" :key="report.id" class="space-y-2">
-        <p class="text-sm text-muted">{{ report.target_type }} · {{ report.target_id }}</p>
-        <p>{{ report.reason }}</p>
-        <UButton
-          :label="appModerationContent.hide"
-          color="neutral"
-          variant="soft"
-          :loading="pending"
-          @click="run(() => hideReportTarget(report.target_type, report.target_id))"
+    <UAlert v-if="errorMessage || listError" color="error" variant="subtle" :title="errorMessage || listError" />
+    <UTabs v-model="tab" variant="link" :items="tabs" class="w-full">
+      <template #organizers>
+        <ModerationProfileDirectory
+          :rows="data?.organizers.rows ?? []"
+          :empty="appModerationContent.organizersEmpty"
+          :self-id="userId"
+          @hide="hideProfile"
+          @disaffiliate="(id) => run(() => disaffiliate({ profileId: id }))"
         />
-      </UCard>
-    </section>
-    <section class="space-y-3">
-      <h2 class="font-semibold">{{ appModerationContent.disaffiliateTitle }}</h2>
-      <p class="text-sm text-muted">{{ appModerationContent.disaffiliateDescription }}</p>
-      <UFormField label="Identificador del perfil">
-        <UInput v-model="profileId" class="w-full" />
-      </UFormField>
-      <UButton :label="appModerationContent.disaffiliate" color="error" :loading="pending" @click="run(() => disaffiliate({ profileId }))" />
-    </section>
+      </template>
+      <template #events>
+        <ModerationEventDirectory :rows="data?.events.rows ?? []" @hide="hideEvent" />
+      </template>
+      <template #sponsors>
+        <ModerationProfileDirectory
+          :rows="data?.sponsors.rows ?? []"
+          :empty="appModerationContent.sponsorsEmpty"
+          :self-id="userId"
+          show-contributions
+          @hide="hideProfile"
+          @disaffiliate="(id) => run(() => disaffiliate({ profileId: id }))"
+        />
+      </template>
+      <template #evidence>
+        <ModerationEvidenceQueue
+          :rows="data?.evidence.rows ?? []"
+          :pending="pending"
+          :notes="notes"
+          :supabase-url="supabaseUrl"
+          @decide="decide"
+        />
+      </template>
+      <template #reports>
+        <ModerationReportsQueue
+          :rows="data?.reports.rows ?? []"
+          :pending="pending"
+          @hide="(type, id) => run(() => hideReportTarget(type, id))"
+        />
+      </template>
+    </UTabs>
   </AppPanel>
 </template>

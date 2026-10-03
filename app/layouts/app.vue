@@ -19,20 +19,20 @@ const items = computed<NavigationMenuItem[]>(() => {
   const current = roles.value ?? []
   const nav: NavigationMenuItem[] = [{ label: 'Inicio', icon: 'i-lucide-house', to: '/app' }]
   if (current.includes('organizer')) {
-    nav.push({ label: 'Eventos', icon: 'i-lucide-calendar', to: '/app/eventos' })
+    nav.push({ label: 'Eventos', icon: 'i-lucide-calendar', to: '/app/events' })
   }
   if (current.includes('venue_sponsor')) {
-    nav.push({ label: 'Espacio', icon: 'i-lucide-building', to: '/app/espacio' })
+    nav.push({ label: 'Espacio', icon: 'i-lucide-building', to: '/app/venue' })
   }
   if (current.includes('venue_sponsor') || current.includes('local_sponsor')) {
-    nav.push({ label: 'Oportunidades', icon: 'i-lucide-search', to: '/app/oportunidades' })
+    nav.push({ label: 'Oportunidades', icon: 'i-lucide-search', to: '/app/opportunities' })
   }
   if (current.includes('organizer') || current.includes('venue_sponsor') || current.includes('local_sponsor')) {
-    nav.push({ label: 'Propuestas', icon: 'i-lucide-send', to: '/app/propuestas' })
+    nav.push({ label: 'Propuestas', icon: 'i-lucide-send', to: '/app/offers' })
   }
-  nav.push({ label: 'Perfil', icon: 'i-lucide-user', to: '/app/perfil' })
+  nav.push({ label: 'Perfil', icon: 'i-lucide-user', to: '/app/profile' })
   if (current.includes('moderator')) {
-    nav.push({ label: 'Moderación', icon: 'i-lucide-shield', to: '/app/moderacion' })
+    nav.push({ label: 'Moderación', icon: 'i-lucide-shield', to: '/app/moderation' })
   }
   return nav
 })

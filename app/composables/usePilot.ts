@@ -7,6 +7,7 @@ import type {
   OfferStatus,
   Role,
 } from '~~/shared/constants/domain'
+import { MAX_VENUE_GALLERY } from '~~/shared/constants/media'
 import { suggestionRank } from '~~/shared/domain/rules'
 import {
   type CreateEventInput,
@@ -21,9 +22,30 @@ import {
   type VenueInput,
   venueSchema,
 } from '~~/shared/schemas/inputs'
-
-const EVIDENCE_MIME = ['image/jpeg', 'image/png', 'image/webp', 'image/avif']
-const EVIDENCE_MAX_BYTES = 5 * 1024 * 1024
+import {
+  avatarFilesSchema,
+  evidenceFilesSchema,
+  fileToMeta,
+  venueCoverFilesSchema,
+  venueGalleryFilesSchema,
+} from '~~/shared/schemas/media'
+import {
+  type ModerationEventFicha,
+  type ModerationEventRow,
+  type ModerationProfileFicha,
+  type ModerationProfileRow,
+  mapModerationEvent,
+  mapModerationEventFicha,
+  mapModerationProfile,
+  mapModerationProfileFicha,
+} from '~~/shared/utils/moderation-directory'
+import {
+  type EvidenceParty,
+  mapEvidenceNeed,
+  mapPendingEvidence,
+  type PendingEvidenceRow,
+} from '~~/shared/utils/moderation-evidence'
+import { imageExtension } from '~~/shared/utils/storage-url'
 
 function firstIssue(error: { issues: Array<{ message: string }> }) {
   return error.issues[0]?.message ?? 'Revisa el formulario'
@@ -49,7 +71,9 @@ export async function loadProfileForm(profileId: string) {
   const [{ data: profile, error }, { data: direct }, { data: roles }] = await Promise.all([
     db
       .from('profiles')
-      .select('display_name, instagram, website, city, contribution_types, contribution_description')
+      .select(
+        'display_name, instagram, website, city, contribution_types, contribution_description, avatar_storage_path',
+      )
       .eq('id', profileId)
       .maybeSingle(),
     db.from('profile_direct_contacts').select('whatsapp, phone').eq('profile_id', profileId).maybeSingle(),
@@ -69,6 +93,7 @@ export async function loadProfileForm(profileId: string) {
     phone: direct?.phone ?? '',
     contributionTypes: profile.contribution_types,
     contributionDescription: profile.contribution_description ?? '',
+    avatarPath: profile.avatar_storage_path,
   }
 }
 
@@ -104,6 +129,25 @@ export async function saveProfile(profileId: string, raw: unknown) {
   return { error: null as string | null }
 }
 
+export async function saveProfileAvatar(profileId: string, file: File) {
+  const parsed = avatarFilesSchema.safeParse([fileToMeta(file)])
+  if (!parsed.success) return { error: firstIssue(parsed.error) }
+  const ext = imageExtension(file.type)
+  if (!ext) return { error: 'Cada foto debe ser jpeg, png, webp o avif.' }
+  const db = useDb()
+  const current = await db.from('profiles').select('avatar_storage_path').eq('id', profileId).maybeSingle()
+  if (current.error) return { error: current.error.message }
+  const path = `${profileId}/avatar.${ext}`
+  const { uploadImage, removeObject } = useMediaUpload()
+  const uploaded = await uploadImage({ bucket: 'profiles', path, file, upsert: true })
+  if (uploaded.error) return { error: uploaded.error }
+  const updated = await db.from('profiles').update({ avatar_storage_path: path }).eq('id', profileId)
+  if (updated.error) return { error: updated.error.message }
+  const previous = current.data?.avatar_storage_path
+  if (previous && previous !== path) await removeObject('profiles', previous)
+  return { error: null as string | null, path }
+}
+
 export type OwnEvent = {
   id: string
   title: string
@@ -128,9 +172,9 @@ export type EventNeedRow = {
   event_id: string
   type: NeedType
   description: string
-  quantity_requested: number
+  quantity_requested: number | null
   quantity_covered: number
-  unit: string
+  unit: string | null
   status: NeedStatus
 }
 
@@ -152,16 +196,26 @@ export async function loadEventBundle(eventId: string) {
   const db = useDb()
   const { data: event, error } = await db.from('events').select(eventColumns).eq('id', eventId).maybeSingle()
   if (error || !event) return null
-  const { data: needs } = await db
-    .from('event_needs')
-    .select('id, event_id, type, description, quantity_requested, quantity_covered, unit, status')
-    .eq('event_id', eventId)
-  const { data: organizer } = await db
-    .from('profiles')
-    .select('display_name, email, instagram, website')
-    .eq('id', event.organizer_id)
-    .maybeSingle()
-  return { event: event as OwnEvent, needs: (needs ?? []) as EventNeedRow[], organizer }
+  const [{ data: needs }, { data: organizer }, { data: evidence }, { data: media }] = await Promise.all([
+    db
+      .from('event_needs')
+      .select('id, event_id, type, description, quantity_requested, quantity_covered, unit, status')
+      .eq('event_id', eventId),
+    db.from('profiles').select('display_name, email, instagram, website').eq('id', event.organizer_id).maybeSingle(),
+    db.from('evidence').select('id, status').eq('event_id', eventId).maybeSingle(),
+    db
+      .from('event_media')
+      .select('id, storage_path, is_public, created_at')
+      .eq('event_id', eventId)
+      .order('created_at'),
+  ])
+  return {
+    event: event as OwnEvent,
+    needs: (needs ?? []) as EventNeedRow[],
+    organizer,
+    evidence,
+    media: media ?? [],
+  }
 }
 
 export async function createDraftEvent(organizerId: string, input: CreateEventInput) {
@@ -183,6 +237,7 @@ export async function createDraftEvent(organizerId: string, input: CreateEventIn
       audience: value.audience,
       sponsor_benefit: value.sponsorBenefit,
       rsvp_url: value.rsvpUrl,
+      slug: '',
       status: 'draft',
     })
     .select('id')
@@ -232,12 +287,10 @@ export async function makeEventPublic(eventId: string, raw: unknown) {
 export async function submitEvidence(eventId: string, profileId: string, raw: unknown, files: File[]) {
   const parsed = evidenceSchema.safeParse(raw)
   if (!parsed.success) return { error: firstIssue(parsed.error) }
-  for (const file of files) {
-    if (!EVIDENCE_MIME.includes(file.type) || file.size > EVIDENCE_MAX_BYTES) {
-      return { error: 'Cada foto debe ser jpeg, png, webp o avif y pesar hasta 5 MB.' }
-    }
-  }
+  const filesParsed = evidenceFilesSchema.safeParse(files.map(fileToMeta))
+  if (!filesParsed.success) return { error: firstIssue(filesParsed.error) }
   const db = useDb()
+  const { uploadMany, removeObject } = useMediaUpload()
   const payload = {
     attendance_count: parsed.data.attendanceCount,
     venue_note: parsed.data.venueNote,
@@ -247,6 +300,14 @@ export async function submitEvidence(eventId: string, profileId: string, raw: un
   const existing = await db.from('evidence').select('id, status').eq('event_id', eventId).maybeSingle()
   let evidenceId = existing.data?.id ?? null
   if (existing.data?.status === 'rejected') {
+    const unpublished = await db
+      .from('event_media')
+      .select('storage_path')
+      .eq('event_id', eventId)
+      .eq('is_public', false)
+    for (const row of unpublished.data ?? []) {
+      await removeObject('evidence', row.storage_path)
+    }
     const updated = await db.from('evidence').update(payload).eq('id', existing.data.id)
     if (updated.error) return { error: updated.error.message }
   } else if (!existing.data) {
@@ -260,12 +321,20 @@ export async function submitEvidence(eventId: string, profileId: string, raw: un
   } else {
     return { error: 'Esa evidencia ya fue enviada.' }
   }
-  for (const file of files) {
-    const path = `${eventId}/${crypto.randomUUID()}`
-    const uploaded = await db.storage.from('evidence').upload(path, file, { contentType: file.type })
-    if (uploaded.error) return { error: uploaded.error.message }
-    const media = await db.from('event_media').insert({ event_id: eventId, storage_path: path })
-    if (media.error) return { error: media.error.message }
+  const uploaded = await uploadMany({
+    bucket: 'evidence',
+    files,
+    pathFor: () => `${eventId}/${crypto.randomUUID()}`,
+  })
+  for (const item of uploaded) {
+    if (item.error) return { error: item.error, evidenceId }
+    const media = await db.from('event_media').insert({
+      event_id: eventId,
+      storage_path: item.path,
+      kind: 'evidence',
+      is_public: false,
+    })
+    if (media.error) return { error: media.error.message, evidenceId }
   }
   return { error: null as string | null, evidenceId }
 }
@@ -274,13 +343,18 @@ export async function loadOwnVenue(ownerId: string) {
   const db = useDb()
   const { data, error } = await db
     .from('venues')
-    .select('id, name, city, zone, capacity, equipment, support_mode, description')
+    .select('id, name, city, zone, capacity, equipment, support_mode, description, cover_storage_path')
     .eq('owner_id', ownerId)
     .order('created_at', { ascending: true })
     .limit(1)
     .maybeSingle()
   if (error) return { venue: null, error: error.message }
   if (!data) return { venue: null, error: null as string | null }
+  const { data: gallery } = await db
+    .from('venue_media')
+    .select('id, storage_path, sort_order')
+    .eq('venue_id', data.id)
+    .order('sort_order')
   const initial: VenueInput = {
     name: data.name,
     city: data.city,
@@ -290,7 +364,15 @@ export async function loadOwnVenue(ownerId: string) {
     supportMode: data.support_mode,
     description: data.description,
   }
-  return { venue: { id: data.id, initial }, error: null as string | null }
+  return {
+    venue: {
+      id: data.id,
+      initial,
+      coverPath: data.cover_storage_path,
+      gallery: gallery ?? [],
+    },
+    error: null as string | null,
+  }
 }
 
 export async function saveVenue(ownerId: string, raw: unknown, existingId: string | null) {
@@ -308,10 +390,69 @@ export async function saveVenue(ownerId: string, raw: unknown, existingId: strin
   }
   if (existingId) {
     const { error } = await db.from('venues').update(row).eq('id', existingId)
-    return { error: error?.message ?? null }
+    return { id: existingId, error: error?.message ?? null }
   }
-  const { error } = await db.from('venues').insert({ ...row, owner_id: ownerId })
-  return { error: error?.message ?? null }
+  const inserted = await db
+    .from('venues')
+    .insert({ ...row, owner_id: ownerId, slug: '' })
+    .select('id')
+    .single()
+  return { id: inserted.data?.id ?? null, error: inserted.error?.message ?? null }
+}
+
+export async function saveVenueCover(venueId: string, file: File) {
+  const parsed = venueCoverFilesSchema.safeParse([fileToMeta(file)])
+  if (!parsed.success) return { error: firstIssue(parsed.error) }
+  const ext = imageExtension(file.type)
+  if (!ext) return { error: 'Cada foto debe ser jpeg, png, webp o avif.' }
+  const db = useDb()
+  const current = await db.from('venues').select('cover_storage_path').eq('id', venueId).maybeSingle()
+  if (current.error) return { error: current.error.message }
+  const path = `${venueId}/cover.${ext}`
+  const { uploadImage, removeObject } = useMediaUpload()
+  const uploaded = await uploadImage({ bucket: 'venues', path, file, upsert: true })
+  if (uploaded.error) return { error: uploaded.error }
+  const updated = await db.from('venues').update({ cover_storage_path: path }).eq('id', venueId)
+  if (updated.error) return { error: updated.error.message }
+  const previous = current.data?.cover_storage_path
+  if (previous && previous !== path) await removeObject('venues', previous)
+  return { error: null as string | null }
+}
+
+export async function addVenueGallery(venueId: string, files: File[]) {
+  const parsed = venueGalleryFilesSchema.safeParse(files.map(fileToMeta))
+  if (!parsed.success) return { error: firstIssue(parsed.error) }
+  const db = useDb()
+  const existing = await db.from('venue_media').select('id, sort_order').eq('venue_id', venueId)
+  if (existing.error) return { error: existing.error.message }
+  if ((existing.data?.length ?? 0) + files.length > MAX_VENUE_GALLERY) {
+    return { error: `La galería admite hasta ${MAX_VENUE_GALLERY} fotos.` }
+  }
+  const start = Math.max(0, ...(existing.data ?? []).map((row) => row.sort_order)) + 1
+  const { uploadMany } = useMediaUpload()
+  const uploaded = await uploadMany({
+    bucket: 'venues',
+    files,
+    pathFor: (file) => `${venueId}/gallery/${crypto.randomUUID()}.${imageExtension(file.type) ?? 'jpg'}`,
+  })
+  for (const [index, item] of uploaded.entries()) {
+    if (item.error) return { error: item.error }
+    const inserted = await db.from('venue_media').insert({
+      venue_id: venueId,
+      storage_path: item.path,
+      sort_order: start + index,
+    })
+    if (inserted.error) return { error: inserted.error.message }
+  }
+  return { error: null as string | null }
+}
+
+export async function removeVenueGalleryItem(venueId: string, mediaId: string, storagePath: string) {
+  const db = useDb()
+  const { removeObject } = useMediaUpload()
+  const deleted = await db.from('venue_media').delete().eq('id', mediaId).eq('venue_id', venueId)
+  if (deleted.error) return { error: deleted.error.message }
+  return removeObject('venues', storagePath)
 }
 
 export type Opportunity = {
@@ -477,7 +618,10 @@ export async function sendOffer(proposerId: string, raw: unknown) {
   if (!need || (need.status !== 'open' && need.status !== 'partial')) {
     return { error: 'Esa necesidad ya no está abierta' }
   }
-  if (parsed.data.quantity > Number(need.quantity_requested) - Number(need.quantity_covered)) {
+  if (
+    need.quantity_requested != null &&
+    parsed.data.quantity > Number(need.quantity_requested) - Number(need.quantity_covered)
+  ) {
     return { error: 'La cantidad supera lo que falta por cubrir' }
   }
   const { data, error } = await db
@@ -585,22 +729,139 @@ export async function cancelOffer(offerId: string) {
   return { error: error?.message ?? null }
 }
 
+export async function listModerationProfiles(role: 'organizer' | 'local_sponsor') {
+  const db = useDb()
+  const { data: roleRows, error: roleError } = await db.from('profile_roles').select('profile_id').eq('role', role)
+  if (roleError) return { rows: [] as ModerationProfileRow[], error: roleError.message }
+  const ids = [...new Set((roleRows ?? []).map((row) => row.profile_id))]
+  if (!ids.length) return { rows: [] as ModerationProfileRow[], error: null as string | null }
+  const { data, error } = await db
+    .from('profiles')
+    .select('id, display_name, email, slug, city, hidden_at, disaffiliated_at, contribution_types')
+    .in('id', ids)
+    .order('display_name')
+  if (error) return { rows: [] as ModerationProfileRow[], error: error.message }
+  return { rows: (data ?? []).map(mapModerationProfile), error: null as string | null }
+}
+
+export async function listModerationEvents() {
+  const db = useDb()
+  const { data, error } = await db
+    .from('events')
+    .select('id, title, status, city, category, starts_on, hidden_at, organizer_id')
+    .order('created_at', { ascending: false })
+  if (error) return { rows: [] as ModerationEventRow[], error: error.message }
+  const organizerIds = [...new Set((data ?? []).map((row) => row.organizer_id))]
+  const { data: organizers } = organizerIds.length
+    ? await db.from('profiles').select('id, display_name').in('id', organizerIds)
+    : { data: [] as Array<{ id: string; display_name: string }> }
+  const names = new Map((organizers ?? []).map((row) => [row.id, row.display_name]))
+  return {
+    rows: (data ?? []).map((row) => mapModerationEvent(row, names.get(row.organizer_id) ?? 'Organizador')),
+    error: null as string | null,
+  }
+}
+
+export async function loadModerationProfileFicha(id: string) {
+  const db = useDb()
+  const { data, error } = await db
+    .from('profiles')
+    .select(
+      'id, display_name, email, slug, city, hidden_at, disaffiliated_at, contribution_types, instagram, website, contribution_description, avatar_storage_path',
+    )
+    .eq('id', id)
+    .maybeSingle()
+  if (error) return { ficha: null as ModerationProfileFicha | null, error: error.message }
+  if (!data) return { ficha: null as ModerationProfileFicha | null, error: 'No se pudo cargar la ficha.' }
+  return { ficha: mapModerationProfileFicha(data), error: null as string | null }
+}
+
+export async function loadModerationEventFicha(id: string) {
+  const db = useDb()
+  const { data, error } = await db
+    .from('events')
+    .select(
+      'id, title, status, city, category, starts_on, hidden_at, organizer_id, description, audience, place_name, date_range_label, expected_attendees, rsvp_url, sponsor_benefit',
+    )
+    .eq('id', id)
+    .maybeSingle()
+  if (error) return { ficha: null as ModerationEventFicha | null, error: error.message }
+  if (!data) return { ficha: null as ModerationEventFicha | null, error: 'No se pudo cargar la ficha.' }
+  const [{ data: needs }, { data: organizer }] = await Promise.all([
+    db.from('event_needs').select('id, type, description').eq('event_id', id),
+    db.from('profiles').select('display_name').eq('id', data.organizer_id).maybeSingle(),
+  ])
+  return {
+    ficha: mapModerationEventFicha(data, organizer?.display_name ?? 'Organizador', needs ?? []),
+    error: null as string | null,
+  }
+}
+
 export async function listPendingEvidence() {
   const db = useDb()
   const { data, error } = await db
     .from('evidence')
     .select('id, event_id, attendance_count, venue_note, contributions_note, status')
     .eq('status', 'submitted')
-  if (error) return { rows: [], error: error.message }
+  if (error) return { rows: [] as PendingEvidenceRow[], error: error.message }
   const ids = (data ?? []).map((row) => row.event_id)
-  const { data: events } = ids.length
-    ? await db.from('events').select('id, title').in('id', ids)
-    : { data: [] as Array<{ id: string; title: string }> }
+  if (!ids.length) return { rows: [] as PendingEvidenceRow[], error: null as string | null }
+
+  const [{ data: events }, { data: media }, { data: needs }, { data: matches }] = await Promise.all([
+    db.from('events').select('id, title, venue_id, place_name').in('id', ids),
+    db.from('event_media').select('event_id, storage_path').in('event_id', ids),
+    db
+      .from('event_needs')
+      .select('id, event_id, type, description, quantity_requested, quantity_covered, unit, status')
+      .in('event_id', ids),
+    db.from('matches').select('event_id, sponsor_id').in('event_id', ids).in('status', ['accepted', 'completed']),
+  ])
+
+  const venueIds = [...new Set((events ?? []).map((event) => event.venue_id).filter((id): id is string => Boolean(id)))]
+  const { data: venues } = venueIds.length
+    ? await db.from('venues').select('id, name, owner_id').in('id', venueIds)
+    : { data: [] as Array<{ id: string; name: string; owner_id: string }> }
+
+  const ownerIds = [...new Set((venues ?? []).map((venue) => venue.owner_id))]
+  const sponsorIds = [...new Set((matches ?? []).map((match) => match.sponsor_id))]
+  const profileIds = [...new Set([...ownerIds, ...sponsorIds])]
+  const [{ data: profiles }, { data: localRoles }] = await Promise.all([
+    profileIds.length
+      ? db.from('profiles').select('id, display_name').in('id', profileIds)
+      : Promise.resolve({ data: [] as Array<{ id: string; display_name: string }> }),
+    sponsorIds.length
+      ? db.from('profile_roles').select('profile_id').in('profile_id', sponsorIds).eq('role', 'local_sponsor')
+      : Promise.resolve({ data: [] as Array<{ profile_id: string }> }),
+  ])
+
+  const names = new Map((profiles ?? []).map((profile) => [profile.id, profile.display_name]))
+  const localSponsorIds = new Set((localRoles ?? []).map((row) => row.profile_id))
+
   return {
-    rows: (data ?? []).map((row) => ({
-      ...row,
-      title: events?.find((event) => event.id === row.event_id)?.title ?? 'Evento',
-    })),
+    rows: (data ?? []).map((row) => {
+      const event = events?.find((item) => item.id === row.event_id)
+      const venueRow = event?.venue_id ? venues?.find((item) => item.id === event.venue_id) : null
+      const venue: EvidenceParty | null = venueRow
+        ? { id: venueRow.id, name: venueRow.name, detail: names.get(venueRow.owner_id) ?? null }
+        : event?.place_name
+          ? { id: event.id, name: event.place_name, detail: null }
+          : null
+      const localSponsors: EvidenceParty[] = (matches ?? [])
+        .filter((match) => match.event_id === row.event_id && localSponsorIds.has(match.sponsor_id))
+        .map((match) => ({
+          id: match.sponsor_id,
+          name: names.get(match.sponsor_id) ?? 'Aliado local',
+          detail: null,
+        }))
+      return mapPendingEvidence({
+        ...row,
+        title: event?.title ?? 'Evento',
+        media: (media ?? []).filter((item) => item.event_id === row.event_id),
+        needs: (needs ?? []).filter((need) => need.event_id === row.event_id).map((need) => mapEvidenceNeed(need)),
+        venue,
+        localSponsors,
+      })
+    }),
     error: null as string | null,
   }
 }

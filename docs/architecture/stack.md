@@ -413,23 +413,23 @@ Las páginas públicas deberán aprovechar caching cuando sea posible.
 Especialmente:
 
 ``` text
-/eventos
-/eventos/[slug]
+/events
+/events/[slug]
 /venues/[slug]
 /sponsors/[slug]
-/casos/[slug]
+/cases/[slug]
 ```
 
-`/eventos/[slug]` solo se cachea cuando el evento ya es público: tiene
+`/events/[slug]` solo se cachea cuando el evento ya es público: tiene
 fecha concreta y lugar. Las oportunidades visibles solo para sponsors
 no entran a esa caché.
 
 Mientras que:
 
 ``` text
-/dashboard
-/mis-eventos
-/moderacion
+/app
+/app/events
+/app/moderation
 ```
 
 serán dinámicas.
@@ -1617,7 +1617,7 @@ Las páginas públicas deben diseñarse para ser cacheables.
 Ejemplo:
 
 ``` text
-GET /eventos/python-pereira
+GET /events/python-pereira
 ```
 
 puede tener:
@@ -2109,8 +2109,8 @@ Nuxt + SSR se utilizará para páginas públicas.
 URLs deseables:
 
 ``` text
-/eventos
-/eventos/[slug]
+/events
+/events/[slug]
 
 /venues
 /venues/[slug]
@@ -2118,13 +2118,13 @@ URLs deseables:
 /sponsors
 /sponsors/[slug]
 
-/casos/[slug]
+/cases/[slug]
 
-/categorias/[slug]
+/categories/[slug]
 ```
 
-`/eventos/[slug]` responde solo cuando el evento está en `public`. El
-caso de éxito vive en `/casos/[slug]` y aparece después de aprobar la
+`/events/[slug]` responde solo cuando el evento está en `public`. El
+caso de éxito vive en `/cases/[slug]` y aparece después de aprobar la
 evidencia. Pereira y Dosquebradas son un filtro, no dos sitios.
 
 Cada página pública debería tener:

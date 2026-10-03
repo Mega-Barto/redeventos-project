@@ -14,3 +14,8 @@ export function useSupabaseConfigured() {
   const config = useRuntimeConfig()
   return computed(() => Boolean(config.public.supabase?.url))
 }
+
+export function useSupabaseUrl() {
+  const config = useRuntimeConfig()
+  return computed(() => String(config.public.supabase?.url ?? ''))
+}

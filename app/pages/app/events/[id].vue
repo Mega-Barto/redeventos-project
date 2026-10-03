@@ -3,6 +3,7 @@ import type { Candidate } from '~/composables/usePilot'
 import { NEED_LABELS, NEED_STATUS_LABELS } from '~~/shared/constants/labels'
 import { appEventDetailContent } from '~~/shared/content/app'
 import type { EvidenceInput } from '~~/shared/schemas/inputs'
+import { publicStorageUrl } from '~~/shared/utils/storage-url'
 
 definePageMeta({ layout: 'app', middleware: ['auth', 'onboarding'] })
 
@@ -24,11 +25,27 @@ useSeoMeta({
   description: appEventDetailContent.makePublicDescription,
 })
 
+const supabaseUrl = useSupabaseUrl()
 const isOwner = computed(() => data.value?.event.organizer_id === userId.value)
-const publicTo = computed(() =>
-  data.value?.event.status === 'public' || data.value?.event.status === 'completed'
-    ? `/eventos/${data.value.event.slug}`
-    : null,
+const publicTo = computed(() => {
+  if (!data.value) return null
+  if (data.value.event.status === 'completed') return `/cases/${data.value.event.slug}`
+  if (data.value.event.status === 'public') return `/events/${data.value.event.slug}`
+  return null
+})
+const canSendEvidence = computed(
+  () =>
+    isOwner.value &&
+    data.value?.event.status === 'public' &&
+    (!data.value.evidence || data.value.evidence.status === 'rejected'),
+)
+const evidencePending = computed(
+  () => isOwner.value && data.value?.event.status === 'public' && data.value.evidence?.status === 'submitted',
+)
+const evidenceUrls = computed(() =>
+  (data.value?.media ?? [])
+    .map((item) => publicStorageUrl(supabaseUrl.value, 'evidence', item.storage_path))
+    .filter((url): url is string => Boolean(url)),
 )
 
 watch(
@@ -110,7 +127,7 @@ function propose(payload: {
       <section v-for="need in data.needs" :key="need.id" class="space-y-3 rounded-lg border border-muted p-4">
         <h2 class="font-medium">{{ NEED_LABELS[need.type] }} · {{ NEED_STATUS_LABELS[need.status] }}</h2>
         <p>{{ need.description }}</p>
-        <p class="text-sm text-muted">
+        <p v-if="need.quantity_requested != null && need.unit" class="text-sm text-muted">
           {{ need.quantity_covered }} / {{ need.quantity_requested }} {{ need.unit }}
         </p>
         <div v-if="isOwner && (need.status === 'open' || need.status === 'partial')">
@@ -129,11 +146,12 @@ function propose(payload: {
         <p class="text-sm text-muted">{{ appEventDetailContent.makePublicDescription }}</p>
         <EventPublicForm :pending="pending" @submit="makePublic" />
       </section>
-      <section v-if="isOwner && data.event.status === 'public'" class="space-y-3">
+      <section v-if="canSendEvidence" class="space-y-3">
         <h2 class="font-semibold">{{ appEventDetailContent.evidenceTitle }}</h2>
         <p class="text-sm text-muted">{{ appEventDetailContent.evidenceDescription }}</p>
-        <EventEvidenceForm :pending="pending" @submit="sendEvidence" />
+        <AppEventEvidenceForm :pending="pending" :existing-urls="evidenceUrls" @submit="sendEvidence" />
       </section>
+      <p v-else-if="evidencePending" class="text-muted" role="status">La evidencia está en revisión.</p>
     </template>
   </AppPanel>
 </template>

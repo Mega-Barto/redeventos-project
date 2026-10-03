@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { CITY_LABELS, NEED_LABELS } from '~~/shared/constants/labels'
+import { publicStorageUrl } from '~~/shared/utils/storage-url'
 
 const route = useRoute()
 const slug = computed(() => String(route.params.slug))
 const configured = useSupabaseConfigured()
+const supabaseUrl = useSupabaseUrl()
 
 const { data: sponsor } = await useAsyncData(
   () => `sponsor-${slug.value}`,
@@ -13,7 +15,7 @@ const { data: sponsor } = await useAsyncData(
     const { data } = await db
       .from('profiles')
       .select(
-        'id, slug, display_name, email, instagram, website, city, contribution_types, contribution_description, disaffiliated_at, hidden_at',
+        'id, slug, display_name, email, instagram, website, city, contribution_types, contribution_description, disaffiliated_at, hidden_at, avatar_storage_path',
       )
       .eq('slug', slug.value)
       .is('disaffiliated_at', null)
@@ -31,19 +33,25 @@ const { data: sponsor } = await useAsyncData(
   { watch: [slug] },
 )
 
+const avatarSrc = computed(() =>
+  publicStorageUrl(supabaseUrl.value, 'profiles', sponsor.value?.avatar_storage_path ?? null),
+)
+
 useSeoMeta({
   title: () => sponsor.value?.display_name ?? 'Aliado',
   description: () => sponsor.value?.contribution_description ?? 'Aliado de Redeventos',
+  ogImage: () => avatarSrc.value ?? undefined,
 })
 </script>
 
 <template>
   <UPage>
     <UPageBody>
-      <UContainer class="max-w-3xl space-y-4">
+      <UContainer class="reading-surface max-w-3xl space-y-4 p-6 sm:p-8">
         <h1 v-if="!sponsor" class="text-2xl font-semibold">Aliado no encontrado</h1>
         <template v-else>
           <div class="flex flex-wrap items-center gap-3">
+            <MediaProfileAvatar :src="avatarSrc" :name="sponsor.display_name" />
             <h1 class="text-3xl font-semibold">{{ sponsor.display_name }}</h1>
             <SealBadge
               :disaffiliated="false"

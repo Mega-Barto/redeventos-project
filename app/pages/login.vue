@@ -47,7 +47,7 @@ async function onSubmit(event: FormSubmitEvent<LoginInput>) {
     </UForm>
     <p class="text-sm text-muted">
       ¿Aún no tienes cuenta?
-      <NuxtLink to="/registro" class="text-primary">Crear cuenta</NuxtLink>
+      <NuxtLink to="/register" class="text-primary">Crear cuenta</NuxtLink>
     </p>
   </div>
 </template>
