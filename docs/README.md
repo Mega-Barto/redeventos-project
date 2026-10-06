@@ -13,6 +13,7 @@
 
 | Archivo | Contenido |
 | --- | --- |
+| [summary.md](./summary.md) | Resumen ejecutivo de producto (piloto) |
 | [idea.md](./product/idea.md) | Especificación del piloto; decisiones cerradas |
 
 ## Arquitectura
@@ -30,6 +31,7 @@
 | [modelo-canvas.md](./business/modelo-canvas.md) | Business Model Canvas (piloto, $0) |
 | [modelo-canvas-futuro.md](./business/modelo-canvas-futuro.md) | Canvas post-piloto: costos e ingresos |
 | [futuro-ingresos.md](./business/futuro-ingresos.md) | Hipótesis descartadas y viables (p. ej. comisión por asistentes) |
+| [rivals.md](./rivals.md) | Análisis competitivo y posicionamiento |
 
 ## Diagramas
 
@@ -45,7 +47,7 @@ Abrir en [draw.io](https://app.diagrams.net/) o Excalidraw según extensión.
 
 ## Orden de lectura sugerido
 
-1. [`product/idea.md`](./product/idea.md)
+1. [`summary.md`](./summary.md) o [`product/idea.md`](./product/idea.md)
 2. [`architecture/stack.md`](./architecture/stack.md)
 3. [`business/modelo-canvas.md`](./business/modelo-canvas.md) + diagramas en [`diagrams/`](./diagrams/)
 

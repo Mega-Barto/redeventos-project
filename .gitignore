@@ -33,6 +33,9 @@ logs
 .fleet
 .idea
 
+# Working notes (not tracked)
+docs/next-steps/
+
 # Local env files
 .env
 .env.*
