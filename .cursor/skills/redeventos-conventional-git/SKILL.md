@@ -22,7 +22,7 @@ El workspace del contenedor **es el mismo repo** que en el host: la carpeta del 
 
 **Identidad Git:** `user.name` y `user.email` deben estar configurados (en el host o una vez en el contenedor). El agente **no** ejecuta `git config`.
 
-**Herramientas en el devcontainer:** Git viene en la imagen; GitHub CLI (`gh`) está en [`.devcontainer/devcontainer.json`](../../../.devcontainer/devcontainer.json). `post-create.sh` añade `safe.directory` para este repo.
+**Herramientas en el devcontainer:** Git viene en la imagen; GitHub por SSH con reenvío del agente del host (ver [README.md](../../../README.md)). `post-create.sh` añade `safe.directory` para este repo.
 
 **Hooks:** no hay Husky en el repo hoy; el commit no pasa por pre-commit local salvo que lo añadas después.
 

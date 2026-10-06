@@ -4,10 +4,7 @@
     "dockerfile": "Dockerfile"
   },
   "features": {
-    "ghcr.io/devcontainers/features/docker-in-docker:2": {
-      "moby": true
-    },
-    "ghcr.io/devcontainers/features/github-cli:1": {}
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
   },
   "remoteUser": "node",
   "containerEnv": {
@@ -15,10 +12,10 @@
   },
   "mounts": [
     "source=redeventos-node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume",
-    "source=redeventos-bun-cache,target=/home/node/.bun/install/cache,type=volume",
-    "source=redeventos-docker,target=/var/lib/docker,type=volume"
+    "source=redeventos-nuxt,target=${containerWorkspaceFolder}/.nuxt,type=volume",
+    "source=redeventos-bun-cache,target=/home/node/.bun/install/cache,type=volume"
   ],
-  "forwardPorts": [3000, 8787, 54321, 54322, 54323, 54324],
+  "forwardPorts": [3000, 8787, 8976, 54321, 54322, 54323, 54324],
   "portsAttributes": {
     "3000": { "label": "Nuxt dev", "onAutoForward": "notify" },
     "8787": { "label": "Wrangler dev", "onAutoForward": "notify" },
@@ -32,31 +29,23 @@
   "customizations": {
     "vscode": {
       "extensions": [
-        "biomejs.biome",
         "Vue.volar",
+        "biomejs.biome",
         "bradlc.vscode-tailwindcss",
-        "supabase.supabase-vscode",
         "vitest.explorer",
-        "ms-playwright.playwright",
-        "GitHub.vscode-pull-request-github",
-        "github.vscode-github-actions",
         "ms-azuretools.vscode-docker",
-        "hediet.vscode-drawio",
-        "pomdtr.excalidraw-editor"
+        "GitHub.vscode-pull-request-github"
       ],
       "settings": {
         "editor.defaultFormatter": "biomejs.biome",
         "editor.formatOnSave": true,
         "editor.codeActionsOnSave": {
-          "source.organizeImports.biome": "explicit",
-          "quickfix.biome": "explicit"
+          "source.fixAll.biome": "explicit",
+          "source.organizeImports.biome": "explicit"
         },
         "[vue]": { "editor.defaultFormatter": "biomejs.biome" },
         "files.eol": "\n",
         "terminal.integrated.defaultProfile.linux": "bash",
-        "playwright.reuseBrowser": true,
-        "playwright.showTrace": true,
-        "playwright.pickLocator": true,
         "vitest.enable": true,
         "vitest.commandLine": "bun run test"
       }
