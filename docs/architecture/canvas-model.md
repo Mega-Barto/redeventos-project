@@ -83,6 +83,7 @@ Entidades iniciales del piloto:
 | `match_commitments` | Compromiso concreto del match |
 | `evidence` | Realización del evento (moderación) |
 | `event_media` | Imágenes y medios del evento |
+| `notification_preferences` | Overrides de avisos (email; canal WhatsApp reservado) |
 
 **Fuera del piloto:** `organizations`, `bookings`, `messages`, `event_attendees`, `venue_availability`.
 

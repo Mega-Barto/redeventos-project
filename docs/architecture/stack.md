@@ -873,16 +873,27 @@ Para Cursor, se puede configurar desde sus ajustes de MCP.
 
 # 19. Email
 
+Modelo completo: [`notifications.md`](./notifications.md).
+
 ## Resend
 
-Usarlo para:
+Canal **absoluto** del piloto para avisos transaccionales de la app.
+Confirmación de registro y magic links siguen en **Supabase Auth**.
 
--   confirmación de registro.
--   magic links si aplica.
--   propuesta recibida.
--   propuesta aceptada, con los contactos directos.
--   evidencia aprobada o rechazada.
--   emails del moderador.
+En el piloto se envían (si la preferencia de email está ON):
+
+-   propuesta recibida (A).
+-   propuesta aceptada, con el contacto directo **de la contraparte** (B).
+-   evidencia enviada o reenviada, a todos los moderadores (E).
+-   evidencia aprobada o rechazada, al organizador (F).
+
+El envío ocurre en rutas **Nitro de negocio** tras el RPC/write
+(`server_after_business_ok`): síncrono, sin cola. El cliente no dispara
+un `POST /api/notifications/*` aparte. Si Resend falla, el negocio no
+se revierte.
+
+Preferencias marcables en `/app/profile`. WhatsApp Cloud API, push, SMS
+e inbox propio quedan fuera del piloto.
 
 Free actual consultado:
 
@@ -893,8 +904,8 @@ Referencia:
 
 https://resend.com/pricing
 
-No convertir el email en un sistema de notificaciones complejo durante
-el MVP.
+No convertir el email en una plataforma de notificaciones (cola, inbox,
+multi-canal) durante el MVP.
 
 ------------------------------------------------------------------------
 
@@ -1399,7 +1410,9 @@ No añadir:
 -   vector database.
 -   event bus.
 -   CDN de imágenes externo sin necesidad.
--   sistema de notificaciones propio.
+-   inbox de notificaciones, cola/outbox o WhatsApp Cloud API en el piloto
+    (el correo transaccional Resend sí forma parte del stack; ver
+    [`notifications.md`](./notifications.md)).
 -   ESLint ni Prettier: el lint y el formato son responsabilidad de
     Biome.
 

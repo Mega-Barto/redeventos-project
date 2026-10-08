@@ -44,6 +44,7 @@ erDiagram
   offers ||--o| matches : offer_id
   matches ||--o| match_commitments : match_id
   profiles ||--o{ reports : reporter_id
+  profiles ||--o{ notification_preferences : profile_id
 ```
 
 ---
@@ -62,6 +63,8 @@ erDiagram
 | `offer_status` | `pending`, `accepted`, `rejected`, `cancelled` |
 | `match_status` | `accepted`, `completed`, `breached`, `cancelled` |
 | `evidence_status` | `submitted`, `approved`, `rejected` |
+| `notification_event_key` | `offer_received`, `offer_accepted`, `offer_rejected`, `offer_cancelled`, `evidence_submitted`, `evidence_reviewed`, `report_created`, `content_hidden`, `disaffiliated`, `case_completed` |
+| `notification_channel` | `email`, `whatsapp` |
 
 ---
 
@@ -301,6 +304,22 @@ RPC moderador: `hide_target`, `disaffiliate_profile`.
 
 ---
 
+### `notification_preferences`
+
+Overrides de avisos por perfil. Sin fila, el envío usa defaults de [`notifications.md`](./notifications.md) (email ON en A/B/E/F).
+
+| Columna | Tipo | Notas |
+| --- | --- | --- |
+| `profile_id` | `uuid` → `profiles` | Dueño |
+| `event_key` | `notification_event_key` | Escenario |
+| `channel` | `notification_channel` | Piloto: solo `email` en UI |
+| `enabled` | `boolean` | |
+| `updated_at` | `timestamptz` | |
+
+PK `(profile_id, event_key, channel)`. RLS: el dueño lee y escribe. Detalle: [`notifications.md`](./notifications.md).
+
+---
+
 ## Vistas y proyección de calendario
 
 | Objeto | Propósito |
@@ -363,6 +382,7 @@ El Worker Nitro no sirve bytes de imagen: el HTML solo incluye paths; el `<img>`
 | `0006_evidence_storage_replace.sql` | Update/delete storage y `event_media` |
 | `0007_media_profiles_venues.sql` | Avatar, portada/galería, `kind`/`is_public`, buckets públicos, vistas de casos |
 | `20261006013000_fix_security_definer_views.sql` | `public_cases` → invoker; `venue_calendar_days` → tabla + sync; policy evidencia pública |
+| `20261008090000_notification_preferences.sql` | Prefs de avisos (`email` / `whatsapp` reservado); defaults en código |
 
 Población local (no remoto): [`supabase/seed.sql`](../../supabase/seed.sql) vía `bun run db:seed:local`.
 

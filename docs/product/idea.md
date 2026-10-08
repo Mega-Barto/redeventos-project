@@ -106,6 +106,7 @@ La frase que ordena el producto:
 | Descubrimiento | Filtros y sugerencias deterministas |
 | Sello de la red | Venue y local sponsor afiliados; dos niveles; contacto público y QR; sin WhatsApp ni teléfono en material impreso |
 | Newsletter | Después del piloto |
+| Avisos externos | Email transaccional (Resend). Preferencias marcables en el perfil. WhatsApp/teléfono se revelan al aceptar el match; WhatsApp Cloud API queda fuera del piloto |
 
 ------------------------------------------------------------------------
 
@@ -357,6 +358,7 @@ El evento pasa a `completed` cuando la evidencia queda aprobada.
 - Vista del venue sponsor
 - Vista del local sponsor
 - Vista del moderador
+- Perfil, con preferencias de avisos por correo
 - Oportunidad del evento, visible para sponsors
 - Ficha pública del evento, con fecha y lugar
 - Ficha pública del venue, con badge de sello de la red
@@ -377,6 +379,7 @@ Quedan para después:
 - Entradas, QR y check-in
 - Calendario de disponibilidad con precio
 - Newsletter
+- WhatsApp Cloud API como canal de avisos (plantillas e opt-in)
 - Sugerencias por inteligencia artificial
 - App móvil
 - Operación en otras ciudades
