@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import { defaultEmailEnabled, type PilotEmailEventKey } from '~~/shared/constants/notification-events'
 import { appProfileContent } from '~~/shared/content/app'
 import { mediaContent } from '~~/shared/content/media'
+import { notificationPrefsContent } from '~~/shared/content/notifications'
 import { asFileList } from '~~/shared/utils/public-media'
 import { missingSponsorPhotoMessage, requiredSponsorPhotoKinds } from '~~/shared/utils/sponsor-photos'
 import { publicStorageUrl } from '~~/shared/utils/storage-url'
@@ -16,7 +18,16 @@ const userId = useUserId()
 const supabaseUrl = useSupabaseUrl()
 const errorMessage = ref('')
 const saved = ref(false)
+const prefsSaved = ref(false)
 const pending = ref(false)
+const prefsPending = ref(false)
+const prefsError = ref('')
+const emailPrefs = ref<Record<PilotEmailEventKey, boolean>>({
+  offer_received: defaultEmailEnabled('offer_received'),
+  offer_accepted: defaultEmailEnabled('offer_accepted'),
+  evidence_submitted: defaultEmailEnabled('evidence_submitted'),
+  evidence_reviewed: defaultEmailEnabled('evidence_reviewed'),
+})
 const avatarFile = ref<File | File[] | null>(null)
 const venueSponsorPhoto = ref<File | File[] | null>(null)
 const localSponsorPhoto = ref<File | File[] | null>(null)
@@ -25,6 +36,20 @@ const { data: initial, refresh } = await useAsyncData(
   'app-profile',
   async () => (userId.value ? loadProfileForm(userId.value) : null),
   { watch: [userId] },
+)
+
+const { data: prefsData } = await useAsyncData(
+  'app-notification-prefs',
+  async () => (userId.value ? loadPilotEmailPrefs(userId.value) : null),
+  { watch: [userId] },
+)
+
+if (prefsData.value?.prefs) emailPrefs.value = prefsData.value.prefs
+watch(
+  () => prefsData.value?.prefs,
+  (next) => {
+    if (next) emailPrefs.value = next
+  },
 )
 
 const avatarSrc = computed(() =>
@@ -111,12 +136,28 @@ async function onAvatar() {
   saved.value = true
   await refresh()
 }
+
+async function onSavePrefs() {
+  if (!userId.value) return
+  prefsError.value = ''
+  prefsSaved.value = false
+  prefsPending.value = true
+  const result = await savePilotEmailPrefs(userId.value, emailPrefs.value)
+  prefsPending.value = false
+  if (result.error) {
+    prefsError.value = result.error
+    return
+  }
+  prefsSaved.value = true
+}
 </script>
 
 <template>
   <AppPanel :title="appProfileContent.title" :description="appProfileContent.description">
     <UAlert v-if="errorMessage" color="error" variant="subtle" :title="errorMessage" />
     <UAlert v-else-if="saved" color="success" variant="subtle" title="Perfil guardado." />
+    <UAlert v-if="prefsError || prefsData?.error" color="error" variant="subtle" :title="prefsError || prefsData?.error || notificationPrefsContent.loadError" />
+    <UAlert v-else-if="prefsSaved" color="success" variant="subtle" :title="notificationPrefsContent.saved" />
     <section v-if="initial" class="space-y-3">
       <MediaProfileAvatar v-if="avatarSrc" :src="avatarSrc" :name="initial.displayName" />
       <p v-else class="text-sm text-muted" role="status">{{ mediaContent.avatarEmpty }}</p>
@@ -154,5 +195,6 @@ async function onAvatar() {
       </div>
     </section>
     <AppProfileForm v-if="initial" :initial="initial" :pending="pending" @submit="onSubmit" />
+    <AppNotificationPrefs v-model="emailPrefs" :pending="prefsPending" @save="onSavePrefs" />
   </AppPanel>
 </template>

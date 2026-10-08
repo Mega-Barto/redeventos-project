@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { FormSubmitEvent } from '@nuxt/ui'
 import { loginSchema } from '~~/shared/schemas/inputs'
+import { internalRedirectPath } from '~~/shared/utils/internal-path'
 
 definePageMeta({ layout: 'auth', middleware: 'guest' })
 
@@ -11,6 +12,11 @@ const state = reactive<LoginInput>({ email: '', password: '' })
 const errorMessage = ref('')
 const pending = ref(false)
 const route = useRoute()
+const registerTo = computed(() => {
+  const redirect = internalRedirectPath(route.query.redirect)
+  if (redirect === '/app') return '/register'
+  return `/register?redirect=${encodeURIComponent(redirect)}`
+})
 
 async function onSubmit(event: FormSubmitEvent<LoginInput>) {
   errorMessage.value = ''
@@ -26,8 +32,7 @@ async function onSubmit(event: FormSubmitEvent<LoginInput>) {
     errorMessage.value = 'Correo o contraseña incorrectos.'
     return
   }
-  const redirect = typeof route.query.redirect === 'string' ? route.query.redirect : '/app'
-  await navigateTo(redirect.startsWith('/') ? redirect : '/app')
+  await navigateTo(internalRedirectPath(route.query.redirect))
 }
 </script>
 
@@ -47,7 +52,7 @@ async function onSubmit(event: FormSubmitEvent<LoginInput>) {
     </UForm>
     <p class="text-sm text-muted">
       ¿Aún no tienes cuenta?
-      <NuxtLink to="/register" class="text-primary">Crear cuenta</NuxtLink>
+      <NuxtLink :to="registerTo" class="text-primary">Crear cuenta</NuxtLink>
     </p>
   </div>
 </template>

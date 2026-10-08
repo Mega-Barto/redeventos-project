@@ -9,6 +9,11 @@ import type {
 } from '~~/shared/constants/domain'
 import { asLocalContributionTypes } from '~~/shared/constants/domain'
 import { MAX_VENUE_GALLERY } from '~~/shared/constants/media'
+import {
+  defaultEmailEnabled,
+  PILOT_EMAIL_EVENT_KEYS,
+  type PilotEmailEventKey,
+} from '~~/shared/constants/notification-events'
 import { appModerationContent } from '~~/shared/content/app'
 import { suggestionRank } from '~~/shared/domain/rules'
 import {
@@ -61,11 +66,22 @@ function firstIssue(error: { issues: Array<{ message: string }> }) {
   return error.issues[0]?.message ?? 'Revisa el formulario'
 }
 
-async function notify(path: string, body: { offerId?: string; evidenceId?: string }) {
+function apiActionError(error: unknown) {
+  if (error && typeof error === 'object' && 'data' in error) {
+    const data = (error as { data?: { statusMessage?: string; message?: string } }).data
+    if (data?.statusMessage) return data.statusMessage
+    if (data?.message) return data.message
+  }
+  if (error instanceof Error && error.message) return error.message
+  return 'No se pudo completar la acción'
+}
+
+async function postBusiness(path: string, body?: Record<string, unknown>) {
   try {
     await $fetch(path, { method: 'POST', body })
-  } catch {
-    // El correo no bloquea el compromiso ni la revisión.
+    return { error: null as string | null }
+  } catch (error) {
+    return { error: apiActionError(error) }
   }
 }
 
@@ -139,6 +155,61 @@ export async function saveProfile(profileId: string, raw: unknown) {
   )
   if (roleResult.error) return { error: roleResult.error.message }
   return { error: null as string | null }
+}
+
+export type PilotEmailPrefs = Record<PilotEmailEventKey, boolean>
+
+function emptyPilotEmailPrefs(): PilotEmailPrefs {
+  return {
+    offer_received: defaultEmailEnabled('offer_received'),
+    offer_accepted: defaultEmailEnabled('offer_accepted'),
+    evidence_submitted: defaultEmailEnabled('evidence_submitted'),
+    evidence_reviewed: defaultEmailEnabled('evidence_reviewed'),
+  }
+}
+
+export async function loadPilotEmailPrefs(profileId: string) {
+  const db = useDb()
+  const prefs = emptyPilotEmailPrefs()
+  const { data, error } = await db
+    .from('notification_preferences')
+    .select('event_key, enabled')
+    .eq('profile_id', profileId)
+    .eq('channel', 'email')
+    .in('event_key', [...PILOT_EMAIL_EVENT_KEYS])
+  if (error) return { prefs, error: error.message }
+
+  const existing = new Set<PilotEmailEventKey>()
+  for (const row of data ?? []) {
+    if (!PILOT_EMAIL_EVENT_KEYS.includes(row.event_key as PilotEmailEventKey)) continue
+    const key = row.event_key as PilotEmailEventKey
+    prefs[key] = row.enabled
+    existing.add(key)
+  }
+
+  const missing = PILOT_EMAIL_EVENT_KEYS.filter((key) => !existing.has(key)).map((event_key) => ({
+    profile_id: profileId,
+    event_key,
+    channel: 'email' as const,
+    enabled: defaultEmailEnabled(event_key),
+  }))
+  if (missing.length) {
+    const inserted = await db.from('notification_preferences').upsert(missing)
+    if (inserted.error) return { prefs, error: inserted.error.message }
+  }
+  return { prefs, error: null as string | null }
+}
+
+export async function savePilotEmailPrefs(profileId: string, prefs: PilotEmailPrefs) {
+  const db = useDb()
+  const rows = PILOT_EMAIL_EVENT_KEYS.map((event_key) => ({
+    profile_id: profileId,
+    event_key,
+    channel: 'email' as const,
+    enabled: prefs[event_key],
+  }))
+  const { error } = await db.from('notification_preferences').upsert(rows)
+  return { error: error?.message ?? null }
 }
 
 export async function saveProfileAvatar(profileId: string, file: File) {
@@ -390,6 +461,9 @@ export async function submitEvidence(eventId: string, profileId: string, raw: un
       is_public: false,
     })
     if (media.error) return { error: media.error.message, evidenceId }
+  }
+  if (evidenceId) {
+    await postBusiness('/api/evidence/submitted', { evidenceId })
   }
   return { error: null as string | null, evidenceId }
 }
@@ -662,6 +736,7 @@ export async function loadCandidates(input: {
 }
 
 export async function sendOffer(proposerId: string, raw: unknown) {
+  if (!proposerId) return { error: 'Debes entrar' }
   const parsed = createOfferSchema.safeParse(raw)
   if (!parsed.success) return { error: firstIssue(parsed.error) }
   const db = useDb()
@@ -679,24 +754,15 @@ export async function sendOffer(proposerId: string, raw: unknown) {
   ) {
     return { error: 'La cantidad supera lo que falta por cubrir' }
   }
-  const { data, error } = await db
-    .from('offers')
-    .insert({
-      event_need_id: parsed.data.eventNeedId,
-      event_id: parsed.data.eventId,
-      proposer_id: proposerId,
-      recipient_id: parsed.data.recipientId,
-      venue_id: parsed.data.venueId,
-      quantity: parsed.data.quantity,
-      offer_on: parsed.data.offerOn,
-      note: parsed.data.note,
-      status: 'pending',
-    })
-    .select('id')
-    .single()
-  if (error || !data) return { error: error?.message ?? 'No se pudo enviar la propuesta' }
-  await notify('/api/notifications/offer-received', { offerId: data.id })
-  return { error: null as string | null }
+  return postBusiness('/api/offers', {
+    eventNeedId: parsed.data.eventNeedId,
+    eventId: parsed.data.eventId,
+    recipientId: parsed.data.recipientId,
+    venueId: parsed.data.venueId,
+    quantity: parsed.data.quantity,
+    offerOn: parsed.data.offerOn,
+    note: parsed.data.note,
+  })
 }
 
 export type OfferListItem = {
@@ -765,23 +831,15 @@ export async function listMyOffers(profileId: string) {
 }
 
 export async function acceptOffer(offerId: string) {
-  const db = useDb()
-  const { error } = await db.rpc('accept_offer', { p_offer_id: offerId })
-  if (error) return { error: error.message }
-  await notify('/api/notifications/offer-accepted', { offerId })
-  return { error: null as string | null }
+  return postBusiness(`/api/offers/${offerId}/accept`)
 }
 
 export async function rejectOffer(offerId: string) {
-  const db = useDb()
-  const { error } = await db.rpc('reject_offer', { p_offer_id: offerId })
-  return { error: error?.message ?? null }
+  return postBusiness(`/api/offers/${offerId}/reject`)
 }
 
 export async function cancelOffer(offerId: string) {
-  const db = useDb()
-  const { error } = await db.rpc('cancel_offer', { p_offer_id: offerId })
-  return { error: error?.message ?? null }
+  return postBusiness(`/api/offers/${offerId}/cancel`)
 }
 
 export async function listModerationProfiles(role: 'organizer' | 'local_sponsor' | 'venue_sponsor') {
@@ -967,15 +1025,11 @@ export async function listPendingEvidence() {
 export async function reviewEvidence(raw: unknown) {
   const parsed = reviewEvidenceSchema.safeParse(raw)
   if (!parsed.success) return { error: firstIssue(parsed.error) }
-  const db = useDb()
-  const { error } = await db.rpc('review_evidence', {
-    p_evidence_id: parsed.data.evidenceId,
-    p_decision: parsed.data.decision,
-    p_note: parsed.data.note,
+  return postBusiness('/api/evidence/review', {
+    evidenceId: parsed.data.evidenceId,
+    decision: parsed.data.decision,
+    note: parsed.data.note,
   })
-  if (error) return { error: error.message }
-  await notify('/api/notifications/evidence-reviewed', { evidenceId: parsed.data.evidenceId })
-  return { error: null as string | null }
 }
 
 export async function listOpenReports() {

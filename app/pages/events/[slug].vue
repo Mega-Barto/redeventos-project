@@ -2,13 +2,14 @@
 import { CATEGORY_LABELS, CITY_LABELS } from '~~/shared/constants/labels'
 import { eventPublicContent } from '~~/shared/content/event'
 import { formatBogotaDate } from '~~/shared/domain/rules'
-import { mapPublicEventSupporter } from '~~/shared/utils/event-supporters'
+import { mapPublicEventSupporter, publicEventSupporters } from '~~/shared/utils/event-supporters'
 import { publicStorageUrl } from '~~/shared/utils/storage-url'
 
 const route = useRoute()
 const slug = computed(() => String(route.params.slug))
 const configured = useSupabaseConfigured()
 const supabaseUrl = useSupabaseUrl()
+const userId = useUserId()
 
 const { data: event } = await useAsyncData(
   () => `public-event-${slug.value}`,
@@ -34,6 +35,7 @@ const { data: event } = await useAsyncData(
           'event_id, event_slug, need_id, need_type, need_description, party_kind, party_name, party_slug, party_href, person_name, support_status, sort_rank',
         )
         .eq('event_id', data.id)
+        .eq('support_status', 'confirmed')
         .order('sort_rank'),
       db
         .from('public_case_media')
@@ -45,7 +47,7 @@ const { data: event } = await useAsyncData(
     return {
       ...data,
       organizer,
-      supporters: (supporters ?? []).map(mapPublicEventSupporter),
+      supporters: publicEventSupporters((supporters ?? []).map(mapPublicEventSupporter)),
       media: media ?? [],
     }
   },
@@ -95,8 +97,9 @@ useSeoMeta({
           />
           <UButton :to="event.rsvp_url" :label="eventPublicContent.rsvpLabel" target="_blank" external />
           <EventPublicNetwork
-            v-if="event.supporters.length"
             :supporters="event.supporters"
+            :event-id="event.id"
+            :show-support-cta="userId !== event.organizer_id"
             :has-evidence="hasEvidence"
             :evidence-href="evidenceHref"
           />

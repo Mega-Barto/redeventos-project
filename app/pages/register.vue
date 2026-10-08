@@ -12,6 +12,7 @@ import { CITY_LABELS, NEED_LABELS, ROLE_LABELS } from '~~/shared/constants/label
 import { commitmentContent } from '~~/shared/content/legal'
 import { mediaContent } from '~~/shared/content/media'
 import { onboardingSchema, registerAccountSchema } from '~~/shared/schemas/inputs'
+import { internalRedirectPath } from '~~/shared/utils/internal-path'
 import { asFileList } from '~~/shared/utils/public-media'
 import { missingSponsorPhotoMessage, requiredSponsorPhotoKinds } from '~~/shared/utils/sponsor-photos'
 
@@ -184,7 +185,7 @@ async function joinNetwork() {
   }
 
   pending.value = false
-  await navigateTo('/app')
+  await navigateTo(internalRedirectPath(route.query.redirect))
 }
 </script>
 
