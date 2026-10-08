@@ -1,6 +1,9 @@
-import type { City, EventCategory, EventStatus, NeedType } from '../constants/domain'
+import type { City, EventCategory, EventStatus, LocalContributionType, NeedType } from '../constants/domain'
+import { asLocalContributionTypes } from '../constants/domain'
 
 export type ModerationVisibility = 'all' | 'active' | 'hidden' | 'disaffiliated'
+
+export type ModerationSponsorKind = 'venue' | 'local'
 
 export type ModerationProfileRow = {
   id: string
@@ -10,7 +13,8 @@ export type ModerationProfileRow = {
   city: City | null
   hidden: boolean
   disaffiliated: boolean
-  contributionTypes: NeedType[]
+  contributionTypes: LocalContributionType[]
+  sponsorKinds: ModerationSponsorKind[]
 }
 
 export type ModerationEventRow = {
@@ -53,7 +57,8 @@ export type ModerationProfileFilters = {
   query: string
   city: City | 'all'
   visibility: ModerationVisibility
-  contributionType: NeedType | 'all'
+  contributionType: LocalContributionType | 'all'
+  sponsorKind: ModerationSponsorKind | 'all'
 }
 
 export type ModerationEventFilters = {
@@ -63,22 +68,34 @@ export type ModerationEventFilters = {
   hidden: 'all' | 'visible' | 'hidden'
 }
 
+export type ModerationReportRow = {
+  id: string
+  targetType: 'event' | 'profile'
+  targetId: string
+  reason: string
+  targetTitle: string
+  targetDetail: string | null
+}
+
 function matchesQuery(haystack: string, query: string) {
   const needle = query.trim().toLowerCase()
   if (!needle) return true
   return haystack.toLowerCase().includes(needle)
 }
 
-export function mapModerationProfile(row: {
-  id: string
-  display_name: string
-  email: string
-  slug: string
-  city: City | null
-  hidden_at: string | null
-  disaffiliated_at: string | null
-  contribution_types: NeedType[] | null
-}): ModerationProfileRow {
+export function mapModerationProfile(
+  row: {
+    id: string
+    display_name: string
+    email: string
+    slug: string
+    city: City | null
+    hidden_at: string | null
+    disaffiliated_at: string | null
+    contribution_types: NeedType[] | null
+  },
+  sponsorKinds: ModerationSponsorKind[] = [],
+): ModerationProfileRow {
   return {
     id: row.id,
     displayName: row.display_name,
@@ -87,7 +104,8 @@ export function mapModerationProfile(row: {
     city: row.city,
     hidden: Boolean(row.hidden_at),
     disaffiliated: Boolean(row.disaffiliated_at),
-    contributionTypes: row.contribution_types ?? [],
+    contributionTypes: asLocalContributionTypes(row.contribution_types),
+    sponsorKinds,
   }
 }
 
@@ -137,6 +155,25 @@ export function mapModerationProfileFicha(row: {
     website: row.website,
     contributionDescription: row.contribution_description,
     avatarPath: row.avatar_storage_path,
+  }
+}
+
+export function mapModerationReport(input: {
+  id: string
+  target_type: string
+  target_id: string
+  reason: string
+  targetTitle: string
+  targetDetail: string | null
+}): ModerationReportRow | null {
+  if (input.target_type !== 'event' && input.target_type !== 'profile') return null
+  return {
+    id: input.id,
+    targetType: input.target_type,
+    targetId: input.target_id,
+    reason: input.reason,
+    targetTitle: input.targetTitle,
+    targetDetail: input.targetDetail,
   }
 }
 
@@ -192,6 +229,7 @@ export function filterModerationProfiles(
     if (filters.city !== 'all' && row.city !== filters.city) return false
     if (filters.visibility !== 'all' && profileVisibility(row) !== filters.visibility) return false
     if (filters.contributionType !== 'all' && !row.contributionTypes.includes(filters.contributionType)) return false
+    if (filters.sponsorKind !== 'all' && !row.sponsorKinds.includes(filters.sponsorKind)) return false
     return true
   })
 }

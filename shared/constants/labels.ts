@@ -41,14 +41,22 @@ export const SUPPORT_LABELS: Record<VenueSupportMode, string> = {
 
 export const EVENT_STATUS_LABELS: Record<EventStatus, string> = {
   draft: 'Borrador',
-  published: 'Visible para sponsors',
-  public: 'Ficha pública',
+  published: 'Buscando apoyo',
+  public: 'En agenda',
   completed: 'Realizado',
   cancelled: 'Cancelado',
 }
 
 export const NEED_STATUS_LABELS: Record<NeedStatus, string> = {
   open: 'Abierta',
+  partial: 'Cubierta a medias',
+  covered: 'Cubierta',
+  cancelled: 'Cancelada',
+}
+
+/** Post-evento: el reporte muestra si se cubrió, no si sigue “abierta”. */
+export const EVIDENCE_NEED_STATUS_LABELS: Record<NeedStatus, string> = {
+  open: 'No cubierta',
   partial: 'Cubierta a medias',
   covered: 'Cubierta',
   cancelled: 'Cancelada',

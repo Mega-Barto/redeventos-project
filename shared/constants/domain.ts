@@ -27,6 +27,15 @@ export const SELF_ASSIGNABLE_ROLES = ['organizer', 'venue_sponsor', 'local_spons
 export const NEED_TYPES = ['venue', 'products', 'food', 'equipment', 'services', 'diffusion'] as const
 export type NeedType = (typeof NEED_TYPES)[number]
 
+/** Aportes de local sponsor: el espacio va por rol venue_sponsor, no por contribution_types. */
+export const LOCAL_CONTRIBUTION_TYPES = ['products', 'food', 'equipment', 'services', 'diffusion'] as const
+export type LocalContributionType = (typeof LOCAL_CONTRIBUTION_TYPES)[number]
+
+export function asLocalContributionTypes(types: readonly NeedType[] | null | undefined): LocalContributionType[] {
+  const allowed = new Set<string>(LOCAL_CONTRIBUTION_TYPES)
+  return (types ?? []).filter((type): type is LocalContributionType => allowed.has(type))
+}
+
 export const VENUE_SUPPORT_MODES = ['free', 'depends', 'rental_only'] as const
 export type VenueSupportMode = (typeof VENUE_SUPPORT_MODES)[number]
 

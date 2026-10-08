@@ -4,6 +4,18 @@ export const mediaContent = {
   avatarAlt: 'Foto de perfil',
   avatarEmpty: 'Todavía no hay foto de perfil.',
   avatarSave: 'Guardar foto',
+  venueSponsorPhotoLabel: 'Foto de venue sponsor',
+  venueSponsorPhotoHint:
+    'Muestra el espacio que ofreces. jpeg, png, webp o avif, hasta 5 MB. Obligatoria si eres venue sponsor.',
+  venueSponsorPhotoAlt: 'Foto de apoyo como venue sponsor',
+  venueSponsorPhotoEmpty: 'Todavía no hay foto de venue sponsor.',
+  venueSponsorPhotoSave: 'Guardar foto de venue sponsor',
+  localSponsorPhotoLabel: 'Foto de local sponsor',
+  localSponsorPhotoHint:
+    'Muestra tu emprendimiento o el tipo de aporte. jpeg, png, webp o avif, hasta 5 MB. Obligatoria si eres local sponsor.',
+  localSponsorPhotoAlt: 'Foto de apoyo como local sponsor',
+  localSponsorPhotoEmpty: 'Todavía no hay foto de local sponsor.',
+  localSponsorPhotoSave: 'Guardar foto de local sponsor',
   coverLabel: 'Portada del espacio',
   coverHint: 'Una imagen. jpeg, png, webp o avif, hasta 5 MB.',
   coverAlt: 'Portada del espacio',

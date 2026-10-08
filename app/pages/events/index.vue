@@ -1,31 +1,75 @@
 <script setup lang="ts">
-import { CATEGORY_LABELS, CITY_LABELS } from '~~/shared/constants/labels'
+import { CATEGORY_LABELS, CITY_LABELS, NEED_LABELS } from '~~/shared/constants/labels'
+import { eventsSeekingContent } from '~~/shared/content/events'
 import { formatBogotaDate } from '~~/shared/domain/rules'
+import {
+  buildSeekingEventCards,
+  type SeekingEventRow,
+  type SeekingNeedRow,
+  seekingWhenLabel,
+} from '~~/shared/utils/seeking-events'
 
 useSeoMeta({
-  title: 'Eventos',
-  description: 'Eventos públicos con fecha y lugar en Pereira y Dosquebradas.',
+  title: eventsSeekingContent.title,
+  description: eventsSeekingContent.seoDescription,
 })
 
 const configured = useSupabaseConfigured()
-const { data: events, status, error } = await useAsyncData('public-events', async () => {
+const { data: events, status, error } = await useAsyncData('seeking-events', async () => {
   if (!configured.value) return []
-  const { data, error: queryError } = await useDb()
+  const db = useDb()
+  const { data: rows, error: eventsError } = await db
     .from('events')
-    .select('id, slug, title, category, city, starts_on, place_name')
-    .eq('status', 'public')
+    .select('id, slug, title, category, city, starts_on, date_range_label, place_name, status')
+    .in('status', ['published', 'public'])
     .is('hidden_at', null)
-    .order('starts_on', { ascending: true })
-  if (queryError) throw queryError
-  return data ?? []
+    .order('starts_on', { ascending: true, nullsFirst: false })
+  if (eventsError) throw eventsError
+  const list = (rows ?? []) as SeekingEventRow[]
+  if (!list.length) return []
+
+  const { data: needs, error: needsError } = await db
+    .from('event_needs')
+    .select('id, event_id, type, description, status')
+    .in(
+      'event_id',
+      list.map((event) => event.id),
+    )
+    .in('status', ['open', 'partial'])
+  if (needsError) throw needsError
+
+  return buildSeekingEventCards(list, (needs ?? []) as SeekingNeedRow[])
 })
+
+function whenLine(event: { starts_on: string | null; date_range_label: string | null }) {
+  const raw = seekingWhenLabel(event)
+  if (event.starts_on) return formatBogotaDate(event.starts_on)
+  return raw
+}
+
+function needsLine(openNeeds: Array<{ type: keyof typeof NEED_LABELS; description: string }>) {
+  return openNeeds.map((need) => `${NEED_LABELS[need.type]} (${need.description})`).join(' · ')
+}
+
+function supportTo(eventId: string) {
+  return `/login?redirect=${encodeURIComponent(`/app/opportunities/${eventId}`)}`
+}
 </script>
 
 <template>
   <UPage>
-    <UPageHeader title="Eventos" description="Fichas públicas: ya tienen fecha concreta y lugar. La inscripción sigue en el enlace del organizador." />
+    <UPageHeader :title="eventsSeekingContent.title" :description="eventsSeekingContent.description" />
     <UPageBody>
       <UContainer class="space-y-4">
+        <p class="text-sm text-muted">
+          {{ eventsSeekingContent.agendaHint }}
+          <NuxtLink
+            :to="eventsSeekingContent.agendaTo"
+            class="text-primary underline-offset-2 hover:underline"
+          >
+            {{ eventsSeekingContent.agendaCta }}
+          </NuxtLink>
+        </p>
         <div v-if="status === 'pending'" class="space-y-4" aria-busy="true" aria-live="polite">
           <USkeleton class="h-24 w-full" />
           <USkeleton class="h-24 w-full" />
@@ -33,24 +77,23 @@ const { data: events, status, error } = await useAsyncData('public-events', asyn
         <UAlert
           v-else-if="error"
           color="error"
-          title="No se pudo cargar el listado"
-          description="Vuelve a intentar en un momento."
+          :title="eventsSeekingContent.loadErrorTitle"
+          :description="eventsSeekingContent.loadErrorDescription"
         />
         <p v-else-if="!events?.length" class="reading-surface px-4 py-3 text-muted" role="status">
-          Todavía no hay eventos públicos.
+          {{ eventsSeekingContent.empty }}
         </p>
-        <UPageCard
+        <EventsSeekingCard
           v-for="event in events"
           :key="event.id"
           :title="event.title"
-          :to="`/events/${event.slug}`"
           :description="`${CATEGORY_LABELS[event.category]} · ${CITY_LABELS[event.city]}`"
-        >
-          <p class="text-sm text-muted">
-            {{ event.starts_on ? formatBogotaDate(event.starts_on) : 'Fecha por confirmar' }}
-            <span v-if="event.place_name"> · {{ event.place_name }}</span>
-          </p>
-        </UPageCard>
+          :when-line="whenLine(event)"
+          :needs-label="eventsSeekingContent.needsLabel"
+          :needs-line="needsLine(event.openNeeds)"
+          :support-cta="eventsSeekingContent.supportCta"
+          :support-to="supportTo(event.id)"
+        />
       </UContainer>
     </UPageBody>
   </UPage>

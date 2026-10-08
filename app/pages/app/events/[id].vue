@@ -149,7 +149,12 @@ function propose(payload: {
       <section v-if="canSendEvidence" class="space-y-3">
         <h2 class="font-semibold">{{ appEventDetailContent.evidenceTitle }}</h2>
         <p class="text-sm text-muted">{{ appEventDetailContent.evidenceDescription }}</p>
-        <AppEventEvidenceForm :pending="pending" :existing-urls="evidenceUrls" @submit="sendEvidence" />
+        <AppEventEvidenceForm
+          :needs="data.needs"
+          :pending="pending"
+          :existing-urls="evidenceUrls"
+          @submit="sendEvidence"
+        />
       </section>
       <p v-else-if="evidencePending" class="text-muted" role="status">La evidencia está en revisión.</p>
     </template>

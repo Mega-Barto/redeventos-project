@@ -15,7 +15,7 @@ const tab = ref('organizers')
 const { data, refresh } = await useAsyncData('moderation', async () => {
   const [organizers, sponsors, events, evidence, reports] = await Promise.all([
     listModerationProfiles('organizer'),
-    listModerationProfiles('local_sponsor'),
+    listModerationSponsors(),
     listModerationEvents(),
     listPendingEvidence(),
     listOpenReports(),
@@ -88,6 +88,7 @@ function decide(id: string, decision: 'approved' | 'rejected') {
           :empty="appModerationContent.sponsorsEmpty"
           :self-id="userId"
           show-contributions
+          show-sponsor-kind-filter
           @hide="hideProfile"
           @disaffiliate="(id) => run(() => disaffiliate({ profileId: id }))"
         />

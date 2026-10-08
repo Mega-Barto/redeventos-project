@@ -1,10 +1,14 @@
 <script setup lang="ts">
-import { CATEGORY_LABELS, CITY_LABELS, NEED_LABELS } from '~~/shared/constants/labels'
+import { CATEGORY_LABELS, CITY_LABELS } from '~~/shared/constants/labels'
+import { eventPublicContent } from '~~/shared/content/event'
 import { formatBogotaDate } from '~~/shared/domain/rules'
+import { mapPublicEventSupporter } from '~~/shared/utils/event-supporters'
+import { publicStorageUrl } from '~~/shared/utils/storage-url'
 
 const route = useRoute()
 const slug = computed(() => String(route.params.slug))
 const configured = useSupabaseConfigured()
+const supabaseUrl = useSupabaseUrl()
 
 const { data: event } = await useAsyncData(
   () => `public-event-${slug.value}`,
@@ -21,14 +25,45 @@ const { data: event } = await useAsyncData(
       .is('hidden_at', null)
       .maybeSingle()
     if (!data) return null
-    const [{ data: needs }, { data: organizer }] = await Promise.all([
-      db.from('event_needs').select('id, type, description, status').eq('event_id', data.id),
+
+    const [{ data: organizer }, { data: supporters }, { data: media }] = await Promise.all([
       db.from('profiles').select('display_name, slug').eq('id', data.organizer_id).maybeSingle(),
+      db
+        .from('public_event_supporters')
+        .select(
+          'event_id, event_slug, need_id, need_type, need_description, party_kind, party_name, party_slug, party_href, person_name, support_status, sort_rank',
+        )
+        .eq('event_id', data.id)
+        .order('sort_rank'),
+      db
+        .from('public_case_media')
+        .select('storage_path')
+        .eq('event_slug', data.slug)
+        .order('sort_order'),
     ])
-    return { ...data, needs: needs ?? [], organizer }
+
+    return {
+      ...data,
+      organizer,
+      supporters: (supporters ?? []).map(mapPublicEventSupporter),
+      media: media ?? [],
+    }
   },
   { watch: [slug] },
 )
+
+const dateLabel = computed(() =>
+  event.value?.starts_on ? formatBogotaDate(event.value.starts_on) : eventPublicContent.datePending,
+)
+
+const evidenceUrls = computed(() =>
+  (event.value?.media ?? [])
+    .map((row) => publicStorageUrl(supabaseUrl.value, 'evidence', row.storage_path))
+    .filter((url): url is string => Boolean(url)),
+)
+
+const hasEvidence = computed(() => evidenceUrls.value.length > 0)
+const evidenceHref = computed(() => (hasEvidence.value ? `#event-evidence` : null))
 
 useSeoMeta({
   title: () => event.value?.title ?? 'Evento',
@@ -39,41 +74,35 @@ useSeoMeta({
 <template>
   <UPage>
     <UPageBody>
-      <UContainer class="reading-surface max-w-3xl space-y-6 p-6 sm:p-8">
+      <UContainer class="reading-surface max-w-3xl space-y-8 p-6 sm:p-8">
         <div v-if="!event" class="space-y-3">
-          <h1 class="text-2xl font-semibold">Este evento no está público</h1>
-          <p class="text-muted">La ficha aparece cuando hay fecha concreta y lugar. Si ya se realizó, búscalo en casos.</p>
-          <UButton to="/cases" label="Ver casos" color="neutral" variant="soft" />
+          <h1 class="text-2xl font-semibold">{{ eventPublicContent.missingTitle }}</h1>
+          <p class="text-muted">{{ eventPublicContent.missingDescription }}</p>
+          <UButton to="/cases" :label="eventPublicContent.casesCta" color="neutral" variant="soft" />
         </div>
         <template v-else>
-          <p class="text-sm text-muted">{{ CATEGORY_LABELS[event.category] }} · {{ CITY_LABELS[event.city] }}</p>
-          <h1 class="text-3xl font-semibold">{{ event.title }}</h1>
-          <p>{{ event.description }}</p>
-          <dl class="grid gap-3 text-sm md:grid-cols-2">
-            <div>
-              <dt class="text-muted">Fecha</dt>
-              <dd>{{ event.starts_on ? formatBogotaDate(event.starts_on) : 'Por confirmar' }}</dd>
-            </div>
-            <div>
-              <dt class="text-muted">Lugar</dt>
-              <dd>{{ event.place_name }}</dd>
-            </div>
-            <div>
-              <dt class="text-muted">Audiencia</dt>
-              <dd>{{ event.audience }}</dd>
-            </div>
-            <div>
-              <dt class="text-muted">Asistentes esperados</dt>
-              <dd>{{ event.expected_attendees }}</dd>
-            </div>
-          </dl>
-          <UButton :to="event.rsvp_url" label="Inscribirme" target="_blank" external />
-          <section class="space-y-2">
-            <h2 class="text-lg font-semibold">Qué hizo posible el evento</h2>
-            <ul class="space-y-1 text-sm text-muted">
-              <li v-for="need in event.needs" :key="need.id">{{ NEED_LABELS[need.type] }}: {{ need.description }}</li>
-            </ul>
-          </section>
+          <EventPublicHero
+            :category-label="CATEGORY_LABELS[event.category]"
+            :city-label="CITY_LABELS[event.city]"
+            :title="event.title"
+            :description="event.description"
+          />
+          <EventPublicFacts
+            :date-label="dateLabel"
+            :place-name="event.place_name"
+            :audience="event.audience"
+            :expected-attendees="event.expected_attendees"
+          />
+          <UButton :to="event.rsvp_url" :label="eventPublicContent.rsvpLabel" target="_blank" external />
+          <EventPublicNetwork
+            v-if="event.supporters.length"
+            :supporters="event.supporters"
+            :has-evidence="hasEvidence"
+            :evidence-href="evidenceHref"
+          />
+          <div id="event-evidence">
+            <EventPublicEvidence :urls="evidenceUrls" :title="event.title" />
+          </div>
           <ReportForm target-type="event" :target-id="event.id" />
         </template>
       </UContainer>

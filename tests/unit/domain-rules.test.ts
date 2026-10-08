@@ -160,6 +160,21 @@ describe('schemas de entrada', () => {
     expect(parsed.success).toBe(false)
   })
 
+  it('no admite espacio como aporte de local sponsor', () => {
+    const parsed = onboardingSchema.safeParse({
+      commitmentAccepted: true,
+      roles: ['local_sponsor'],
+      instagram: '',
+      website: '',
+      city: 'pereira',
+      whatsapp: '',
+      phone: '',
+      contributionTypes: ['venue'],
+      contributionDescription: '',
+    })
+    expect(parsed.success).toBe(false)
+  })
+
   it('exige enlace de inscripción y una necesidad', () => {
     const parsed = createEventSchema.safeParse({
       title: 'Lectura en el parque',

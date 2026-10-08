@@ -24,6 +24,7 @@ export const venueGalleryFilesSchema = imageFilesSchema(
 
 export const avatarFilesSchema = imageFilesSchema(1, 'Sube una sola foto de perfil.')
 export const venueCoverFilesSchema = imageFilesSchema(1, 'Sube una sola portada.')
+export const sponsorSupportPhotoFilesSchema = imageFilesSchema(1, 'Sube una sola foto de apoyo.')
 
 export function fileToMeta(file: { type: string; size: number }) {
   return { type: file.type, size: file.size }

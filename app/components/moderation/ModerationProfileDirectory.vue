@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { CITIES, NEED_TYPES } from '~~/shared/constants/domain'
+import { CITIES, LOCAL_CONTRIBUTION_TYPES, type LocalContributionType } from '~~/shared/constants/domain'
 import { CITY_LABELS, NEED_LABELS } from '~~/shared/constants/labels'
 import { appModerationContent } from '~~/shared/content/app'
-import type { ModerationProfileRow } from '~~/shared/utils/moderation-directory'
+import type { ModerationProfileRow, ModerationSponsorKind } from '~~/shared/utils/moderation-directory'
 import { filterModerationProfiles } from '~~/shared/utils/moderation-directory'
 
 const props = defineProps<{
@@ -10,6 +10,7 @@ const props = defineProps<{
   empty: string
   selfId: string | null
   showContributions?: boolean
+  showSponsorKindFilter?: boolean
 }>()
 
 defineEmits<{
@@ -20,7 +21,8 @@ defineEmits<{
 const query = ref('')
 const city = ref<(typeof CITIES)[number] | 'all'>('all')
 const visibility = ref<'all' | 'active' | 'hidden' | 'disaffiliated'>('all')
-const contributionType = ref<(typeof NEED_TYPES)[number] | 'all'>('all')
+const contributionType = ref<LocalContributionType | 'all'>('all')
+const sponsorKind = ref<ModerationSponsorKind | 'all'>('all')
 
 const filtered = computed(() =>
   filterModerationProfiles(props.rows, {
@@ -28,6 +30,7 @@ const filtered = computed(() =>
     city: city.value,
     visibility: visibility.value,
     contributionType: contributionType.value,
+    sponsorKind: props.showSponsorKindFilter ? sponsorKind.value : 'all',
   }),
 )
 
@@ -45,7 +48,13 @@ const visibilityItems = [
 
 const contributionItems = [
   { label: appModerationContent.contributionAll, value: 'all' },
-  ...NEED_TYPES.map((value) => ({ label: NEED_LABELS[value], value })),
+  ...LOCAL_CONTRIBUTION_TYPES.map((value) => ({ label: NEED_LABELS[value], value })),
+]
+
+const sponsorKindItems = [
+  { label: appModerationContent.sponsorKindAll, value: 'all' },
+  { label: appModerationContent.sponsorKindVenue, value: 'venue' },
+  { label: appModerationContent.sponsorKindLocal, value: 'local' },
 ]
 </script>
 
@@ -58,6 +67,13 @@ const contributionItems = [
         :items="visibilityItems"
         class="md:w-48"
         :aria-label="appModerationContent.visibilityAll"
+      />
+      <USelect
+        v-if="showSponsorKindFilter"
+        v-model="sponsorKind"
+        :items="sponsorKindItems"
+        class="md:w-48"
+        :aria-label="appModerationContent.sponsorKindAll"
       />
       <USelect
         v-if="showContributions"
@@ -75,6 +91,7 @@ const contributionItems = [
         :row="row"
         :self-id="selfId"
         :show-contributions="showContributions"
+        :show-sponsor-kinds="showSponsorKindFilter"
         @hide="$emit('hide', $event)"
         @disaffiliate="$emit('disaffiliate', $event)"
       />

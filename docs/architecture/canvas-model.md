@@ -111,7 +111,7 @@ draft → published → public → completed
 | Estado | Significado |
 | --- | --- |
 | `draft` | Borrador del organizador |
-| `published` | Visible para sponsors; aún sin ficha pública |
+| `published` | Listado público en `/events` (busca apoyo); aún sin ficha en agenda |
 | `public` | Fecha concreta y lugar; ficha abierta a cualquiera |
 | `completed` | Evidencia aprobada por moderador |
 | `cancelled` | Desde `published` o `public` |

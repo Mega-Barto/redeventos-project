@@ -33,6 +33,15 @@ export default defineNuxtConfig({
   nitro: {
     preset: process.env.NITRO_PRESET === 'node' ? 'node' : 'cloudflare_module',
   },
+  // WSL 9p mounts often miss native fs events; polling keeps Vite HMR reliable in the container.
+  vite: {
+    server: {
+      watch: {
+        usePolling: true,
+        interval: 300,
+      },
+    },
+  },
   routeRules: {
     '/registro': { redirect: '/register' },
     '/entrar': { redirect: '/login' },
@@ -40,6 +49,7 @@ export default defineNuxtConfig({
     '/compromiso': { redirect: '/commitment' },
     '/eventos': { redirect: '/events' },
     '/eventos/**': { redirect: '/events/**' },
+    '/calendario': { redirect: '/agenda' },
     '/casos': { redirect: '/cases' },
     '/casos/**': { redirect: '/cases/**' },
     '/app/eventos/nuevo': { redirect: '/app/events/new' },

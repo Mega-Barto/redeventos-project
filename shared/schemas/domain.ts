@@ -3,6 +3,7 @@ import {
   CITIES,
   EVENT_STATUSES,
   EVIDENCE_STATUSES,
+  LOCAL_CONTRIBUTION_TYPES,
   MATCH_STATUSES,
   NEED_STATUSES,
   NEED_TYPES,
@@ -14,6 +15,7 @@ import {
 export const citySchema = z.enum(CITIES)
 export const roleSchema = z.enum(ROLES)
 export const needTypeSchema = z.enum(NEED_TYPES)
+export const localContributionTypeSchema = z.enum(LOCAL_CONTRIBUTION_TYPES)
 export const venueSupportModeSchema = z.enum(VENUE_SUPPORT_MODES)
 export const eventStatusSchema = z.enum(EVENT_STATUSES)
 export const needStatusSchema = z.enum(NEED_STATUSES)

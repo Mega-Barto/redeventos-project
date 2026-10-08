@@ -1,0 +1,20 @@
+export const sponsorPublicContent = {
+  missing: 'Aliado no encontrado',
+  listTitle: 'Aliados',
+  listDescription:
+    'Venue sponsors y local sponsors de Pereira y Dosquebradas. Cada ficha muestra el tipo de apoyo con su foto.',
+  listEmpty: 'Todavía no hay aliados publicados.',
+  listErrorTitle: 'No se pudo cargar el listado',
+  listErrorDescription: 'Vuelve a intentar en un momento.',
+  heroEyebrow: 'En la red',
+  venueSectionTitle: 'Venue sponsor',
+  venueSectionDescription: 'Ofrece espacio e infraestructura para que el evento ocurra.',
+  venuePhotoEmpty: 'Este venue sponsor aún no publicó una foto del espacio.',
+  venueCta: 'Ver espacios publicados',
+  localSectionTitle: 'Local sponsor',
+  localSectionDescription: 'Aporta en especie: productos, alimentación, equipos, servicios o difusión.',
+  localPhotoEmpty: 'Este local sponsor aún no publicó una foto de su aporte.',
+  contributionsHeading: 'Qué puede aportar',
+  contactHeading: 'Contacto público',
+  personHeading: 'Quién está detrás',
+} as const

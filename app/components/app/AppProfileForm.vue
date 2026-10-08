@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { CITIES, NEED_TYPES, SELF_ASSIGNABLE_ROLES } from '~~/shared/constants/domain'
+import { CITIES, LOCAL_CONTRIBUTION_TYPES, type LocalContributionType, SELF_ASSIGNABLE_ROLES } from '~~/shared/constants/domain'
 import { CITY_LABELS, NEED_LABELS, ROLE_LABELS } from '~~/shared/constants/labels'
 
 const props = defineProps<{
@@ -11,7 +11,7 @@ const props = defineProps<{
     city: '' | 'pereira' | 'dosquebradas'
     whatsapp: string
     phone: string
-    contributionTypes: Array<(typeof NEED_TYPES)[number]>
+    contributionTypes: LocalContributionType[]
     contributionDescription: string
   }
 }>()
@@ -25,7 +25,7 @@ const emit = defineEmits<{
       city: '' | 'pereira' | 'dosquebradas'
       whatsapp: string
       phone: string
-      contributionTypes: Array<(typeof NEED_TYPES)[number]>
+      contributionTypes: LocalContributionType[]
       contributionDescription: string
     },
   ]
@@ -38,19 +38,19 @@ const state = reactive({
   city: (props.initial?.city ?? '') as '' | 'pereira' | 'dosquebradas',
   whatsapp: props.initial?.whatsapp ?? '',
   phone: props.initial?.phone ?? '',
-  contributionTypes: [...(props.initial?.contributionTypes ?? [])],
+  contributionTypes: [...(props.initial?.contributionTypes ?? [])] as LocalContributionType[],
   contributionDescription: props.initial?.contributionDescription ?? '',
 })
 
 const roleItems = SELF_ASSIGNABLE_ROLES.map((role) => ({ label: ROLE_LABELS[role], value: role }))
 const cityItems = CITIES.map((city) => ({ label: CITY_LABELS[city], value: city }))
-const needItems = NEED_TYPES.map((type) => ({ label: NEED_LABELS[type], value: type }))
+const needItems = LOCAL_CONTRIBUTION_TYPES.map((type) => ({ label: NEED_LABELS[type], value: type }))
 
 function toggleRole(role: (typeof SELF_ASSIGNABLE_ROLES)[number], checked: boolean) {
   state.roles = checked ? [...new Set([...state.roles, role])] : state.roles.filter((item) => item !== role)
 }
 
-function toggleNeed(type: (typeof NEED_TYPES)[number], checked: boolean) {
+function toggleNeed(type: LocalContributionType, checked: boolean) {
   state.contributionTypes = checked
     ? [...new Set([...state.contributionTypes, type])]
     : state.contributionTypes.filter((item) => item !== type)

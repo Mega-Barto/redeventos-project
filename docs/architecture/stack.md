@@ -414,15 +414,16 @@ Especialmente:
 
 ``` text
 /events
+/agenda
 /events/[slug]
 /venues/[slug]
 /sponsors/[slug]
 /cases/[slug]
 ```
 
-`/events/[slug]` solo se cachea cuando el evento ya es público: tiene
-fecha concreta y lugar. Las oportunidades visibles solo para sponsors
-no entran a esa caché.
+`/agenda` y `/events/[slug]` solo aplican cuando el evento ya es `public`
+(fecha concreta y lugar). `/events` lista eventos que buscan apoyo
+(necesidades abiertas). El match y el contacto directo siguen en `/app`.
 
 Mientras que:
 
@@ -2110,6 +2111,7 @@ URLs deseables:
 
 ``` text
 /events
+/agenda
 /events/[slug]
 
 /venues
@@ -2123,7 +2125,8 @@ URLs deseables:
 /categories/[slug]
 ```
 
-`/events/[slug]` responde solo cuando el evento está en `public`. El
+`/events` es el listado de eventos que buscan apoyo. `/agenda` y
+`/events/[slug]` responden cuando el evento está en `public`. El
 caso de éxito vive en `/cases/[slug]` y aparece después de aprobar la
 evidencia. Pereira y Dosquebradas son un filtro, no dos sitios.
 

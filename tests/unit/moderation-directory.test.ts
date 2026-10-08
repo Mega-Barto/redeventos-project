@@ -7,6 +7,7 @@ import {
   mapModerationEventFicha,
   mapModerationProfile,
   mapModerationProfileFicha,
+  mapModerationReport,
   profileVisibility,
 } from '../../shared/utils/moderation-directory'
 
@@ -19,6 +20,7 @@ const ana: ModerationProfileRow = {
   hidden: false,
   disaffiliated: false,
   contributionTypes: [],
+  sponsorKinds: [],
 }
 
 const luz: ModerationProfileRow = {
@@ -30,6 +32,7 @@ const luz: ModerationProfileRow = {
   hidden: true,
   disaffiliated: false,
   contributionTypes: ['food', 'diffusion'],
+  sponsorKinds: ['local'],
 }
 
 const leo: ModerationProfileRow = {
@@ -40,7 +43,8 @@ const leo: ModerationProfileRow = {
   city: 'pereira',
   hidden: false,
   disaffiliated: true,
-  contributionTypes: ['venue'],
+  contributionTypes: [],
+  sponsorKinds: ['venue'],
 }
 
 const lectura: ModerationEventRow = {
@@ -83,6 +87,41 @@ describe('mapeo para el directorio', () => {
       ...ana,
       hidden: true,
       contributionTypes: ['food'],
+    })
+    expect(JSON.stringify(mapped)).not.toMatch(/whatsapp|tel[eé]fono|phone/i)
+  })
+
+  it('asigna tipos de sponsor venue y local', () => {
+    const mapped = mapModerationProfile(
+      {
+        id: leo.id,
+        display_name: leo.displayName,
+        email: leo.email,
+        slug: leo.slug,
+        city: 'pereira',
+        hidden_at: null,
+        disaffiliated_at: null,
+        contribution_types: ['venue', 'food'],
+      },
+      ['venue', 'local'],
+    )
+    expect(mapped.sponsorKinds).toEqual(['venue', 'local'])
+    expect(mapped.contributionTypes).toEqual(['food'])
+  })
+
+  it('mapea reportes con título legible y sin exponer WhatsApp', () => {
+    const mapped = mapModerationReport({
+      id: 'fe555555-5555-4555-8555-555555555001',
+      target_type: 'event',
+      target_id: 'e5555555-5555-4555-8555-555555555510',
+      reason: 'La descripción del showcase parece demasiado genérica.',
+      targetTitle: 'Showcase cultural Cuba',
+      targetDetail: 'showcase-cultural-cuba · published',
+    })
+    expect(mapped).toMatchObject({
+      targetType: 'event',
+      targetTitle: 'Showcase cultural Cuba',
+      targetDetail: 'showcase-cultural-cuba · published',
     })
     expect(JSON.stringify(mapped)).not.toMatch(/whatsapp|tel[eé]fono|phone/i)
   })
@@ -169,12 +208,14 @@ describe('filtros de perfiles', () => {
     expect(filterModerationProfiles(all, baseProfile({ query: 'LUZ.ALIADA' })).map((row) => row.id)).toEqual([luz.id])
   })
 
-  it('filtra ciudad, visibilidad y tipo de aporte', () => {
+  it('filtra ciudad, visibilidad, tipo de aporte y clase de sponsor', () => {
     expect(filterModerationProfiles(all, baseProfile({ city: 'pereira' }))).toHaveLength(2)
     expect(filterModerationProfiles(all, baseProfile({ visibility: 'hidden' })).map((row) => row.id)).toEqual([luz.id])
     expect(filterModerationProfiles(all, baseProfile({ contributionType: 'food' })).map((row) => row.id)).toEqual([
       luz.id,
     ])
+    expect(filterModerationProfiles(all, baseProfile({ sponsorKind: 'venue' })).map((row) => row.id)).toEqual([leo.id])
+    expect(filterModerationProfiles(all, baseProfile({ sponsorKind: 'local' })).map((row) => row.id)).toEqual([luz.id])
   })
 
   it('sin filtros devuelve toda la lista', () => {
@@ -205,6 +246,7 @@ function baseProfile(
     city: 'all',
     visibility: 'all',
     contributionType: 'all',
+    sponsorKind: 'all',
     ...overrides,
   }
 }

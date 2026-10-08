@@ -93,8 +93,8 @@ La frase que ordena el producto:
 | Dinero | Queda fuera. No hay montos, pagos ni comisión |
 | Fecha | Puede ser un rango hasta que el espacio quede cerrado |
 | RSVP | Enlace obligatorio al crear el evento. La lista de asistentes vive fuera |
-| Ficha pública | Solo cuando hay fecha concreta y lugar |
-| Visibilidad previa | Dentro de la plataforma, para sponsors |
+| Ficha pública / agenda | Solo cuando hay fecha concreta y lugar (`/agenda`, `/events/[slug]`) |
+| Visibilidad previa | Listado público en `/events` de eventos `published`/`public` con necesidades abiertas; propuestas y contacto directo siguen tras cuenta de sponsor |
 | Match | Propuesta bidireccional con necesidad, cantidad y fecha |
 | Cobertura | Varias necesidades abiertas. Cada una con su match. Se puede cubrir a medias |
 | Contacto público | Correo, Instagram y web |

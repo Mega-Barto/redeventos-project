@@ -1,7 +1,13 @@
 import { z } from 'zod'
 import { CITIES, EVENT_CATEGORIES, NEED_TYPES, SELF_ASSIGNABLE_ROLES, VENUE_SUPPORT_MODES } from '../constants/domain'
 import { emptyToNull } from '../utils/need-quantity'
-import { citySchema, eventStatusSchema, needTypeSchema, venueSupportModeSchema } from './domain'
+import {
+  citySchema,
+  eventStatusSchema,
+  localContributionTypeSchema,
+  needTypeSchema,
+  venueSupportModeSchema,
+} from './domain'
 
 const optionalText = (max: number) =>
   z
@@ -35,7 +41,7 @@ export const onboardingSchema = z.object({
   city: z.union([z.enum(CITIES), z.literal('')]).transform((value) => (value === '' ? null : value)),
   whatsapp: phoneSchema,
   phone: phoneSchema,
-  contributionTypes: z.array(needTypeSchema),
+  contributionTypes: z.array(localContributionTypeSchema),
   contributionDescription: optionalText(2000),
 })
 
@@ -140,13 +146,56 @@ export const createOfferSchema = z.object({
 
 export type CreateOfferInput = z.infer<typeof createOfferSchema>
 
+export const evidenceContributionNoteSchema = z.object({
+  needId: z.uuid(),
+  note: z.string().trim().min(3, 'Cuenta qué pasó con este aporte').max(2000),
+})
+
 export const evidenceSchema = z.object({
   attendanceCount: z.coerce.number().int().positive('Indica cuántas personas asistieron'),
   venueNote: z.string().trim().min(3, 'Describe el espacio que recibió el evento').max(2000),
-  contributionsNote: z.string().trim().min(3, 'Describe los aportes cumplidos').max(2000),
+  contributionNotes: z.array(evidenceContributionNoteSchema),
 })
 
+export type EvidenceContributionNoteInput = z.infer<typeof evidenceContributionNoteSchema>
 export type EvidenceInput = z.infer<typeof evidenceSchema>
+
+/** Exige un comentario por cada necesidad del evento. */
+export function evidenceSchemaForNeeds(needIds: string[]) {
+  const expected = new Set(needIds)
+  return evidenceSchema.superRefine((value, ctx) => {
+    const seen = new Set<string>()
+    for (const [index, entry] of value.contributionNotes.entries()) {
+      if (!expected.has(entry.needId)) {
+        ctx.addIssue({
+          code: 'custom',
+          path: ['contributionNotes', index, 'needId'],
+          message: 'Ese aporte no pertenece al evento',
+        })
+        continue
+      }
+      if (seen.has(entry.needId)) {
+        ctx.addIssue({
+          code: 'custom',
+          path: ['contributionNotes', index, 'needId'],
+          message: 'Ya comentaste este aporte',
+        })
+        continue
+      }
+      seen.add(entry.needId)
+    }
+    for (const needId of expected) {
+      if (!seen.has(needId)) {
+        ctx.addIssue({
+          code: 'custom',
+          path: ['contributionNotes'],
+          message: 'Comenta cada aporte del evento',
+        })
+        break
+      }
+    }
+  })
+}
 
 export const reviewEvidenceSchema = z
   .object({

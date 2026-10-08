@@ -7,14 +7,16 @@ import type {
   OfferStatus,
   Role,
 } from '~~/shared/constants/domain'
+import { asLocalContributionTypes } from '~~/shared/constants/domain'
 import { MAX_VENUE_GALLERY } from '~~/shared/constants/media'
+import { appModerationContent } from '~~/shared/content/app'
 import { suggestionRank } from '~~/shared/domain/rules'
 import {
   type CreateEventInput,
   createEventSchema,
   createOfferSchema,
   disaffiliateSchema,
-  evidenceSchema,
+  evidenceSchemaForNeeds,
   makePublicSchema,
   type ProfileUpdateInput,
   profileUpdateSchema,
@@ -26,6 +28,7 @@ import {
   avatarFilesSchema,
   evidenceFilesSchema,
   fileToMeta,
+  sponsorSupportPhotoFilesSchema,
   venueCoverFilesSchema,
   venueGalleryFilesSchema,
 } from '~~/shared/schemas/media'
@@ -34,16 +37,23 @@ import {
   type ModerationEventRow,
   type ModerationProfileFicha,
   type ModerationProfileRow,
+  type ModerationReportRow,
+  type ModerationSponsorKind,
   mapModerationEvent,
   mapModerationEventFicha,
   mapModerationProfile,
   mapModerationProfileFicha,
+  mapModerationReport,
 } from '~~/shared/utils/moderation-directory'
 import {
+  attachOrganizerNotes,
   type EvidenceParty,
+  joinContributionNotes,
   mapEvidenceNeed,
   mapPendingEvidence,
   type PendingEvidenceRow,
+  parseContributionNotes,
+  toStoredContributionNotes,
 } from '~~/shared/utils/moderation-evidence'
 import { imageExtension } from '~~/shared/utils/storage-url'
 
@@ -72,7 +82,7 @@ export async function loadProfileForm(profileId: string) {
     db
       .from('profiles')
       .select(
-        'display_name, instagram, website, city, contribution_types, contribution_description, avatar_storage_path',
+        'display_name, instagram, website, city, contribution_types, contribution_description, avatar_storage_path, venue_sponsor_photo_path, local_sponsor_photo_path',
       )
       .eq('id', profileId)
       .maybeSingle(),
@@ -91,9 +101,11 @@ export async function loadProfileForm(profileId: string) {
     city: (profile.city ?? '') as '' | City,
     whatsapp: direct?.whatsapp ?? '',
     phone: direct?.phone ?? '',
-    contributionTypes: profile.contribution_types,
+    contributionTypes: asLocalContributionTypes(profile.contribution_types),
     contributionDescription: profile.contribution_description ?? '',
     avatarPath: profile.avatar_storage_path,
+    venueSponsorPhotoPath: profile.venue_sponsor_photo_path,
+    localSponsorPhotoPath: profile.local_sponsor_photo_path,
   }
 }
 
@@ -130,20 +142,59 @@ export async function saveProfile(profileId: string, raw: unknown) {
 }
 
 export async function saveProfileAvatar(profileId: string, file: File) {
-  const parsed = avatarFilesSchema.safeParse([fileToMeta(file)])
+  return saveProfileSupportPhoto(profileId, file, 'avatar')
+}
+
+export async function saveVenueSponsorPhoto(profileId: string, file: File) {
+  return saveProfileSupportPhoto(profileId, file, 'venue_sponsor')
+}
+
+export async function saveLocalSponsorPhoto(profileId: string, file: File) {
+  return saveProfileSupportPhoto(profileId, file, 'local_sponsor')
+}
+
+async function saveProfileSupportPhoto(
+  profileId: string,
+  file: File,
+  kind: 'avatar' | 'venue_sponsor' | 'local_sponsor',
+) {
+  const schema = kind === 'avatar' ? avatarFilesSchema : sponsorSupportPhotoFilesSchema
+  const parsed = schema.safeParse([fileToMeta(file)])
   if (!parsed.success) return { error: firstIssue(parsed.error) }
   const ext = imageExtension(file.type)
   if (!ext) return { error: 'Cada foto debe ser jpeg, png, webp o avif.' }
+
+  const column =
+    kind === 'avatar'
+      ? 'avatar_storage_path'
+      : kind === 'venue_sponsor'
+        ? 'venue_sponsor_photo_path'
+        : 'local_sponsor_photo_path'
+  const fileName =
+    kind === 'avatar' ? `avatar.${ext}` : kind === 'venue_sponsor' ? `venue-sponsor.${ext}` : `local-sponsor.${ext}`
+
   const db = useDb()
-  const current = await db.from('profiles').select('avatar_storage_path').eq('id', profileId).maybeSingle()
+  const current = await db
+    .from('profiles')
+    .select('avatar_storage_path, venue_sponsor_photo_path, local_sponsor_photo_path')
+    .eq('id', profileId)
+    .maybeSingle()
   if (current.error) return { error: current.error.message }
-  const path = `${profileId}/avatar.${ext}`
+  const path = `${profileId}/${fileName}`
   const { uploadImage, removeObject } = useMediaUpload()
   const uploaded = await uploadImage({ bucket: 'profiles', path, file, upsert: true })
   if (uploaded.error) return { error: uploaded.error }
-  const updated = await db.from('profiles').update({ avatar_storage_path: path }).eq('id', profileId)
+  const updated = await db
+    .from('profiles')
+    .update({ [column]: path })
+    .eq('id', profileId)
   if (updated.error) return { error: updated.error.message }
-  const previous = current.data?.avatar_storage_path
+  const previous =
+    kind === 'avatar'
+      ? current.data?.avatar_storage_path
+      : kind === 'venue_sponsor'
+        ? current.data?.venue_sponsor_photo_path
+        : current.data?.local_sponsor_photo_path
   if (previous && previous !== path) await removeObject('profiles', previous)
   return { error: null as string | null, path }
 }
@@ -285,16 +336,20 @@ export async function makeEventPublic(eventId: string, raw: unknown) {
 }
 
 export async function submitEvidence(eventId: string, profileId: string, raw: unknown, files: File[]) {
-  const parsed = evidenceSchema.safeParse(raw)
+  const db = useDb()
+  const { data: needRows } = await db.from('event_needs').select('id').eq('event_id', eventId)
+  const needIds = (needRows ?? []).map((row) => row.id)
+  const parsed = evidenceSchemaForNeeds(needIds).safeParse(raw)
   if (!parsed.success) return { error: firstIssue(parsed.error) }
   const filesParsed = evidenceFilesSchema.safeParse(files.map(fileToMeta))
   if (!filesParsed.success) return { error: firstIssue(filesParsed.error) }
-  const db = useDb()
   const { uploadMany, removeObject } = useMediaUpload()
+  const contributionNotes = toStoredContributionNotes(parsed.data.contributionNotes)
   const payload = {
     attendance_count: parsed.data.attendanceCount,
     venue_note: parsed.data.venueNote,
-    contributions_note: parsed.data.contributionsNote,
+    contributions_note: joinContributionNotes(parsed.data.contributionNotes),
+    contribution_notes: contributionNotes,
     status: 'submitted' as const,
   }
   const existing = await db.from('evidence').select('id, status').eq('event_id', eventId).maybeSingle()
@@ -729,7 +784,7 @@ export async function cancelOffer(offerId: string) {
   return { error: error?.message ?? null }
 }
 
-export async function listModerationProfiles(role: 'organizer' | 'local_sponsor') {
+export async function listModerationProfiles(role: 'organizer' | 'local_sponsor' | 'venue_sponsor') {
   const db = useDb()
   const { data: roleRows, error: roleError } = await db.from('profile_roles').select('profile_id').eq('role', role)
   if (roleError) return { rows: [] as ModerationProfileRow[], error: roleError.message }
@@ -741,7 +796,45 @@ export async function listModerationProfiles(role: 'organizer' | 'local_sponsor'
     .in('id', ids)
     .order('display_name')
   if (error) return { rows: [] as ModerationProfileRow[], error: error.message }
-  return { rows: (data ?? []).map(mapModerationProfile), error: null as string | null }
+  const kind: ModerationSponsorKind | null =
+    role === 'venue_sponsor' ? 'venue' : role === 'local_sponsor' ? 'local' : null
+  return {
+    rows: (data ?? []).map((row) => mapModerationProfile(row, kind ? [kind] : [])),
+    error: null as string | null,
+  }
+}
+
+export async function listModerationSponsors() {
+  const db = useDb()
+  const { data: roleRows, error: roleError } = await db
+    .from('profile_roles')
+    .select('profile_id, role')
+    .in('role', ['venue_sponsor', 'local_sponsor'])
+  if (roleError) return { rows: [] as ModerationProfileRow[], error: roleError.message }
+
+  const kindsById = new Map<string, ModerationSponsorKind[]>()
+  for (const row of roleRows ?? []) {
+    const kind: ModerationSponsorKind | null =
+      row.role === 'venue_sponsor' ? 'venue' : row.role === 'local_sponsor' ? 'local' : null
+    if (!kind) continue
+    const current = kindsById.get(row.profile_id) ?? []
+    if (!current.includes(kind)) current.push(kind)
+    kindsById.set(row.profile_id, current)
+  }
+
+  const ids = [...kindsById.keys()]
+  if (!ids.length) return { rows: [] as ModerationProfileRow[], error: null as string | null }
+
+  const { data, error } = await db
+    .from('profiles')
+    .select('id, display_name, email, slug, city, hidden_at, disaffiliated_at, contribution_types')
+    .in('id', ids)
+    .order('display_name')
+  if (error) return { rows: [] as ModerationProfileRow[], error: error.message }
+  return {
+    rows: (data ?? []).map((row) => mapModerationProfile(row, kindsById.get(row.id) ?? [])),
+    error: null as string | null,
+  }
 }
 
 export async function listModerationEvents() {
@@ -801,7 +894,7 @@ export async function listPendingEvidence() {
   const db = useDb()
   const { data, error } = await db
     .from('evidence')
-    .select('id, event_id, attendance_count, venue_note, contributions_note, status')
+    .select('id, event_id, attendance_count, venue_note, contribution_notes, status')
     .eq('status', 'submitted')
   if (error) return { rows: [] as PendingEvidenceRow[], error: error.message }
   const ids = (data ?? []).map((row) => row.event_id)
@@ -853,11 +946,16 @@ export async function listPendingEvidence() {
           name: names.get(match.sponsor_id) ?? 'Aliado local',
           detail: null,
         }))
+      const contributionNotes = parseContributionNotes(row.contribution_notes)
+      const eventNeeds = attachOrganizerNotes(
+        (needs ?? []).filter((need) => need.event_id === row.event_id).map((need) => mapEvidenceNeed(need)),
+        contributionNotes,
+      )
       return mapPendingEvidence({
         ...row,
         title: event?.title ?? 'Evento',
         media: (media ?? []).filter((item) => item.event_id === row.event_id),
-        needs: (needs ?? []).filter((need) => need.event_id === row.event_id).map((need) => mapEvidenceNeed(need)),
+        needs: eventNeeds,
         venue,
         localSponsors,
       })
@@ -887,8 +985,46 @@ export async function listOpenReports() {
     .select('id, target_type, target_id, reason')
     .is('resolved_at', null)
     .order('created_at', { ascending: false })
-  if (error) return { rows: [], error: error.message }
-  return { rows: data ?? [], error: null as string | null }
+  if (error) return { rows: [] as ModerationReportRow[], error: error.message }
+
+  const eventIds = [...new Set((data ?? []).filter((row) => row.target_type === 'event').map((row) => row.target_id))]
+  const profileIds = [
+    ...new Set((data ?? []).filter((row) => row.target_type === 'profile').map((row) => row.target_id)),
+  ]
+
+  const [{ data: events }, { data: profiles }] = await Promise.all([
+    eventIds.length
+      ? db.from('events').select('id, title, slug, status').in('id', eventIds)
+      : Promise.resolve({ data: [] as Array<{ id: string; title: string; slug: string; status: string }> }),
+    profileIds.length
+      ? db.from('profiles').select('id, display_name, slug').in('id', profileIds)
+      : Promise.resolve({ data: [] as Array<{ id: string; display_name: string; slug: string }> }),
+  ])
+
+  const eventById = new Map((events ?? []).map((row) => [row.id, row]))
+  const profileById = new Map((profiles ?? []).map((row) => [row.id, row]))
+
+  return {
+    rows: (data ?? [])
+      .map((row) => {
+        if (row.target_type === 'event') {
+          const event = eventById.get(row.target_id)
+          return mapModerationReport({
+            ...row,
+            targetTitle: event?.title ?? appModerationContent.reportsTargetMissing,
+            targetDetail: event ? `${event.slug} · ${event.status}` : null,
+          })
+        }
+        const profile = profileById.get(row.target_id)
+        return mapModerationReport({
+          ...row,
+          targetTitle: profile?.display_name ?? appModerationContent.reportsTargetMissing,
+          targetDetail: profile?.slug ?? null,
+        })
+      })
+      .filter((row): row is ModerationReportRow => Boolean(row)),
+    error: null as string | null,
+  }
 }
 
 export async function hideReportTarget(targetType: string, targetId: string) {

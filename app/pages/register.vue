@@ -1,8 +1,19 @@
 <script setup lang="ts">
-import { CITIES, COMMITMENT_VERSION, NEED_TYPES, PRIVACY_VERSION, type Role, SELF_ASSIGNABLE_ROLES } from '~~/shared/constants/domain'
+import {
+  CITIES,
+  COMMITMENT_VERSION,
+  LOCAL_CONTRIBUTION_TYPES,
+  type LocalContributionType,
+  PRIVACY_VERSION,
+  type Role,
+  SELF_ASSIGNABLE_ROLES,
+} from '~~/shared/constants/domain'
 import { CITY_LABELS, NEED_LABELS, ROLE_LABELS } from '~~/shared/constants/labels'
 import { commitmentContent } from '~~/shared/content/legal'
+import { mediaContent } from '~~/shared/content/media'
 import { onboardingSchema, registerAccountSchema } from '~~/shared/schemas/inputs'
+import { asFileList } from '~~/shared/utils/public-media'
+import { missingSponsorPhotoMessage, requiredSponsorPhotoKinds } from '~~/shared/utils/sponsor-photos'
 
 definePageMeta({ layout: 'auth' })
 
@@ -16,6 +27,8 @@ const userId = useUserId()
 const step = ref<'cuenta' | 'red'>('cuenta')
 const errorMessage = ref('')
 const pending = ref(false)
+const venueSponsorPhoto = ref<File | File[] | null>(null)
+const localSponsorPhoto = ref<File | File[] | null>(null)
 
 const account = reactive({
   displayName: '',
@@ -33,9 +46,12 @@ const network = reactive({
   city: '' as '' | 'pereira' | 'dosquebradas',
   whatsapp: '',
   phone: '',
-  contributionTypes: [] as Array<(typeof NEED_TYPES)[number]>,
+  contributionTypes: [] as LocalContributionType[],
   contributionDescription: '',
 })
+
+const wantsVenue = computed(() => network.roles.includes('venue_sponsor'))
+const wantsLocal = computed(() => network.roles.includes('local_sponsor'))
 
 watch(
   userId,
@@ -50,10 +66,12 @@ const roleItems = SELF_ASSIGNABLE_ROLES.map((role) => ({
   value: role,
 }))
 const cityItems = CITIES.map((city) => ({ label: CITY_LABELS[city], value: city }))
-const needItems = NEED_TYPES.map((type) => ({ label: NEED_LABELS[type], value: type }))
+const needItems = LOCAL_CONTRIBUTION_TYPES.map((type) => ({ label: NEED_LABELS[type], value: type }))
 
 function toggleRole(role: (typeof SELF_ASSIGNABLE_ROLES)[number], checked: boolean) {
   network.roles = checked ? [...new Set([...network.roles, role])] : network.roles.filter((item) => item !== role)
+  if (!network.roles.includes('venue_sponsor')) venueSponsorPhoto.value = null
+  if (!network.roles.includes('local_sponsor')) localSponsorPhoto.value = null
 }
 
 async function createAccount() {
@@ -93,6 +111,15 @@ async function joinNetwork() {
     errorMessage.value = 'Entra de nuevo para terminar el registro.'
     return
   }
+
+  for (const kind of requiredSponsorPhotoKinds(parsed.data.roles)) {
+    const file = asFileList(kind === 'venue_sponsor' ? venueSponsorPhoto.value : localSponsorPhoto.value)[0]
+    if (!file) {
+      errorMessage.value = missingSponsorPhotoMessage(kind)
+      return
+    }
+  }
+
   pending.value = true
   const db = useDb()
   const profileResult = await db
@@ -131,11 +158,32 @@ async function joinNetwork() {
       role: role as Role,
     })),
   )
-  pending.value = false
   if (roleResult.error) {
+    pending.value = false
     errorMessage.value = roleResult.error.message
     return
   }
+
+  const venueFile = asFileList(venueSponsorPhoto.value)[0]
+  if (parsed.data.roles.includes('venue_sponsor') && venueFile) {
+    const photo = await saveVenueSponsorPhoto(id, venueFile)
+    if (photo.error) {
+      pending.value = false
+      errorMessage.value = photo.error
+      return
+    }
+  }
+  const localFile = asFileList(localSponsorPhoto.value)[0]
+  if (parsed.data.roles.includes('local_sponsor') && localFile) {
+    const photo = await saveLocalSponsorPhoto(id, localFile)
+    if (photo.error) {
+      pending.value = false
+      errorMessage.value = photo.error
+      return
+    }
+  }
+
+  pending.value = false
   await navigateTo('/app')
 }
 </script>
@@ -178,6 +226,18 @@ async function joinNetwork() {
           @update:model-value="toggleRole(item.value, Boolean($event))"
         />
       </fieldset>
+      <AppMediaFileField
+        v-if="wantsVenue"
+        v-model="venueSponsorPhoto"
+        :label="mediaContent.venueSponsorPhotoLabel"
+        :hint="mediaContent.venueSponsorPhotoHint"
+      />
+      <AppMediaFileField
+        v-if="wantsLocal"
+        v-model="localSponsorPhoto"
+        :label="mediaContent.localSponsorPhotoLabel"
+        :hint="mediaContent.localSponsorPhotoHint"
+      />
       <UFormField label="Ciudad">
         <USelect
           :model-value="network.city || undefined"
@@ -199,7 +259,7 @@ async function joinNetwork() {
       <UFormField label="Teléfono" hint="Solo tras un match">
         <UInput v-model="network.phone" class="w-full" />
       </UFormField>
-      <fieldset class="space-y-2">
+      <fieldset v-if="wantsLocal" class="space-y-2">
         <legend class="text-sm font-medium">Aportes que puedes ofrecer</legend>
         <UCheckbox
           v-for="item in needItems"
@@ -213,7 +273,7 @@ async function joinNetwork() {
           "
         />
       </fieldset>
-      <UFormField label="Descripción del aporte">
+      <UFormField v-if="wantsLocal" label="Descripción del aporte">
         <UTextarea v-model="network.contributionDescription" class="w-full" />
       </UFormField>
       <UButton type="submit" label="Entrar a la red" :loading="pending" block />

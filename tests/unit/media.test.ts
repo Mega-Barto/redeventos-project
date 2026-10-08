@@ -51,13 +51,9 @@ describe('URLs públicas de Storage', () => {
 
 describe('presentación pública', () => {
   it('solo deja media con is_public', () => {
-    expect(
-      publicMediaOnly([
-        { id: '1', is_public: true },
-        { id: '2', is_public: false },
-        { id: '3' },
-      ]),
-    ).toEqual([{ id: '1', is_public: true }])
+    expect(publicMediaOnly([{ id: '1', is_public: true }, { id: '2', is_public: false }, { id: '3' }])).toEqual([
+      { id: '1', is_public: true },
+    ])
   })
 
   it('marca la portada como LCP y el resto como lazy', () => {

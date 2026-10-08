@@ -7,6 +7,7 @@ defineProps<{
   row: ModerationProfileRow
   selfId: string | null
   showContributions?: boolean
+  showSponsorKinds?: boolean
 }>()
 
 defineEmits<{
@@ -22,6 +23,14 @@ defineEmits<{
         <p class="font-medium">{{ row.displayName }}</p>
         <p class="text-sm text-muted">{{ row.email }}</p>
         <p class="text-sm text-muted">{{ row.city ? CITY_LABELS[row.city] : '—' }} · {{ row.slug }}</p>
+        <div v-if="showSponsorKinds && row.sponsorKinds.length" class="flex flex-wrap gap-2 pt-1">
+          <UBadge v-if="row.sponsorKinds.includes('venue')" color="info" variant="subtle">
+            {{ appModerationContent.sponsorKindVenueBadge }}
+          </UBadge>
+          <UBadge v-if="row.sponsorKinds.includes('local')" color="success" variant="subtle">
+            {{ appModerationContent.sponsorKindLocalBadge }}
+          </UBadge>
+        </div>
         <p v-if="showContributions && row.contributionTypes.length" class="text-sm text-muted">
           {{ row.contributionTypes.map((type) => NEED_LABELS[type]).join(', ') }}
         </p>

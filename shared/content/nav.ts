@@ -3,6 +3,7 @@ export const publicNav = [
   { label: 'Cómo funciona', to: '/#como-funciona' },
   { label: 'Perfiles', to: '/#perfiles' },
   { label: 'Eventos', to: '/events' },
+  { label: 'Agenda', to: '/agenda' },
   { label: 'Espacios', to: '/venues' },
   { label: 'Aliados', to: '/sponsors' },
   { label: 'Casos', to: '/cases' },

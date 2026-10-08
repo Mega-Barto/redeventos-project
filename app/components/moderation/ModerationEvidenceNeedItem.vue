@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { NEED_LABELS, NEED_STATUS_LABELS } from '~~/shared/constants/labels'
+import { EVIDENCE_NEED_STATUS_LABELS, NEED_LABELS } from '~~/shared/constants/labels'
 import { appModerationContent } from '~~/shared/content/app'
 import { type EvidenceNeed, evidenceNeedIcon, evidenceNeedTone, formatEvidenceCoverage } from '~~/shared/utils/moderation-evidence'
 
@@ -22,11 +22,15 @@ const coverageMax = computed(() => Math.max(props.need.quantityRequested ?? 0, 1
           <p class="text-sm text-muted">{{ need.description }}</p>
         </div>
       </div>
-      <UBadge :color="tone" variant="subtle" class="shrink-0">{{ NEED_STATUS_LABELS[need.status] }}</UBadge>
+      <UBadge :color="tone" variant="subtle" class="shrink-0">{{ EVIDENCE_NEED_STATUS_LABELS[need.status] }}</UBadge>
     </div>
     <div v-if="coverage" class="mt-3 flex items-center gap-3">
       <UProgress :model-value="need.quantityCovered" :max="coverageMax" :color="tone" size="xs" class="min-w-0 flex-1" />
       <p class="shrink-0 text-xs text-muted">{{ coverage }}</p>
+    </div>
+    <div v-if="need.organizerNote" class="mt-3 space-y-1 border-t border-default pt-3">
+      <p class="text-xs font-medium text-muted">{{ appModerationContent.evidenceOrganizerNote }}</p>
+      <p class="text-sm text-default">{{ need.organizerNote }}</p>
     </div>
   </li>
 </template>
