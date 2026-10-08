@@ -43,7 +43,7 @@ Definido en [`.devcontainer/`](./.devcontainer/):
 | Docker | Feature **docker-outside-of-docker**: el CLI del contenedor habla con Docker Desktop del host (menor RAM/CPU que Docker-in-Docker) |
 | `postCreate` | [`post-create.sh`](./.devcontainer/post-create.sh): permisos en volúmenes, `safe.directory`, `bun install --frozen-lockfile` |
 
-**Puertos reenviados:** `3000` (Nuxt), `8787` / `8976` (Wrangler), `54321`–`54324` (Supabase local).
+**Puertos reenviados:** `3000` (Nuxt), `8787` / `8976` (Wrangler). `bun run db:start` une este contenedor a la red de Supabase y reenvía `127.0.0.1:54321`–`54324` a esos servicios (el CLI no alcanza el Docker del host por sí solo).
 
 **Extensiones en el contenedor:** Vue (Volar), Biome, Tailwind CSS, Vitest, Docker, GitHub Pull Requests.
 
@@ -130,13 +130,22 @@ bun run db:start      # Supabase local; copia claves de `supabase status` a .env
 bun run dev           # Nuxt en http://localhost:3000
 ```
 
-Cuentas de prueba (tras `bun run db:seed:local`). Contraseña de las cuatro: **`piloto-local`**. Solo existen en la base local; no las uses en remoto.
+Cuentas de prueba (tras `bun run db:seed:local`). Contraseña de todas: **`piloto-local`**. Solo existen en la base local; no las uses en remoto.
+
+El seed refleja la visión del **primer mes** (`docs/summary.md`): ~10 eventos en pipeline, 5 venues, 3 local sponsors, 4 casos con evidencia aprobada y 1 evidencia pendiente de moderación.
 
 | Correo | Rol | Para qué |
 | --- | --- | --- |
-| `ana.organizadora@local.redeventos.test` | organizer | Publicar evento, evidencia |
-| `leo.espacio@local.redeventos.test` | venue_sponsor | Ficha de espacio |
-| `luz.aliada@local.redeventos.test` | local_sponsor | Propuestas |
+| `ana.organizadora@local.redeventos.test` | organizer | Eventos, evidencia pendiente (Lectura) |
+| `camilo.organizador@local.redeventos.test` | organizer | Meetup, jam, hackatón, showcase |
+| `diana.organizadora@local.redeventos.test` | organizer | Cine, taller de cuento, charla |
+| `leo.espacio@local.redeventos.test` | venue_sponsor | Casa de Leo + Patio Leo |
+| `sofia.espacio@local.redeventos.test` | venue_sponsor | Café Sofía |
+| `mateo.espacio@local.redeventos.test` | venue_sponsor | Salón Mateo |
+| `valentina.espacio@local.redeventos.test` | venue_sponsor | Terraza Valentina |
+| `luz.aliada@local.redeventos.test` | local_sponsor | Alimentación |
+| `nora.aliada@local.redeventos.test` | local_sponsor | Productos y difusión |
+| `andres.aliado@local.redeventos.test` | local_sponsor | Equipos y servicios |
 | `moda.red@local.redeventos.test` | moderator | Evidencias, reportes, desafiliación (`/app/moderation`) |
 
 No hay rol `admin`. Entrar en `/login`.

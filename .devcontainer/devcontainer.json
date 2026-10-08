@@ -15,15 +15,11 @@
     "source=redeventos-nuxt,target=${containerWorkspaceFolder}/.nuxt,type=volume",
     "source=redeventos-bun-cache,target=/home/node/.bun/install/cache,type=volume"
   ],
-  "forwardPorts": [3000, 8787, 8976, 54321, 54322, 54323, 54324],
+  "forwardPorts": [3000, 8787, 8976],
   "portsAttributes": {
     "3000": { "label": "Nuxt dev", "onAutoForward": "notify" },
     "8787": { "label": "Wrangler dev", "onAutoForward": "notify" },
-    "8976": { "label": "Wrangler login", "onAutoForward": "silent" },
-    "54321": { "label": "Supabase API", "onAutoForward": "silent" },
-    "54322": { "label": "Supabase Postgres", "onAutoForward": "silent" },
-    "54323": { "label": "Supabase Studio", "onAutoForward": "notify" },
-    "54324": { "label": "Supabase correo (Mailpit)", "onAutoForward": "silent" }
+    "8976": { "label": "Wrangler login", "onAutoForward": "silent" }
   },
   "postCreateCommand": "bash .devcontainer/post-create.sh",
   "customizations": {
