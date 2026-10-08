@@ -12,7 +12,7 @@ Respuestas acordadas e implementadas en `0007`:
 
 | Ámbito | Decisión |
 | --- | --- |
-| **Perfiles** | Foto de perfil para identificar a la persona detrás del evento, espacio o emprendimiento local (ficha pública de aliado / contexto del organizador). |
+| **Perfiles** | Foto de perfil (persona). Además, si es venue sponsor: foto del espacio; si es local sponsor: foto del aporte/emprendimiento (`venue_sponsor_photo_path` / `local_sponsor_photo_path`). |
 | **Espacios** | Portada + galería en ficha pública y edición en `/app/venue`. |
 | **Eventos (ficha pública)** | No subir portada aparte: **reutilizar** las fotos de evidencia (`event_media` / bucket `evidence`) una vez aprobada la evidencia (y en casos `/cases`). |
 | **Evidencia** | Ampliar flujo actual: varias fotos al enviar evidencia; mostrar selección en casos públicos tras aprobación. |
@@ -83,6 +83,8 @@ Persona en la red. `id` = `auth.users.id`. Slug único para URLs `/sponsors/{slu
 | `contribution_types` | `need_type[]` | Default `{}` |
 | `contribution_description` | `text` nullable | |
 | `avatar_storage_path` | `text` nullable | Path en bucket `profiles` |
+| `venue_sponsor_photo_path` | `text` nullable | Foto de apoyo venue sponsor |
+| `local_sponsor_photo_path` | `text` nullable | Foto de apoyo local sponsor |
 | `disaffiliated_at` | `timestamptz` nullable | Solo moderador |
 | `hidden_at` | `timestamptz` nullable | Solo moderador |
 | `created_at`, `updated_at` | `timestamptz` | |
@@ -257,7 +259,9 @@ Una fila por evento (`event_id` unique). Organizador envía; moderador aprueba o
 | `event_id` | `uuid` unique → `events` |
 | `submitted_by` | `uuid` → `profiles` |
 | `attendance_count` | `integer` |
-| `venue_note`, `contributions_note` | `text` |
+| `venue_note` | `text` |
+| `contributions_note` | `text` (resumen derivado de notas por aporte) |
+| `contribution_notes` | `jsonb` `[{ need_id, note }]` |
 | `status` | `evidence_status` |
 | `review_note` | `text` nullable |
 | `reviewed_by` | `uuid` nullable → `profiles` |
@@ -297,14 +301,16 @@ RPC moderador: `hide_target`, `disaffiliate_profile`.
 
 ---
 
-## Vistas
+## Vistas y proyección de calendario
 
-| Vista | Propósito |
+| Objeto | Propósito |
 | --- | --- |
-| `public_cases` | Eventos `completed` + evidencia `approved` → `/cases` (texto + `cover_path` de la primera media pública) |
+| `public_cases` (vista, `security_invoker`) | Eventos `completed` + evidencia `approved` → `/cases` (texto + `cover_path` de la primera media pública) |
 | `public_case_covers` | Una fila por evento (`DISTINCT ON event_id`) con el primer `storage_path` público |
 | `public_case_media` | Galería pública de un caso |
-| `venue_calendar_days` | Días `negotiating` / `committed` por `venue_id` (desde `offers` + `matches`) |
+| `venue_calendar_days` (tabla) | Días `negotiating` / `committed` por `venue_id`; sincronizada por triggers desde `offers` + `matches` (sin exponer esas tablas a anon) |
+
+`public_cases` depende de la policy `evidence_select_public_case` (y grant de columnas a `anon`) para no usar `SECURITY DEFINER`.
 
 ---
 
@@ -340,6 +346,8 @@ El Worker Nitro no sirve bytes de imagen: el HTML solo incluye paths; el `<img>`
 3. Dueño de perfil/venue puede replace (INSERT+SELECT+UPDATE) y borrar su objeto.
 4. Venue de owner `hidden_at` / `disaffiliated_at` no expone `venue_media` a anon.
 5. Evento `hidden_at` no aparece en `public_cases` ni en media pública.
+6. Anon no lee `offers`/`matches` directos; solo `venue_calendar_days` (`venue_id`, `day`, `kind`).
+7. Anon en `evidence` solo columnas de caso público (`event_id`, notas, `attendance_count`, `status`); no `review_note`.
 
 ---
 
@@ -354,6 +362,7 @@ El Worker Nitro no sirve bytes de imagen: el HTML solo incluye paths; el `<img>`
 | `0005_evidence.sql` | Evidencia, `event_media`, reportes, `public_cases`, bucket `evidence` |
 | `0006_evidence_storage_replace.sql` | Update/delete storage y `event_media` |
 | `0007_media_profiles_venues.sql` | Avatar, portada/galería, `kind`/`is_public`, buckets públicos, vistas de casos |
+| `20261006013000_fix_security_definer_views.sql` | `public_cases` → invoker; `venue_calendar_days` → tabla + sync; policy evidencia pública |
 
 Población local (no remoto): [`supabase/seed.sql`](../../supabase/seed.sql) vía `bun run db:seed:local`.
 

@@ -3,23 +3,95 @@
  * Solo para `bun run db:seed:local`. No commitea binarios.
  */
 const API = 'http://127.0.0.1:54321'
-const ANA = '11111111-1111-4111-8111-111111111111'
-const LEO = '22222222-2222-4222-8222-222222222222'
-const LUZ = '33333333-3333-4333-8333-333333333333'
-const MODA = '44444444-4444-4444-8444-444444444444'
-const VENUE = '99999999-9999-4999-8999-999999999999'
-const EVENT = '55555555-5555-4555-8555-555555555555'
 
-const GALLERY = [
-  { id: '10000001-1000-4000-8000-100000000001', picsum: 1018 },
-  { id: '10000001-1000-4000-8000-100000000002', picsum: 103 },
-  { id: '10000001-1000-4000-8000-100000000003', picsum: 1043 },
+const USERS = [
+  { id: '11111111-1111-4111-8111-111111111111', picsum: 64 },
+  { id: 'a1111111-1111-4111-8111-111111111112', picsum: 91 },
+  { id: 'a1111111-1111-4111-8111-111111111113', picsum: 177 },
+  { id: '22222222-2222-4222-8222-222222222222', picsum: 338 },
+  { id: 'b2222222-2222-4222-8222-222222222223', picsum: 342 },
+  { id: 'b2222222-2222-4222-8222-222222222224', picsum: 334 },
+  { id: 'b2222222-2222-4222-8222-222222222225', picsum: 343 },
+  { id: '33333333-3333-4333-8333-333333333333', picsum: 349 },
+  { id: 'c3333333-3333-4333-8333-333333333334', picsum: 453 },
+  { id: 'c3333333-3333-4333-8333-333333333335', picsum: 447 },
+  { id: '44444444-4444-4444-8444-444444444444', picsum: 433 },
 ] as const
 
-const EVIDENCE = [
-  { id: '20000002-2000-4000-8000-200000000001', picsum: 1067 },
-  { id: '20000002-2000-4000-8000-200000000002', picsum: 1074 },
-  { id: '20000002-2000-4000-8000-200000000003', picsum: 1084 },
+const VENUES = [
+  {
+    id: '99999999-9999-4999-8999-999999999999',
+    cover: 1015,
+    gallery: [
+      { id: '10000001-1000-4000-8000-100000000001', picsum: 1018 },
+      { id: '10000001-1000-4000-8000-100000000002', picsum: 103 },
+      { id: '10000001-1000-4000-8000-100000000003', picsum: 1043 },
+    ],
+  },
+  {
+    id: 'd9999999-9999-4999-8999-999999999991',
+    cover: 1016,
+    gallery: [{ id: '10000001-1000-4000-8000-100000000011', picsum: 1019 }],
+  },
+  {
+    id: 'd9999999-9999-4999-8999-999999999992',
+    cover: 1060,
+    gallery: [{ id: '10000001-1000-4000-8000-100000000021', picsum: 1061 }],
+  },
+  {
+    id: 'd9999999-9999-4999-8999-999999999993',
+    cover: 180,
+    gallery: [{ id: '10000001-1000-4000-8000-100000000031', picsum: 201 }],
+  },
+  {
+    id: 'd9999999-9999-4999-8999-999999999994',
+    cover: 238,
+    gallery: [{ id: '10000001-1000-4000-8000-100000000041', picsum: 239 }],
+  },
+] as const
+
+/** Evidencia pendiente de moderación (no pública). */
+const PENDING_EVIDENCE = {
+  eventId: '55555555-5555-4555-8555-555555555555',
+  photos: [
+    { id: '20000002-2000-4000-8000-200000000001', picsum: 1067 },
+    { id: '20000002-2000-4000-8000-200000000002', picsum: 1074 },
+    { id: '20000002-2000-4000-8000-200000000003', picsum: 1084 },
+  ],
+  isPublic: false,
+} as const
+
+/** Casos completed: fotos públicas. */
+const APPROVED_EVIDENCE = [
+  {
+    eventId: 'e5555555-5555-4555-8555-555555555501',
+    photos: [
+      { id: '20000002-2000-4000-8000-200000000101', picsum: 0 },
+      { id: '20000002-2000-4000-8000-200000000102', picsum: 26 },
+    ],
+    isPublic: true,
+  },
+  {
+    eventId: 'e5555555-5555-4555-8555-555555555502',
+    photos: [
+      { id: '20000002-2000-4000-8000-200000000201', picsum: 29 },
+      { id: '20000002-2000-4000-8000-200000000202', picsum: 42 },
+    ],
+    isPublic: true,
+  },
+  {
+    eventId: 'e5555555-5555-4555-8555-555555555503',
+    photos: [{ id: '20000002-2000-4000-8000-200000000301', picsum: 48 }],
+    isPublic: true,
+  },
+  {
+    eventId: 'e5555555-5555-4555-8555-555555555504',
+    photos: [
+      { id: '20000002-2000-4000-8000-200000000401', picsum: 60 },
+      { id: '20000002-2000-4000-8000-200000000402', picsum: 76 },
+    ],
+    isPublic: true,
+  },
 ] as const
 
 function envFromStatus(raw: string) {
@@ -92,44 +164,66 @@ async function main() {
     }
   }
 
-  const avatars = [
-    { id: ANA, picsum: 64 },
-    { id: LEO, picsum: 338 },
-    { id: LUZ, picsum: 349 },
-    { id: MODA, picsum: 447 },
-  ]
-  for (const row of avatars) {
+  for (const row of USERS) {
     const path = `${row.id}/avatar.webp`
     await upload('profiles', path, `https://picsum.photos/id/${row.picsum}/800/800.webp`)
     await rest('PATCH', 'profiles', { avatar_storage_path: path }, `?id=eq.${row.id}`)
   }
 
-  const coverPath = `${VENUE}/cover.webp`
-  await upload('venues', coverPath, 'https://picsum.photos/id/1015/1600/900.webp')
-  await rest('PATCH', 'venues', { cover_storage_path: coverPath }, `?id=eq.${VENUE}`)
-  await rest('DELETE', 'venue_media', undefined, `?venue_id=eq.${VENUE}`)
-  for (const [index, row] of GALLERY.entries()) {
-    const path = `${VENUE}/gallery/${row.id}.webp`
-    await upload('venues', path, `https://picsum.photos/id/${row.picsum}/1200/800.webp`)
-    await rest('POST', 'venue_media', {
-      id: row.id,
-      venue_id: VENUE,
-      storage_path: path,
-      sort_order: index + 1,
-    })
+  const venueSponsors = [
+    { id: '22222222-2222-4222-8222-222222222222', picsum: 1015 },
+    { id: 'b2222222-2222-4222-8222-222222222223', picsum: 1060 },
+    { id: 'b2222222-2222-4222-8222-222222222224', picsum: 180 },
+    { id: 'b2222222-2222-4222-8222-222222222225', picsum: 238 },
+  ] as const
+  for (const row of venueSponsors) {
+    const path = `${row.id}/venue-sponsor.webp`
+    await upload('profiles', path, `https://picsum.photos/id/${row.picsum}/1600/900.webp`)
+    await rest('PATCH', 'profiles', { venue_sponsor_photo_path: path }, `?id=eq.${row.id}`)
   }
 
-  await rest('DELETE', 'event_media', undefined, `?event_id=eq.${EVENT}`)
-  for (const row of EVIDENCE) {
-    const path = `${EVENT}/${row.id}`
-    await upload('evidence', path, `https://picsum.photos/id/${row.picsum}/1200/800.webp`)
-    await rest('POST', 'event_media', {
-      id: row.id,
-      event_id: EVENT,
-      storage_path: path,
-      kind: 'evidence',
-      is_public: false,
-    })
+  const localSponsors = [
+    { id: '33333333-3333-4333-8333-333333333333', picsum: 292 },
+    { id: 'c3333333-3333-4333-8333-333333333334', picsum: 312 },
+    { id: 'c3333333-3333-4333-8333-333333333335', picsum: 367 },
+  ] as const
+  for (const row of localSponsors) {
+    const path = `${row.id}/local-sponsor.webp`
+    await upload('profiles', path, `https://picsum.photos/id/${row.picsum}/1600/900.webp`)
+    await rest('PATCH', 'profiles', { local_sponsor_photo_path: path }, `?id=eq.${row.id}`)
+  }
+
+  for (const venue of VENUES) {
+    const coverPath = `${venue.id}/cover.webp`
+    await upload('venues', coverPath, `https://picsum.photos/id/${venue.cover}/1600/900.webp`)
+    await rest('PATCH', 'venues', { cover_storage_path: coverPath }, `?id=eq.${venue.id}`)
+    await rest('DELETE', 'venue_media', undefined, `?venue_id=eq.${venue.id}`)
+    for (const [index, row] of venue.gallery.entries()) {
+      const path = `${venue.id}/gallery/${row.id}.webp`
+      await upload('venues', path, `https://picsum.photos/id/${row.picsum}/1200/800.webp`)
+      await rest('POST', 'venue_media', {
+        id: row.id,
+        venue_id: venue.id,
+        storage_path: path,
+        sort_order: index + 1,
+      })
+    }
+  }
+
+  const evidenceBatches = [PENDING_EVIDENCE, ...APPROVED_EVIDENCE]
+  for (const batch of evidenceBatches) {
+    await rest('DELETE', 'event_media', undefined, `?event_id=eq.${batch.eventId}`)
+    for (const row of batch.photos) {
+      const path = `${batch.eventId}/${row.id}`
+      await upload('evidence', path, `https://picsum.photos/id/${row.picsum}/1200/800.webp`)
+      await rest('POST', 'event_media', {
+        id: row.id,
+        event_id: batch.eventId,
+        storage_path: path,
+        kind: 'evidence',
+        is_public: batch.isPublic,
+      })
+    }
   }
 
   console.log('Fotos de prueba (Picsum) cargadas en Storage local.')

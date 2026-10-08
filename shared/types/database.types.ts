@@ -28,6 +28,8 @@ export type Database = {
         contribution_types: ('venue' | 'products' | 'food' | 'equipment' | 'services' | 'diffusion')[]
         contribution_description: string | null
         avatar_storage_path: string | null
+        venue_sponsor_photo_path: string | null
+        local_sponsor_photo_path: string | null
         disaffiliated_at: string | null
         hidden_at: string | null
         created_at: string
@@ -114,6 +116,11 @@ export type Database = {
         sort_order: number
         created_at: string
       }>
+      venue_calendar_days: Table<{
+        venue_id: string
+        day: string
+        kind: 'negotiating' | 'committed'
+      }>
       offers: Table<{
         id: string
         event_need_id: string
@@ -153,6 +160,7 @@ export type Database = {
         attendance_count: number
         venue_note: string
         contributions_note: string
+        contribution_notes: Array<{ need_id: string; note: string }>
         status: 'submitted' | 'approved' | 'rejected'
         review_note: string | null
         reviewed_by: string | null
@@ -178,11 +186,6 @@ export type Database = {
       }>
     }
     Views: {
-      venue_calendar_days: View<{
-        venue_id: string
-        day: string
-        kind: string
-      }>
       public_cases: View<{
         id: string
         slug: string
@@ -210,6 +213,20 @@ export type Database = {
         storage_path: string
         created_at: string
         sort_order: number
+      }>
+      public_event_supporters: View<{
+        event_id: string
+        event_slug: string
+        need_id: string | null
+        need_type: Database['public']['Tables']['event_needs']['Row']['type']
+        need_description: string
+        party_kind: string
+        party_name: string | null
+        party_slug: string | null
+        party_href: string | null
+        person_name: string | null
+        support_status: string
+        sort_rank: number
       }>
     }
     Functions: {
