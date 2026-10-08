@@ -28,6 +28,20 @@ export function supportStatusTone(status: SupportStatus): SupportStatusTone {
   return 'warning'
 }
 
+/** Ficha pública: nombres únicos de quien ya cerró el match. */
+export function publicEventSupporters(supporters: EventSupporter[]): EventSupporter[] {
+  const seen = new Set<string>()
+  const result: EventSupporter[] = []
+  for (const supporter of supporters) {
+    if (supporter.supportStatus !== 'confirmed' || !supporter.partyName) continue
+    const key = `${supporter.partyKind}:${supporter.partySlug ?? supporter.partyName}`
+    if (seen.has(key)) continue
+    seen.add(key)
+    result.push(supporter)
+  }
+  return result
+}
+
 export function mapPublicEventSupporter(row: {
   event_id: string
   event_slug: string

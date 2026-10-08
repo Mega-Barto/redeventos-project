@@ -8,19 +8,20 @@ export const eventPublicContent = {
   attendeesLabel: 'Asistentes esperados',
   datePending: 'Por confirmar',
   rsvpLabel: 'Inscribirme',
-  networkTitle: 'Qué hizo posible el evento',
-  networkDescription: 'Espacio y aliados locales que cubren o están resolviendo las necesidades.',
+  networkTitle: 'Quién lo hace posible',
+  networkDescription: 'Espacio y aliados locales que ya se comprometieron con este evento.',
+  networkEmpty: 'Todavía no hay aliados confirmados. Si puedes aportar, únete a la red.',
   venueRole: 'Espacio',
   localRole: 'Aliado local',
-  seekingLabel: 'Buscando aliado',
   evidenceTitle: 'Evidencias',
   evidenceDescription: 'Fotos aprobadas del encuentro.',
   evidenceLinkLabel: 'Ver evidencia',
-  status: {
-    pending: 'Pendiente',
-    requested: 'Solicitado',
-    confirmed: 'Confirmado',
-  },
+  supportCta: 'Quiero apoyar',
+  supportModalTitle: 'Apoya este evento',
+  supportModalDescription:
+    'Para enviar una propuesta necesitas una cuenta de espacio o aliado local. Inscribirte al evento no pide cuenta: usa el botón de inscribirme.',
+  supportLoginLabel: 'Entrar',
+  supportRegisterLabel: 'Crear cuenta',
 } as const
 
 export type EventPublicContent = typeof eventPublicContent

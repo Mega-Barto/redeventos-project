@@ -2,10 +2,19 @@ export function escapeHtml(value: string): string {
   return value.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;')
 }
 
+const prefsFooter =
+  '<p style="color:#555;font-size:12px;margin-top:1.5em">Puedes cambiar qué avisos recibir en tu perfil de Redeventos (/app/profile).</p>'
+
+function withFooter(html: string) {
+  return `${html}${prefsFooter}`
+}
+
 export function offerReceivedEmail(input: { eventTitle: string; note: string }) {
   return {
     subject: `Nueva propuesta: ${input.eventTitle}`,
-    html: `<p>Recibiste una propuesta en Redeventos para <strong>${escapeHtml(input.eventTitle)}</strong>.</p><p>${escapeHtml(input.note)}</p><p>Entra a la plataforma para aceptarla o rechazarla. Al aceptar se revelan WhatsApp y teléfono.</p>`,
+    html: withFooter(
+      `<p>Recibiste una propuesta en Redeventos para <strong>${escapeHtml(input.eventTitle)}</strong>.</p><p>${escapeHtml(input.note)}</p><p>Entra a la plataforma para aceptarla o rechazarla. Al aceptar se revelan WhatsApp y teléfono.</p>`,
+    ),
   }
 }
 
@@ -19,7 +28,9 @@ export function offerAcceptedEmail(input: {
 }) {
   return {
     subject: `Propuesta aceptada: ${input.eventTitle}`,
-    html: `<p>La propuesta quedó aceptada. El compromiso es: ${escapeHtml(input.what)}, cantidad ${escapeHtml(input.quantity)}, fecha ${escapeHtml(input.whenOn)}.</p><p>Contacto directo de la otra parte: WhatsApp ${escapeHtml(input.whatsapp || 'no indicado')}, teléfono ${escapeHtml(input.phone || 'no indicado')}.</p>`,
+    html: withFooter(
+      `<p>La propuesta quedó aceptada. El compromiso es: ${escapeHtml(input.what)}, cantidad ${escapeHtml(input.quantity)}, fecha ${escapeHtml(input.whenOn)}.</p><p>Contacto directo de la otra parte: WhatsApp ${escapeHtml(input.whatsapp || 'no indicado')}, teléfono ${escapeHtml(input.phone || 'no indicado')}.</p>`,
+    ),
   }
 }
 
@@ -27,6 +38,17 @@ export function evidenceReviewedEmail(input: { eventTitle: string; decision: 'ap
   const decision = input.decision === 'approved' ? 'aprobada' : 'rechazada'
   return {
     subject: `Evidencia ${decision}: ${input.eventTitle}`,
-    html: `<p>La evidencia de <strong>${escapeHtml(input.eventTitle)}</strong> fue ${decision}.</p><p>${escapeHtml(input.note)}</p>`,
+    html: withFooter(
+      `<p>La evidencia de <strong>${escapeHtml(input.eventTitle)}</strong> fue ${decision}.</p><p>${escapeHtml(input.note)}</p>`,
+    ),
+  }
+}
+
+export function evidenceSubmittedEmail(input: { eventTitle: string }) {
+  return {
+    subject: `Evidencia por revisar: ${input.eventTitle}`,
+    html: withFooter(
+      `<p>Hay evidencia nueva o reenviada de <strong>${escapeHtml(input.eventTitle)}</strong>.</p><p>Entra a moderación para aprobarla o rechazarla.</p>`,
+    ),
   }
 }

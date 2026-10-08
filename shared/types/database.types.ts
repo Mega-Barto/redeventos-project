@@ -175,6 +175,23 @@ export type Database = {
         is_public: boolean
         created_at: string
       }>
+      notification_preferences: Table<{
+        profile_id: string
+        event_key:
+          | 'offer_received'
+          | 'offer_accepted'
+          | 'offer_rejected'
+          | 'offer_cancelled'
+          | 'evidence_submitted'
+          | 'evidence_reviewed'
+          | 'report_created'
+          | 'content_hidden'
+          | 'disaffiliated'
+          | 'case_completed'
+        channel: 'email' | 'whatsapp'
+        enabled: boolean
+        updated_at: string
+      }>
       reports: Table<{
         id: string
         reporter_id: string
@@ -253,6 +270,18 @@ export type Database = {
       offer_status: Database['public']['Tables']['offers']['Row']['status']
       match_status: Database['public']['Tables']['matches']['Row']['status']
       evidence_status: Database['public']['Tables']['evidence']['Row']['status']
+      notification_event_key:
+        | 'offer_received'
+        | 'offer_accepted'
+        | 'offer_rejected'
+        | 'offer_cancelled'
+        | 'evidence_submitted'
+        | 'evidence_reviewed'
+        | 'report_created'
+        | 'content_hidden'
+        | 'disaffiliated'
+        | 'case_completed'
+      notification_channel: 'email' | 'whatsapp'
     }
     CompositeTypes: Record<string, never>
   }

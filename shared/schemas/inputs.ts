@@ -224,10 +224,6 @@ export const loginSchema = z.object({
   password: z.string().min(1, 'Ingresa tu contraseña'),
 })
 
-export const offerNoticeSchema = z.object({
-  offerId: z.uuid(),
-})
-
 export const evidenceNoticeSchema = z.object({
   evidenceId: z.uuid(),
 })
