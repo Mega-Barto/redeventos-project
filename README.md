@@ -160,7 +160,7 @@ No hay rol `admin`. Entrar en `/login`.
 | `bun run typecheck` | Tipos de Vue y TypeScript |
 | `bun run test` | Pruebas unitarias con Vitest |
 | `bun run test:e2e` | Playwright contra `bun run preview` (8787). Requiere Chromium instalado (ver arriba) |
-| `bun run db:start` / `db:stop` / `db:reset` | Supabase local |
+| `bun run db:start` / `db:stop` / `db:reset` | Supabase local (`db:reset` exige que ya esté en marcha; reenvía `54322` al contenedor) |
 | `bun run db:seed:local` | Reset local + seed + fotos de [Picsum](https://picsum.photos/) en Storage (`scripts/seed-local-media.ts`) |
 | `bun run db:types` | Regenera `shared/types/database.types.ts` desde la base local |
 | `bun run cf-typegen` | Regenera `worker-configuration.d.ts` tras cambiar `wrangler.jsonc` |

@@ -17,7 +17,7 @@
     "cf-typegen": "wrangler types",
     "db:start": "bash scripts/db-start.sh",
     "db:stop": "bash scripts/db-stop.sh",
-    "db:reset": "supabase db reset",
+    "db:reset": "bash scripts/db-reset.sh",
     "db:seed:local": "bash scripts/db-seed-local.sh",
     "db:types": "supabase gen types typescript --local > shared/types/database.types.ts"
   },
